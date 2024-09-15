@@ -11,7 +11,6 @@ public class ServoTesterOpmode extends LinearOpMode {
     FtcDashboard ftcDashboard;
     public static String name;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         Servo servo= hardwareMap.servo.get(name);
