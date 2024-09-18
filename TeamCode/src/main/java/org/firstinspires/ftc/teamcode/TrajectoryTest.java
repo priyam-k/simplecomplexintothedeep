@@ -11,19 +11,23 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class TrajectoryTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(-160)));
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .lineToYSplineHeading(33, Math.toRadians(0))
-                .waitSeconds(2)
-                .setTangent(Math.toRadians(90))
-                .lineToY(48)
-                .setTangent(Math.toRadians(0))
-                .lineToX(32)
-                .strafeTo(new Vector2d(44.5, 30))
-                .turn(Math.toRadians(180))
-                .lineToX(47.5)
-                .waitSeconds(3)
+                .lineToX(-58)
+//                .turn(Math.toRadians(70))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-180))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-145))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(145))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(145))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-145))
+//                .turn(Math.toRadians(-140))
+//                .lineToY(0)
                 .build();
         waitForStart();
 
@@ -31,7 +35,6 @@ public class TrajectoryTest extends LinearOpMode {
 
         Actions.runBlocking(new SequentialAction(myTrajectory));
     }
-
     //                        .lineToY(24)
 //                        .waitSeconds(2.0)
 //                        .lineToY(40)
