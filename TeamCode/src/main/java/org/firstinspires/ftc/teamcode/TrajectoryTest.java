@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class TrajectoryTest extends LinearOpMode {
@@ -27,7 +29,7 @@ public class TrajectoryTest extends LinearOpMode {
 
         if(isStopRequested()) return;
 
-        drive.followTrajectory(myTrajectory);
+        Actions.runBlocking(new SequentialAction(myTrajectory));
     }
 
     //                        .lineToY(24)
@@ -67,6 +69,5 @@ public class TrajectoryTest extends LinearOpMode {
 //                        .lineToX(55)
 //                        .turn(Math.toRadians(-90))
 //                        .lineToY(63)
-
     }
-}
+
