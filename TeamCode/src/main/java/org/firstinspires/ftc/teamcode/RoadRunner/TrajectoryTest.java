@@ -14,25 +14,35 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class TrajectoryTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 60, Math.toRadians(-90)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(48, 48, Math.toRadians(0)));
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .turn(Math.toRadians(-70))
-                .waitSeconds(0.7)
-                .lineToX(-48) //-58
-                .turn(Math.toRadians(80))
-                .waitSeconds(1)
-                .turn(Math.toRadians(-185))
-                .waitSeconds(1)
-                .turn(Math.toRadians(-150))
-                .waitSeconds(1)
-                .turn(Math.toRadians(150))
-                .waitSeconds(1)
-                .turn(Math.toRadians(155))
-                .waitSeconds(1)
-                .turn(Math.toRadians(-155))
-                .turn(Math.toRadians(-155))
-                .lineToY(-5)
+                .turn(Math.toRadians(90))
+//                .splineToLinearHeading(new Pose2d(58, 55, Math.toRadians(90)), Math.toRadians(0))
+//                .lineToY(45)
+//                .splineToLinearHeading(new Pose2d(58, 55, Math.toRadians(225)), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(58, 45, Math.toRadians(-90)), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(58, 55, Math.toRadians(225)), Math.toRadians(90))
+//                .splineToLinearHeading(new Pose2d(56, 45, Math.toRadians(300)), Math.toRadians(-90))
+//                .splineToLinearHeading(new Pose2d(58, 55, Math.toRadians(225)), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(23, 20, 0), Math.toRadians(30))
+
+//                .turn(Math.toRadians(-70))
+//                .waitSeconds(0.7)
+//                .lineToX(-48) //-58
+//                .turn(Math.toRadians(80))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-185))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-150))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(150))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(155))
+//                .waitSeconds(1)
+//                .turn(Math.toRadians(-155))
+//                .turn(Math.toRadians(-155))
+//                .lineToY(-5)
                 .build();
         waitForStart();
 
