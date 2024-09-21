@@ -16,7 +16,7 @@ public class Robot implements Subsystem{
         massInit = new ArrayList<>();
     }
     @Override
-    public void init(HardwareMap hardwareMap, Gamepad g1, Gamepad g2) {
+    public void init(HardwareMap hardwareMap) {
         //initilize here
         drive = new Drivetrain();
 
@@ -25,13 +25,11 @@ public class Robot implements Subsystem{
 
 //init here
         for(Subsystem s: massInit){
-            s.init(hardwareMap,g1,g2);
+            s.init(hardwareMap);
         }
 
     }
-    public void Drive(){
-        drive.TeleopControl();
-    }
+
 
     @Override
     public void update() {

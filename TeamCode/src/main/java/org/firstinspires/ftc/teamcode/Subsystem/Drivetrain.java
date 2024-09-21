@@ -6,16 +6,33 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 public class Drivetrain implements  Subsystem{
 
     private DcMotor LF,LR,RF,RR;
-    private Gamepad g1,g2;
 
+    private AprilTagProcessor aprilTag;
+
+
+
+    private VisionPortal VP;
     private Telemetry t;
 
+    private double CameraDistancefromCenter = 6;
+
+
     @Override
-    public void init(HardwareMap hardwareMap, Gamepad g1, Gamepad g2) {
+    public void init(HardwareMap hardwareMap) {
+
+        aprilTag = new AprilTagProcessor.Builder().build();
+
+        VisionPortal VP = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(aprilTag)
+                .build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
@@ -34,17 +51,26 @@ public class Drivetrain implements  Subsystem{
         RF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         RR.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        g1 = new Gamepad();
-        g2 = new Gamepad();
     }
 
-    public void TeleopControl(){
-        double y = -g1.left_stick_y; // Remember, Y stick value is reversed
-        double x = g1.left_stick_x * 1.1; // Counteract imperfect strafing
-        double rx = g2.right_stick_x;
+
+    public void alignAprilTag(double distance)
+    public void TeleopControl(double y, double x, double rx){
+        y = -y; // Remember, Y stick value is reversed
+        y = Math.pow(y,3);
+       x = Math.pow(x,3);
+        rx = rx*0.75;
+
+
+
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
