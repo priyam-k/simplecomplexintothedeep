@@ -21,11 +21,11 @@ import java.util.List;
 @Config
 @TeleOp(name = "AprilTagDriveBaseAlignment")
 public class AprilTagDriveBaseAlignment extends LinearOpMode {
-    public static double lateralDistance = 6;
+    public static double lateralDistance = 12;
     // proportional control variable for turning
     public static double turnGain = 0.03;
-    public static double translateGain = 0.03;
-    public static double strafeGain = 0.03;
+    public static double translateGain = 0.015;
+    public static double strafeGain = 0.015;
     private boolean camOn = true;
     private AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
 
@@ -74,7 +74,7 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
 
             // Extract y values from detections
             for (AprilTagDetection detection : currentDetections) {
-                yValues.add(detection.ftcPose.y);
+                yValues.add(detection.ftcPose.y); // TODO: sometimes throws nullpointerexceptions, not sure why
             }
             //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
             //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
@@ -98,20 +98,21 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 tele.update();
 
                 //make variables for all errors (for rotate, translate, and strafe)
-                double yawError = desiredTag.ftcPose.yaw;
-                double rangeError = desiredTag.ftcPose.range - lateralDistance;
-                double headingError = desiredTag.ftcPose.bearing;
+                double yawError = desiredTag.ftcPose.yaw; // positive error -> robot needs to move right
+                double rangeError = desiredTag.ftcPose.range - lateralDistance; // positive error -> robot needs to move forward
+                double headingError = desiredTag.ftcPose.bearing; // positive error -> robot needs to turn counterclockwise
 
                 //using PID to align robot to the april tag
                 double turn = Range.clip(headingError * turnGain, -1, 1);
                 double drive = Range.clip(rangeError * translateGain, -1, 1);
-                double strafe = Range.clip(-yawError * strafeGain, -1, 1);
+                double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
 
                 //calculate the powers for all motors
-                double leftFrontPower = -strafe + drive + turn;
-                double rightFrontPower =  strafe + drive -turn;
-                double leftBackPower =  strafe + drive + turn;
-                double rightBackPower = -strafe + drive - turn;
+                double leftFrontPower = +strafe + drive - turn;
+                double rightFrontPower = -strafe + drive + turn;
+                double leftBackPower = -strafe + drive - turn;
+                double rightBackPower = +strafe + drive + turn;
 
                 //using telemetry to see motor power and the headingError
                 tele.addData("Motor power: ",turn);
@@ -129,6 +130,8 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 rightFront.setPower(0);
                 leftRear.setPower(0);
                 rightRear.setPower(0);
+                tele.addData("Tag spotted: ", false);
+                tele.addData("Camera on: ", camOn);
                 tele.addData("Tag spotted: ", false);
                 tele.update();
 
