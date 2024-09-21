@@ -130,6 +130,7 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 rightFront.setPower(0);
                 leftRear.setPower(0);
                 rightRear.setPower(0);
+
                 tele.addData("Tag spotted: ", false);
                 tele.addData("Camera on: ", camOn);
                 tele.addData("Tag spotted: ", false);
