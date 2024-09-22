@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Servo Test")
+@TeleOp(name="ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
     private MultipleTelemetry tele;
     private Servo testServo0;
@@ -28,12 +28,12 @@ public class ServoAndPortTester extends LinearOpMode {
         tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         // Initialize the servo
-        testServo0 = hardwareMap.get(Servo.class, "servo0");
-        testServo1 = hardwareMap.get(Servo.class, "servo1");
-        testServo2 = hardwareMap.get(Servo.class, "servo2");
-        testServo3 = hardwareMap.get(Servo.class, "servo3");
-        testServo4 = hardwareMap.get(Servo.class, "servo4");
-        testServo5 = hardwareMap.get(Servo.class, "servo5");
+        testServo0 = hardwareMap.get(Servo.class, "Servo0");
+        testServo1 = hardwareMap.get(Servo.class, "Servo1");
+        testServo2 = hardwareMap.get(Servo.class, "Servo2");
+        testServo3 = hardwareMap.get(Servo.class, "Servo3");
+        testServo4 = hardwareMap.get(Servo.class, "Servo4");
+        testServo5 = hardwareMap.get(Servo.class, "Servo5");
         waitForStart();
 
         while (opModeIsActive()) {
