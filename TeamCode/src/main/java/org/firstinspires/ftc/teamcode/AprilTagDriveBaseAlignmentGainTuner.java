@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Config
-@TeleOp(name = "AprilTagDriveBaseAlignment")
-public class AprilTagDriveBaseAlignment extends LinearOpMode {
+@TeleOp(name = "AprilTag DriveBase Alignment Gain Tuner")
+public class AprilTagDriveBaseAlignmentGainTuner extends LinearOpMode {
     public static double lateralDistance = 12;
     // proportional control variable for turning
     public static double turnGain = 0.03;
@@ -75,7 +75,7 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
 
             // Extract y values from detections
             for (AprilTagDetection detection : currentDetections) {
-                yValues.add(detection.ftcPose.y); // TODO: sometimes throws nullpointerexceptions, not sure why
+                yValues.add(detection.ftcPose.y);
             }
             //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
             //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power

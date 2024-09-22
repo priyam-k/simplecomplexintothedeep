@@ -4,19 +4,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Drivetrain implements  Subsystem{
 
     private DcMotor LF,LR,RF,RR;
 
+    public static double turnGain = 0.03;
+    public static double translateGain = 0.015;
+    public static double strafeGain = 0.015;
+
+    //TODO: tune this on the new robot
     private AprilTagProcessor aprilTag;
 
-
+    private AprilTagDetection desiredTag = null;
 
     private VisionPortal VP;
     private Telemetry t;
@@ -58,11 +68,72 @@ public class Drivetrain implements  Subsystem{
 
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         RR.setDirection(DcMotorSimple.Direction.REVERSE);
-
+    //TODO: Fix the direction on the new robot
     }
 
 
-    public void alignAprilTag(double distance)
+    public void alignAprilTag(double distance) {
+
+        //make an ArrayList to store the pose values for the april tags detected
+        List<Double> yValues = new ArrayList<>();
+        desiredTag = null;
+        //make an ArrayList to store the april tags detected
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        // Extract y values from detections
+        for (AprilTagDetection detection : currentDetections) {
+            yValues.add(detection.ftcPose.y);
+        }
+        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
+        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
+        if (!yValues.isEmpty() && yValues.get(0) != null) {
+            double smallest_yVal = yValues.get(0);
+            int smallestIndex = 0;
+
+            // Find the detection with the smallest y value
+            for (int i = 1; i < yValues.size(); i++) {
+                if (yValues.get(i) < smallest_yVal) {
+                    smallest_yVal = yValues.get(i);
+                    smallestIndex = i;
+                }
+            }
+            //assign the april tag that is the closest to desiredTag
+            desiredTag = currentDetections.get(smallestIndex);
+
+
+            //make variables for all errors (for rotate, translate, and strafe)
+            double yawError = desiredTag.ftcPose.yaw; // positive error -> robot needs to move right
+            double rangeError = desiredTag.ftcPose.range - distance; // positive error -> robot needs to move forward
+            double headingError = desiredTag.ftcPose.bearing; // positive error -> robot needs to turn counterclockwise
+
+            //using PID to align robot to the april tag
+            double turn = Range.clip(headingError * turnGain, -1, 1);
+            double drive = Range.clip(rangeError * translateGain, -1, 1);
+            double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
+
+            //calculate the powers for all motors
+            double leftFrontPower = +strafe + drive - turn;
+            double rightFrontPower = -strafe + drive + turn;
+            double leftBackPower = -strafe + drive - turn;
+            double rightBackPower = +strafe + drive + turn;
+
+
+            //setting power to all motors
+            LF.setPower(leftFrontPower);
+            RF.setPower(rightFrontPower);
+            LR.setPower(leftBackPower);
+            RR.setPower(rightBackPower);
+
+        } else {
+            //if april tag is not visible, stop motor power
+            LF.setPower(0);
+            RF.setPower(0);
+            LR.setPower(0);
+            RR.setPower(0);
+        }
+    }// April tag method end
+
     public void TeleopControl(double y, double x, double rx){
         y = -y; // Remember, Y stick value is reversed
         y = Math.pow(y,3);
