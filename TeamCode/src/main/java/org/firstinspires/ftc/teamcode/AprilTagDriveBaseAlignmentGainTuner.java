@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Config
-@TeleOp(name = "AprilTagDriveBaseAlignment")
-public class AprilTagDriveBaseAlignment extends LinearOpMode {
+@TeleOp(name = "AprilTag DriveBase Alignment Gain Tuner")
+public class AprilTagDriveBaseAlignmentGainTuner extends LinearOpMode {
     public static double lateralDistance = 12;
     // proportional control variable for turning
     public static double turnGain = 0.03;
     public static double translateGain = 0.015;
     public static double strafeGain = 0.015;
+    public static double motorPowerCutOff = 0.05;
     private boolean camOn = true;
     private AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
 
@@ -56,10 +57,10 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor to brake and lock the wheels when there is no power being applied
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // Initialize dashboard telemetry
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -74,7 +75,7 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
 
             // Extract y values from detections
             for (AprilTagDetection detection : currentDetections) {
-                yValues.add(detection.ftcPose.y); // TODO: sometimes throws nullpointerexceptions, not sure why
+                yValues.add(detection.ftcPose.y);
             }
             //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
             //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
@@ -125,11 +126,25 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 rightRear.setPower(rightBackPower);
 
             } else {
-                //if april tag is not seen through the camera, set all motors to 0 power
+                //if april tag is not visible, stop motor power
                 leftFront.setPower(0);
                 rightFront.setPower(0);
                 leftRear.setPower(0);
                 rightRear.setPower(0);
+
+                //if april tag is not seen through the camera, half power. if power is low, stop
+                //if (Math.abs(leftFront.getPower()) < motorPowerCutOff) leftFront.setPower(0);
+                //else leftFront.setPower(leftFront.getPower() / 2);
+
+                //if (Math.abs(rightFront.getPower()) < motorPowerCutOff) rightFront.setPower(0);
+                //else rightFront.setPower(rightFront.getPower() / 2);
+
+                //if (Math.abs(leftRear.getPower()) < motorPowerCutOff) leftRear.setPower(0);
+                //else leftRear.setPower(leftRear.getPower() / 2);
+
+                //if (Math.abs(rightRear.getPower()) < motorPowerCutOff) rightRear.setPower(0);
+                //else rightRear.setPower(rightRear.getPower() / 2);
+
                 tele.addData("Tag spotted: ", false);
                 tele.addData("Camera on: ", camOn);
                 tele.addData("Tag spotted: ", false);
