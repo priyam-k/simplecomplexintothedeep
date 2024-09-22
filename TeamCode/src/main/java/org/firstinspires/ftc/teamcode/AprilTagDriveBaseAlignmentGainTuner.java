@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Config
-@TeleOp(name = "AprilTagDriveBaseAlignment")
-public class AprilTagDriveBaseAlignment extends LinearOpMode {
-    public static double lateralDistance = 6;
+@TeleOp(name = "AprilTag DriveBase Alignment Gain Tuner")
+public class AprilTagDriveBaseAlignmentGainTuner extends LinearOpMode {
+    public static double lateralDistance = 12;
     // proportional control variable for turning
     public static double turnGain = 0.03;
-    public static double translateGain = 0.03;
-    public static double strafeGain = 0.03;
+    public static double translateGain = 0.015;
+    public static double strafeGain = 0.015;
+    public static double motorPowerCutOff = 0.05;
     private boolean camOn = true;
     private AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
 
@@ -56,10 +57,10 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor to brake and lock the wheels when there is no power being applied
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // Initialize dashboard telemetry
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -98,20 +99,21 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 tele.update();
 
                 //make variables for all errors (for rotate, translate, and strafe)
-                double yawError = desiredTag.ftcPose.yaw;
-                double rangeError = desiredTag.ftcPose.range - lateralDistance;
-                double headingError = desiredTag.ftcPose.bearing;
+                double yawError = desiredTag.ftcPose.yaw; // positive error -> robot needs to move right
+                double rangeError = desiredTag.ftcPose.range - lateralDistance; // positive error -> robot needs to move forward
+                double headingError = desiredTag.ftcPose.bearing; // positive error -> robot needs to turn counterclockwise
 
                 //using PID to align robot to the april tag
                 double turn = Range.clip(headingError * turnGain, -1, 1);
                 double drive = Range.clip(rangeError * translateGain, -1, 1);
-                double strafe = Range.clip(-yawError * strafeGain, -1, 1);
+                double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
 
                 //calculate the powers for all motors
-                double leftFrontPower = -strafe + drive + turn;
-                double rightFrontPower =  strafe + drive -turn;
-                double leftBackPower =  strafe + drive + turn;
-                double rightBackPower = -strafe + drive - turn;
+                double leftFrontPower = +strafe + drive - turn;
+                double rightFrontPower = -strafe + drive + turn;
+                double leftBackPower = -strafe + drive - turn;
+                double rightBackPower = +strafe + drive + turn;
 
                 //using telemetry to see motor power and the headingError
                 tele.addData("Motor power: ",turn);
@@ -124,11 +126,27 @@ public class AprilTagDriveBaseAlignment extends LinearOpMode {
                 rightRear.setPower(rightBackPower);
 
             } else {
-                //if april tag is not seen through the camera, set all motors to 0 power
+                //if april tag is not visible, stop motor power
                 leftFront.setPower(0);
                 rightFront.setPower(0);
                 leftRear.setPower(0);
                 rightRear.setPower(0);
+
+                //if april tag is not seen through the camera, half power. if power is low, stop
+                //if (Math.abs(leftFront.getPower()) < motorPowerCutOff) leftFront.setPower(0);
+                //else leftFront.setPower(leftFront.getPower() / 2);
+
+                //if (Math.abs(rightFront.getPower()) < motorPowerCutOff) rightFront.setPower(0);
+                //else rightFront.setPower(rightFront.getPower() / 2);
+
+                //if (Math.abs(leftRear.getPower()) < motorPowerCutOff) leftRear.setPower(0);
+                //else leftRear.setPower(leftRear.getPower() / 2);
+
+                //if (Math.abs(rightRear.getPower()) < motorPowerCutOff) rightRear.setPower(0);
+                //else rightRear.setPower(rightRear.getPower() / 2);
+
+                tele.addData("Tag spotted: ", false);
+                tele.addData("Camera on: ", camOn);
                 tele.addData("Tag spotted: ", false);
                 tele.update();
 
