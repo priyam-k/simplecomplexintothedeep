@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Config
 @TeleOp(name="ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
     private MultipleTelemetry tele;
@@ -21,6 +23,11 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double Servo3Pos = 0;
     public static double Servo4Pos = 0;
     public static double Servo5Pos = 0;
+    public static double degrees = 0;
+
+    public double degreesToTicks(double d){
+        return d/270;
+    }
 
     @Override
     public void runOpMode() {
@@ -53,7 +60,8 @@ public class ServoAndPortTester extends LinearOpMode {
             testServo4.setPosition(Servo4Pos);
             telemetry.addData("Servo 4 Position", Servo4Pos);
             // Servo 5 Pos vals
-            testServo5.setPosition(Servo5Pos);
+            testServo5.setPosition(degreesToTicks(degrees));
+            telemetry.addData("degrees", degrees);
             telemetry.addData("Servo 5 Position", Servo5Pos);
             telemetry.update();
         }
