@@ -11,27 +11,28 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 public class AprilTagAutoAlign extends LinearOpMode {
 
     public static double turnGain = 0.03;
-    public static double translateGain = 0.015;
-    public static double strafeGain = 0.015;
+    public static double translateGain = 0.05;
+    public static double strafeGain = 0.03;
 
-
-    Drivetrain dt = new Drivetrain();
-
-
+    Drivetrain drive = new Drivetrain();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        dt.init(hardwareMap);
+        drive.init(hardwareMap);
 
-        dt.turnGain = turnGain;
-        dt.translateGain = translateGain;
-        dt.strafeGain = strafeGain;
+
+        while (opModeInInit()) {
+
+            drive.turnGain = turnGain;
+            drive.translateGain = translateGain;
+            drive.strafeGain = strafeGain;
+
+            drive.alignAprilTag(24);
+
+        }
 
         waitForStart();
 
-        while (opModeIsActive()) {
-            dt.alignAprilTag(12);
-        }
 
     }
 }
