@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
@@ -15,13 +14,13 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Drivetrain implements  Subsystem{
+public class Drivetrain implements Subsystem {
 
-    private DcMotor LF,LR,RF,RR;
+    public double turnGain = 0.03;
+    public double translateGain = 0.015;
+    public double strafeGain = 0.015;
 
-    public static double turnGain = 0.03;
-    public static double translateGain = 0.015;
-    public static double strafeGain = 0.015;
+    private DcMotor LF, LR, RF, RR;
 
     //TODO: tune this on the new robot
     private AprilTagProcessor aprilTag;
@@ -31,7 +30,7 @@ public class Drivetrain implements  Subsystem{
     private VisionPortal VP;
     private Telemetry t;
 
-    private double CameraDistancefromCenter = 6;
+    private final double CameraDistancefromCenter = 6;
 
 
     @Override
@@ -39,14 +38,11 @@ public class Drivetrain implements  Subsystem{
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        VisionPortal VP = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .addProcessor(aprilTag)
-                .build();
+        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
-        RF= hardwareMap.dcMotor.get("rightFront");
+        RF = hardwareMap.dcMotor.get("rightFront");
         RR = hardwareMap.dcMotor.get("rightRear");
 
         //this must come before the run without encoder
@@ -68,7 +64,7 @@ public class Drivetrain implements  Subsystem{
 
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         RR.setDirection(DcMotorSimple.Direction.REVERSE);
-    //TODO: Fix the direction on the new robot
+        //TODO: Fix the direction on the new robot
     }
 
 
@@ -134,13 +130,11 @@ public class Drivetrain implements  Subsystem{
         }
     }// April tag method end
 
-    public void TeleopControl(double y, double x, double rx){
+    public void TeleopControl(double y, double x, double rx) {
         y = -y; // Remember, Y stick value is reversed
-        y = Math.pow(y,3);
-       x = Math.pow(x,3);
-        rx = rx*0.75;
-
-
+        y = Math.pow(y, 3);
+        x = Math.pow(x, 3);
+        rx = rx * 0.75;
 
 
         // Denominator is the largest motor power (absolute value) or 1
@@ -165,10 +159,10 @@ public class Drivetrain implements  Subsystem{
         RR.setPower(backRightPower);
     }
 
-    public void getOdometeryValues(){
-        t.addData("Perpendicular or leftFront",LF.getCurrentPosition());
-        t.addData("Rodo on leftRront",LR.getCurrentPosition());
-        t.addData("Lodo on rightFront",RF.getCurrentPosition());
+    public void getOdometeryValues() {
+        t.addData("Perpendicular or leftFront", LF.getCurrentPosition());
+        t.addData("Rodo on leftRront", LR.getCurrentPosition());
+        t.addData("Lodo on rightFront", RF.getCurrentPosition());
         t.update();
     }
 
