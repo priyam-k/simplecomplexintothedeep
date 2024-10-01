@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.SampleDetectionPipeline;
@@ -16,9 +17,19 @@ public class VisionOpMode extends LinearOpMode {
 
     OpenCvWebcam webcam;
     SampleDetectionPipeline pipeline;
+    private Servo wristServo;
+    public static double servoAngleOffset = 45; // offset starting position of servo to change servo deadzone
+    public static String sampleColor = "yellow"; // color of the sample to detect
+
+    public double degreesToTicks(double d){
+        return d/270;
+    }
 
     @Override
     public void runOpMode() {
+        // initialize servo
+        wristServo = hardwareMap.get(Servo.class, "Servo0");
+
         // Get camera ID from the hardware map
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -46,16 +57,27 @@ public class VisionOpMode extends LinearOpMode {
         });
 
         // Wait for the start command
-        waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeInInit()) {
             // Get the detected stones from the pipeline
             ArrayList<SampleDetectionPipeline.AnalyzedStone> detectedStones = pipeline.getDetectedStones();
-
+            double angle;
             // Display the detected stones and their properties on telemetry
             for (int i = 0; i < detectedStones.size(); i++) {
                 SampleDetectionPipeline.AnalyzedStone stone = detectedStones.get(i);
                 telemetry.addData("Stone " + i, "Color: %s, Angle: %.2f", stone.color, stone.angle);
+            }
+
+            SampleDetectionPipeline.AnalyzedStone targetSample;
+            // get the first detected sample, only if there are detected samples
+            if (!detectedStones.isEmpty()) {
+                targetSample = detectedStones.get(0);
+                // get the angle of the sample
+                angle = targetSample.angle;
+                if (targetSample.color.equalsIgnoreCase(sampleColor)) {
+                    // set the servo position to the angle of the sample, accounting for offset
+                    wristServo.setPosition(degreesToTicks(270 - (angle - servoAngleOffset)));
+                }
             }
 
             // Update the telemetry
