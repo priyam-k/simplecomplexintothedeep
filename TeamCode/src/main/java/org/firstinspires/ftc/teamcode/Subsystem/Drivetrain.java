@@ -39,7 +39,7 @@ public class Drivetrain implements Subsystem {
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
+        //VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
@@ -63,9 +63,9 @@ public class Drivetrain implements Subsystem {
         RF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        // correct motor directions for Dory
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
-        RR.setDirection(DcMotorSimple.Direction.REVERSE);
-        //TODO: Fix the direction on the new robot
+        LR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
@@ -148,7 +148,7 @@ public class Drivetrain implements Subsystem {
         double backRightPower = (y + x - rx) / denominator;
 
 
-//Right front and left front motors encoder are reversed
+        //Right front and left front motors encoder are reversed
 
         //RF is LODO
         //LF is Perp or MODO
