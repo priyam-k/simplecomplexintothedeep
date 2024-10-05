@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
 @TeleOp(name="ServoAndPortTest")
@@ -23,19 +22,21 @@ public class ServoAndPortTester extends LinearOpMode {
     private Servo testServo9;
     private Servo testServo10;
     private Servo testServo11;
+
     public static double Servo0Pos = 0;
     public static double Servo1Pos = 0;
-    public static double Servo2Pos = 0;
-    public static double Servo3Pos = 0;
-    public static double Servo4Pos = 0;
-    public static double Servo5Pos = 0;
+    public static double claw = 0;
+    public static double swingArm = 0;
+    public static double clawTurret = 0;
+    public static double rightArm = 0;
 
     public static double Servo6Pos = 0;
-    public static double Servo7Pos = 0;
+    public static double turretPos = 0;
     public static double Servo8Pos = 0;
     public static double Servo9Pos = 0;
     public static double Servo10Pos = 0;
     public static double Servo11Pos = 0;
+
 
     @Override
     public void runOpMode() {
@@ -71,23 +72,22 @@ public class ServoAndPortTester extends LinearOpMode {
             testServo1.setPosition(Servo1Pos);
             telemetry.addData("Servo 1 Position", Servo1Pos);
             // Servo 2 Pos vals
-            testServo2.setPosition(Servo2Pos);
-            telemetry.addData("Servo 2 Position", Servo2Pos);
+            testServo2.setPosition(claw);
+            telemetry.addData("Servo 2 Position", claw);
             // Servo 3 Pos vals
-            testServo3.setPosition(Servo3Pos);
-            telemetry.addData("Servo 3 Position", Servo3Pos);
+            testServo3.setPosition(swingArm);
+            testServo5.setPosition(swingArm);
+            telemetry.addData("Servo 3 Position", swingArm);
+            telemetry.addData("Servo 5 position", rightArm);
             // Servo 4 Pos vals
-            testServo4.setPosition(Servo4Pos);
-            telemetry.addData("Servo 4 Position", Servo4Pos);
-            // Servo 5 Pos vals
-            testServo5.setPosition(Servo5Pos);
-            telemetry.addData("Servo 5 Position", Servo5Pos);
+            testServo4.setPosition(clawTurret);
+            telemetry.addData("Servo 4 Position", clawTurret);
             // Servo 6 Pos vals
             testServo6.setPosition(Servo6Pos);
             telemetry.addData("Servo 6 Position", Servo6Pos);
             // Servo 7 Pos vals
-            testServo7.setPosition(Servo7Pos);
-            telemetry.addData("Servo 7 Position", Servo7Pos);
+            testServo7.setPosition(turretPos);
+            telemetry.addData("Servo 7 Position", turretPos);
             // Servo 8 Pos vals
             testServo8.setPosition(Servo8Pos);
             telemetry.addData("Servo 8 Position", Servo8Pos);
