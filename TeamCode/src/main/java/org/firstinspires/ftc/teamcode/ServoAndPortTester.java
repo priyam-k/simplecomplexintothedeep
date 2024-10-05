@@ -17,17 +17,25 @@ public class ServoAndPortTester extends LinearOpMode {
     private Servo testServo3;
     private Servo testServo4;
     private Servo testServo5;
+    private Servo testServo6;
+    private Servo testServo7;
+    private Servo testServo8;
+    private Servo testServo9;
+    private Servo testServo10;
+    private Servo testServo11;
     public static double Servo0Pos = 0;
     public static double Servo1Pos = 0;
     public static double Servo2Pos = 0;
     public static double Servo3Pos = 0;
     public static double Servo4Pos = 0;
     public static double Servo5Pos = 0;
-    public static double degrees = 0;
 
-    public double degreesToTicks(double d){
-        return d/270;
-    }
+    public static double Servo6Pos = 0;
+    public static double Servo7Pos = 0;
+    public static double Servo8Pos = 0;
+    public static double Servo9Pos = 0;
+    public static double Servo10Pos = 0;
+    public static double Servo11Pos = 0;
 
     @Override
     public void runOpMode() {
@@ -35,12 +43,24 @@ public class ServoAndPortTester extends LinearOpMode {
         tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         // Initialize the servo
+
+        // Control Hub
         testServo0 = hardwareMap.get(Servo.class, "Servo0");
         testServo1 = hardwareMap.get(Servo.class, "Servo1");
         testServo2 = hardwareMap.get(Servo.class, "Servo2");
         testServo3 = hardwareMap.get(Servo.class, "Servo3");
         testServo4 = hardwareMap.get(Servo.class, "Servo4");
         testServo5 = hardwareMap.get(Servo.class, "Servo5");
+
+        // Expansion Hub
+        testServo6  = hardwareMap.get(Servo.class, "Servo6");
+        testServo7  = hardwareMap.get(Servo.class, "Servo7");
+        testServo8  = hardwareMap.get(Servo.class, "Servo8");
+        testServo9  = hardwareMap.get(Servo.class, "Servo1");
+        testServo10 = hardwareMap.get(Servo.class, "Servo10");
+        testServo11 = hardwareMap.get(Servo.class, "Servo11");
+
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -60,11 +80,28 @@ public class ServoAndPortTester extends LinearOpMode {
             testServo4.setPosition(Servo4Pos);
             telemetry.addData("Servo 4 Position", Servo4Pos);
             // Servo 5 Pos vals
-            testServo5.setPosition(degreesToTicks(degrees));
-            telemetry.addData("degrees", degrees);
+            testServo5.setPosition(Servo5Pos);
             telemetry.addData("Servo 5 Position", Servo5Pos);
+            // Servo 6 Pos vals
+            testServo6.setPosition(Servo6Pos);
+            telemetry.addData("Servo 6 Position", Servo6Pos);
+            // Servo 7 Pos vals
+            testServo7.setPosition(Servo7Pos);
+            telemetry.addData("Servo 7 Position", Servo7Pos);
+            // Servo 8 Pos vals
+            testServo8.setPosition(Servo8Pos);
+            telemetry.addData("Servo 8 Position", Servo8Pos);
+            // Servo 9 Pos vals
+            testServo9.setPosition(Servo9Pos);
+            telemetry.addData("Servo 9 Position", Servo9Pos);
+            // Servo 10 Pos vals
+            testServo10.setPosition(Servo10Pos);
+            telemetry.addData("Servo 10 Position", Servo10Pos);
+            // Servo 11 Pos vals
+            testServo11.setPosition(Servo11Pos);
+            telemetry.addData("Servo 11 Position", Servo11Pos);
+
             telemetry.update();
         }
     }
 }
-
