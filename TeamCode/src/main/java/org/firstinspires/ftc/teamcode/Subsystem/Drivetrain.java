@@ -46,6 +46,7 @@ public class Drivetrain implements Subsystem {
         RF = hardwareMap.dcMotor.get("rightFront");
         RR = hardwareMap.dcMotor.get("rightRear");
 
+
         //this must come before the run without encoder
         LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
