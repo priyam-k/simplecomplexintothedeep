@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class EnableHand implements Subsystem{
 
     private Servo Claw,Larm,Rarm,ArmTurr,ClawTurr;
+    private int ServoAngleofAxon = 255;
 
 
     @Override
@@ -29,10 +30,18 @@ public class EnableHand implements Subsystem{
 
     }
 
-    private void BothArm(double x){
-        Larm.setPosition(x);
+    public void BothArm(double x){
+        Larm.setPosition(1-x);
         Rarm.setPosition(x);
     }
 
-    pri
+    private double degreesToTicks(double d){return d/ServoAngleofAxon;}
+
+    public void close(){Claw.setPosition(0.63);}
+
+    public void open(){Claw.setPosition(0.44);}
+
+
+
+
 }
