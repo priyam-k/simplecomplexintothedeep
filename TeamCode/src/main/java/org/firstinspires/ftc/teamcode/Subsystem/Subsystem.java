@@ -11,4 +11,6 @@ public interface Subsystem {
 
     void update();
     void addTelemtry(Telemetry t);
+
+    void addTelemetry(Telemetry t, boolean shouldPrint);
 }
