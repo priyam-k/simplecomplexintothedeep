@@ -28,7 +28,6 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double claw = 0;
     public static double swingArm = 0;
     public static double clawTurret = 0;
-    public static double rightArm = 0;
 
     public static double Servo6Pos = 0;
     public static double turretPos = 0;
@@ -73,12 +72,14 @@ public class ServoAndPortTester extends LinearOpMode {
 
             ControlHub3.setPosition(swingArm);
             telemetry.addData("ControlHub3 Position", swingArm);
+            //right swing arm
 
             ControlHub4.setPosition(clawTurret);
             telemetry.addData("ControlHub4 Position", clawTurret);
 
-            ControlHub5.setPosition(rightArm);
-            telemetry.addData("ControlHub5 Position", rightArm);
+            ControlHub5.setPosition(swingArm);
+            telemetry.addData("ControlHub5 Position", swingArm);
+            //left swing arm
 
             // Set and display positions for Expansion Hub servos
             ExpansionHub0.setPosition(Servo6Pos);

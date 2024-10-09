@@ -10,7 +10,6 @@ public interface Subsystem {
     void init(HardwareMap hardwareMap);
 
     void update();
-    void addTelemtry(Telemetry t);
 
-    void addTelemetry(Telemetry t, boolean shouldPrint);
+    void addTelemtry(Telemetry t);
 }

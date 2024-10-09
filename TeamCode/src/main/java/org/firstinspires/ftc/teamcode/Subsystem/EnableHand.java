@@ -30,6 +30,7 @@ public class EnableHand implements Subsystem{
 
     }
 
+
     public void BothArm(double x){
         Larm.setPosition(1-x);
         Rarm.setPosition(x);
