@@ -41,8 +41,4 @@ public class Robot implements Subsystem{
 
     }
 
-    @Override
-    public void addTelemetry(Telemetry t, boolean shouldPrint) {
-
-    }
 }

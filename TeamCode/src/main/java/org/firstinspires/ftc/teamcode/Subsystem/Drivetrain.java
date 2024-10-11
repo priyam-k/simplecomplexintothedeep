@@ -178,9 +178,5 @@ public class Drivetrain implements Subsystem {
     public void addTelemtry(Telemetry t) {
 
     }
-
-    @Override
-    public void addTelemetry(Telemetry t, boolean shouldPrint) {
-
-    }
+    
 }

@@ -25,16 +25,18 @@ public class ServoAndPortTester extends LinearOpMode {
 
     public static double Servo0Pos = 0;
     public static double Servo1Pos = 0;
-    public static double claw = 0;
-    public static double swingArm = 0;
-    public static double clawTurret = 0;
-
+    public static double Servo2Pos = 0;
+    public static double Servo3Pos = 0.97;
+    public static double Servo4Pos = 0;
+    public static double Servo5Pos = 0;
     public static double Servo6Pos = 0;
-    public static double turretPos = 0;
+    public static double Servo7Pos = 0;
     public static double Servo8Pos = 0;
     public static double Servo9Pos = 0;
     public static double Servo10Pos = 0;
     public static double Servo11Pos = 0;
+    public static double swingArmAngle = 0;
+    public static double HandTurretAngle = 0;
 
     @Override
     public void runOpMode() {
@@ -67,26 +69,34 @@ public class ServoAndPortTester extends LinearOpMode {
             ControlHub1.setPosition(Servo1Pos);
             telemetry.addData("ControlHub1 Position", Servo1Pos);
 
-            ControlHub2.setPosition(claw);
-            telemetry.addData("ControlHub2 Position", claw);
+            ControlHub2.setPosition(Servo2Pos);
+            telemetry.addData("ControlHub2 Position", Servo2Pos);
 
-            ControlHub3.setPosition(swingArm);
-            telemetry.addData("ControlHub3 Position", swingArm);
+          //  ControlHub3.setPosition(Servo3Pos);
+            telemetry.addData("ControlHub3 Position", Servo3Pos);
             //right swing arm
 
-            ControlHub4.setPosition(clawTurret);
-            telemetry.addData("ControlHub4 Position", clawTurret);
 
-            ControlHub5.setPosition(swingArm);
-            telemetry.addData("ControlHub5 Position", swingArm);
+            telemetry.addData("Angle of swing arm ", swingArmAngle);
+            Servo3Pos =  degreesToTicksSwingArm(swingArmAngle);
+            ControlHub3.setPosition(Servo3Pos);
+            ControlHub4.setPosition(Servo3Pos);
+
+           //  ControlHub4.setPosition(Servo4Pos);
+            telemetry.addData("ControlHub4 Position", Servo4Pos);
+
+            ControlHub5.setPosition(Servo5Pos);
+            telemetry.addData("ControlHub5 Position", Servo5Pos);
             //left swing arm
+
+            //Servo5Pos = degreesToTicksHandTurret()
 
             // Set and display positions for Expansion Hub servos
             ExpansionHub0.setPosition(Servo6Pos);
             telemetry.addData("ExpansionHub0 Position", Servo6Pos);
 
-            ExpansionHub1.setPosition(turretPos);
-            telemetry.addData("ExpansionHub1 Position", turretPos);
+            ExpansionHub1.setPosition(Servo7Pos);
+            telemetry.addData("ExpansionHub1 Position", Servo7Pos);
 
             ExpansionHub2.setPosition(Servo8Pos);
             telemetry.addData("ExpansionHub2 Position", Servo8Pos);
@@ -100,7 +110,18 @@ public class ServoAndPortTester extends LinearOpMode {
             ExpansionHub5.setPosition(Servo11Pos);
             telemetry.addData("ExpansionHub5 Position", Servo11Pos);
 
+
+
             telemetry.update();
         }
+    }
+    public double degreesToTicksSwingArm(double d){
+        d = -d;
+        return d/355 + 0.963;
+    }
+
+    public double degreesToTicksHandTurret(double d){
+        d = -d;
+        return d/327 ;
     }
 }

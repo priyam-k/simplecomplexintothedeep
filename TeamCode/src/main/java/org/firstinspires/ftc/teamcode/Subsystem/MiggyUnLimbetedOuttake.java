@@ -20,8 +20,5 @@ public class MiggyUnLimbetedOuttake implements Subsystem{
 
     }
 
-    @Override
-    public void addTelemetry(Telemetry t, boolean shouldPrint) {
 
-    }
 }

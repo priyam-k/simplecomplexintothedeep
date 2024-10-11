@@ -63,10 +63,6 @@ public class Outtake implements Subsystem {
 
     }
 
-    @Override
-    public void addTelemetry(Telemetry t, boolean shouldPrint) {
-        // telemetry allows you to send messages to the phone
-    }
 
 
 
