@@ -37,7 +37,8 @@ public class GenericTele extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            transferMachine.update();
+            //transferMachine.update();
+            drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad2.right_stick_x);
 
         }
 
