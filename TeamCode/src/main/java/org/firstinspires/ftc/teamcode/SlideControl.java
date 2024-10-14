@@ -13,7 +13,7 @@ public class SlideControl extends LinearOpMode {
     private DcMotor slideMotorLeft;
     private DcMotor slideMotorRight;
 
-    private final double SLIDE_POWER = 0.5; // Power level for moving the slide
+
 
     @Override
     public void runOpMode() {
