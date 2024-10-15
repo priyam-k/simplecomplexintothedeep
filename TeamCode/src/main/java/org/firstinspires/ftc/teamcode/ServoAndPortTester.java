@@ -22,8 +22,8 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double ExpServo3Pos = 0;
     public static double ExpServo4Pos = 0;
     public static double ExpServo5Pos = 0;
-    public static double swingArmAngle = 0;
-    public static double HandTurretAngle = 0;
+    public static double SwingArmAngleDegrees = 0;
+    public static double HandTurretAngleDegrees = 0;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
@@ -83,14 +83,17 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("ControlHub5 Position", Servo5Pos);
 
             // Set and display positions for Expansion Hub servos
-            ExpServo0Pos = ((270 - HandTurretAngle) / 270);
+
+
+            // Hand Turret Position
+            ExpServo0Pos = HandTurretAngleDegrees / 270;
             ExpansionHub0.setPosition(ExpServo0Pos);
             telemetry.addData("Hand Turret (Exp0) Position", ExpServo0Pos);
 
+            // Swing Arm Position
             ExpansionHub1.setPosition(ExpServo1Pos);
             ExpansionHub2.setPosition(ExpServo1Pos);
             telemetry.addData("Swing Arm (Exp1) Position", ExpServo1Pos);
-
 
             ExpansionHub3.setPosition(ExpServo3Pos);
             telemetry.addData("ExpansionHub3 Position", ExpServo3Pos);

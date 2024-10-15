@@ -74,10 +74,9 @@ public class VisionOpMode extends LinearOpMode {
                 targetSample = detectedStones.get(0);
                 // get the angle of the sample
                 angle = targetSample.angle;
-                if (targetSample.color.equalsIgnoreCase(sampleColor)) {
-                    // set the servo position to the angle of the sample, accounting for offset
-                    wristServo.setPosition(degreesToTicks(270 - (angle - servoAngleOffset)));
-                }
+                // set the servo position to the angle of the sample, accounting for offset
+                if (targetSample.color.equalsIgnoreCase(sampleColor))
+                    wristServo.setPosition(degreesToTicks(270 - (angle)));
             }
 
             // Update the telemetry
