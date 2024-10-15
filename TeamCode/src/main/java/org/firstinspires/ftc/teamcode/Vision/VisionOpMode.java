@@ -28,7 +28,7 @@ public class VisionOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         // initialize servo
-        wristServo = hardwareMap.get(Servo.class, "Servo0");
+        wristServo = hardwareMap.get(Servo.class, "Servo6");
 
         // Get camera ID from the hardware map
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
@@ -73,7 +73,7 @@ public class VisionOpMode extends LinearOpMode {
             if (!detectedStones.isEmpty()) {
                 targetSample = detectedStones.get(0);
                 // get the angle of the sample
-                angle = targetSample.angle;
+                angle   = targetSample.angle;
                 // set the servo position to the angle of the sample, accounting for offset
                 if (targetSample.color.equalsIgnoreCase(sampleColor))
                     wristServo.setPosition(degreesToTicks(270 - (angle)));

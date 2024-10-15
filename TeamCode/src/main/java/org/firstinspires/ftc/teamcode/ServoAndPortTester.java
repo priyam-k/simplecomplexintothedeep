@@ -86,7 +86,7 @@ public class ServoAndPortTester extends LinearOpMode {
 
 
             // Hand Turret Position
-            ExpServo0Pos = HandTurretAngleDegrees / 270;
+            ExpServo0Pos = 270-(HandTurretAngleDegrees / 270);
             ExpansionHub0.setPosition(ExpServo0Pos);
             telemetry.addData("Hand Turret (Exp0) Position", ExpServo0Pos);
 
