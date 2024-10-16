@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
-import com.qualcomm.hardware.ams.AMSColorSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.sfdev.assembly.state.State;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
@@ -29,12 +27,12 @@ public class StateMachines {
 
                 .build();
     }
+
     public static StateMachine getOuttakeStateMachine(Outtake out, Gamepad gamepad) {
         return new StateMachineBuilder()
                 .state(Transfer.IDLING)
                 .onEnter(out::idle)
                 .transition(() -> gamepad.a)
-
 
                 .state(Transfer.GRABBING)
                 .onEnter(out::grab)
