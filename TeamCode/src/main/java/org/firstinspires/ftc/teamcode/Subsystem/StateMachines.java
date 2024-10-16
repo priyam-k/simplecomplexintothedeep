@@ -23,6 +23,10 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER)
                 .onEnter(hand::transfer)
+                .transition(() -> gamepad.a, Intake.LOITER)
+
+                .state(Intake.LOITER)
+                .onEnter(hand::loiter)
                 .transition(() -> gamepad.a, Intake.SCANNING)
 
                 .build();
@@ -54,6 +58,6 @@ public class StateMachines {
     }
 
     enum Intake {
-        SCANNING, HOVERING, PICKUP, TRANSFER
+        SCANNING, HOVERING, PICKUP, TRANSFER, LOITER
     }
 }

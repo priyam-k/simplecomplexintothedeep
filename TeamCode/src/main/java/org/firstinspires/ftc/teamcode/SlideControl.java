@@ -25,8 +25,8 @@ public class SlideControl extends LinearOpMode {
         slideMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        slideMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slideMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor direction if needed
         //TODO: reverse on of theese
@@ -43,7 +43,8 @@ public class SlideControl extends LinearOpMode {
 
 
             // Show the motor power in telemetry
-            telemetry.addData("Slide Motor Power", slideMotorRight.getPower());
+            telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
+            telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
             telemetry.update();
         }
     }
