@@ -43,6 +43,22 @@ public class EnableHand implements Subsystem{
     public void open(){Claw.setPosition(0.44);}
 
 
+    public void scan() {
+
+    }
+
+    public void hover() {
+
+    }
+
+    public void pickup() {
+
+    }
+
+    public void transfer() {
+
+    }
+
 
 
 }

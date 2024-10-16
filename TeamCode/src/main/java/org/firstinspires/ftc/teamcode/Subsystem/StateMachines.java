@@ -1,32 +1,61 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import com.qualcomm.hardware.ams.AMSColorSensor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.sfdev.assembly.state.State;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
-import org.firstinspires.ftc.teamcode.Subsystem.Outtake;
-
 public class StateMachines {
-    enum Transfer {
-        IDLING, GRABBING, FLIPPING, DROPPING
+
+    public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
+        return new StateMachineBuilder()
+                .state(Intake.SCANNING)
+                .onEnter(hand::scan)
+                .transition(() -> gamepad.b)
+
+
+                .state(Intake.HOVERING)
+                .onEnter(hand::hover)
+                .transition(() -> gamepad.a)
+
+                .state(Intake.PICKUP)
+                .onEnter(hand::pickup)
+                .transition(() -> gamepad.a)
+
+                .state(Intake.TRANSFER)
+                .onEnter(hand::transfer)
+                .transition(() -> gamepad.a, Intake.SCANNING)
+
+                .build();
     }
-    public static StateMachine getOuttakeStateMachine(Outtake out) {
+    public static StateMachine getOuttakeStateMachine(Outtake out, Gamepad gamepad) {
         return new StateMachineBuilder()
                 .state(Transfer.IDLING)
                 .onEnter(out::idle)
-                .transitionTimed(0.2) // 200 millis non-blocking "sleep"
+                .transition(() -> gamepad.a)
+
 
                 .state(Transfer.GRABBING)
                 .onEnter(out::grab)
-                .transitionTimed(0.2)
+                .transition(() -> gamepad.a)
 
                 .state(Transfer.FLIPPING)
                 .onEnter(out::flip)
-                .transitionTimed(0.2)
+                .transition(() -> gamepad.a)
 
                 .state(Transfer.DROPPING)
                 .onEnter(out::drop)
-                .transitionTimed(0.2, Transfer.IDLING)
+                .transition(() -> gamepad.a, Transfer.IDLING)
 
                 .build();
+    }
+
+    enum Transfer {
+        IDLING, GRABBING, FLIPPING, DROPPING
+    }
+
+    enum Intake {
+        SCANNING, HOVERING, PICKUP, TRANSFER
     }
 }

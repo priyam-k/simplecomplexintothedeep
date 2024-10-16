@@ -47,7 +47,7 @@ public class VisionOpMode extends LinearOpMode {
             @Override
             public void onOpened() {
                 // Start streaming the video feed at a resolution of 320x240
-                webcam.startStreaming(320, 240);
+                webcam.startStreaming(176,144);
             }
 
             @Override

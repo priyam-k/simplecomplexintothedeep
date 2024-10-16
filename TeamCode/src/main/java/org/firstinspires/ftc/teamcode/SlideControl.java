@@ -38,7 +38,6 @@ public class SlideControl extends LinearOpMode {
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Move slide up when gamepad button (e.g., "Y") is pressed
                 slideMotorRight.setPower(gamepad1.left_stick_y);
                 slideMotorLeft.setPower(gamepad1.left_stick_y);
 
