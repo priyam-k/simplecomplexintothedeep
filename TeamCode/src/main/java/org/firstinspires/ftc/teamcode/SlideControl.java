@@ -1,36 +1,45 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @TeleOp(name="SlideControl", group="Linear Opmode")
 public class SlideControl extends LinearOpMode {
 
 
-    private DcMotor slideMotorLeft;
-    private DcMotor slideMotorRight;
+    private DcMotorEx slideMotorLeft;
+    private DcMotorEx slideMotorRight;
 
-
+MultipleTelemetry tele;
 
     @Override
     public void runOpMode() {
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        tele = new MultipleTelemetry(tele, dashboard.getTelemetry());
+
         // Initialize the hardware
-        //TODO: Change theese configs
-        slideMotorRight = hardwareMap.get(DcMotor.class, "rightLift");
-        slideMotorLeft = hardwareMap.get(DcMotor.class, "leftLift");
+        //TODO: Change these configs
+        slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
+        slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
 
-        slideMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slideMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor direction if needed
-        //TODO: reverse on of theese
-        slideMotorRight.setDirection(DcMotor.Direction.REVERSE);
+        //TODO: reverse on of these
+        slideMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -41,11 +50,13 @@ public class SlideControl extends LinearOpMode {
                 slideMotorRight.setPower(gamepad1.left_stick_y);
                 slideMotorLeft.setPower(gamepad1.left_stick_y);
 
-
+            tele.addData("leftLiftCurrent AMPS: ", slideMotorLeft.getCurrent(CurrentUnit.AMPS));
+            tele.addData("rightLiftCurrent AMPS: ", slideMotorRight.getCurrent(CurrentUnit.AMPS));
             // Show the motor power in telemetry
             telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
             telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
             telemetry.update();
+
         }
     }
 }
