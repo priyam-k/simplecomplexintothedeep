@@ -9,9 +9,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class EnableHand implements Subsystem{
 
     private Servo Claw, LServoSwingArm, RServoSwingArm,ArmTurr,ClawTurr;
-    private int ServoAngleofAxon = 255;
 
-
+/*
+Latching on to the sample: 0.43
+Vetoring position: 0.6
+ */
     @Override
     public void init(HardwareMap hardwareMap) {
         Claw = hardwareMap.get(Servo.class,"Servo2");
@@ -37,7 +39,6 @@ public class EnableHand implements Subsystem{
         RServoSwingArm.setPosition(x);
     }
 
-    private double degreesToTicksAxon(double d){return d/ServoAngleofAxon;}
     private double degreesToTicks(double d){return d/270;}
 
     public void close(){Claw.setPosition(0.63);}

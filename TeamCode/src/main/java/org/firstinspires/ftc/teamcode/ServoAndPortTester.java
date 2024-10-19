@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 @TeleOp(name = "ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
-    public static double CtrlServo0Pos = 0;
+    public static double CtrlServo0Pos = 0.44;
     public static double CtrlServo1Pos = 0;
     public static double CtrlServo2Pos = 0;
     public static double CtrlServo3Pos = 0.97;
@@ -19,11 +19,13 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double ExpServo0Pos = 0;
     public static double ExpServo1Pos = 0;
     public static double ExpServo2Pos = 0;
-    public static double ExpServo3Pos = 0;
-    public static double ExpServo4Pos = 0;
+    public static double ExpServo3Pos = 0.43;
+    public static double ExpServo4Pos = 0.43;
     public static double ExpServo5Pos = 0;
     public static double SwingArmAngleDegrees = 0;
     public static double HandTurretAngleDegrees = 0;
+
+    public static double OuttakeArmTicks = 0.0;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
@@ -69,12 +71,10 @@ public class ServoAndPortTester extends LinearOpMode {
             ControlHub1.setPosition(CtrlServo1Pos);
             telemetry.addData("ControlHub1 Position", CtrlServo1Pos);
 
-            ControlHub2.setPosition(CtrlServo2Pos);
-            telemetry.addData("ControlHub2 Position", CtrlServo2Pos);
 
-
-            ControlHub3.setPosition(CtrlServo3Pos);
-            telemetry.addData("ControlHub3 Position", CtrlServo3Pos);
+            telemetry.addData("Outtake arm(2 and3) ControlHub", OuttakeArmTicks);
+            ControlHub2.setPosition(OuttakeArmTicks);
+            ControlHub3.setPosition(OuttakeArmTicks);
 
             ControlHub4.setPosition(CtrlServo4Pos);
             telemetry.addData("ControlHub4 Position", CtrlServo4Pos);

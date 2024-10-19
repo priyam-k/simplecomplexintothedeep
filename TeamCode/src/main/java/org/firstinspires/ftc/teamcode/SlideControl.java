@@ -23,8 +23,6 @@ MultipleTelemetry tele;
     @Override
     public void runOpMode() {
 
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        tele = new MultipleTelemetry(tele, dashboard.getTelemetry());
 
         // Initialize the hardware
         //TODO: Change these configs
@@ -39,7 +37,7 @@ MultipleTelemetry tele;
 
         // Set motor direction if needed
         //TODO: reverse on of these
-        slideMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
+        //slideMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -50,8 +48,8 @@ MultipleTelemetry tele;
                 slideMotorRight.setPower(gamepad1.left_stick_y);
                 slideMotorLeft.setPower(gamepad1.left_stick_y);
 
-            tele.addData("leftLiftCurrent AMPS: ", slideMotorLeft.getCurrent(CurrentUnit.AMPS));
-            tele.addData("rightLiftCurrent AMPS: ", slideMotorRight.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("leftLiftCurrent AMPS: ", slideMotorLeft.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("rightLiftCurrent AMPS: ", slideMotorRight.getCurrent(CurrentUnit.AMPS));
             // Show the motor power in telemetry
             telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
             telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
