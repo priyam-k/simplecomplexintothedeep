@@ -10,19 +10,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 @TeleOp(name = "ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
-    public static double CtrlServo0Pos = 0.44;
-    public static double CtrlServo1Pos = 0;
-    public static double CtrlServo2Pos = 0;
-    public static double CtrlServo3Pos = 0.97;
+    public static double OuttakeClaw = 0.44;
+    public static double OuttakeFlipper = 0;
+    //public static double CtrlServo2Pos = 0;
+    //public static double CtrlServo3Pos = 0.97;
     public static double CtrlServo4Pos = 0;
     public static double Servo5Pos = 0;
     public static double ExpServo0Pos = 0;
     public static double ExpServo1Pos = 0;
-    public static double ExpServo2Pos = 0;
-    public static double ExpServo3Pos = 0.43;
-    public static double ExpServo4Pos = 0.43;
+   // public static double ExpServo2Pos = 0;
+    public static double IntakeVectoringHand = 0.43;
+    public static double IntakeArmTurret = 0.43;
     public static double ExpServo5Pos = 0;
-    public static double SwingArmAngleDegrees = 0;
+    public static double SwingArmAngleDegrees = 90;
     public static double HandTurretAngleDegrees = 0;
 
     public static double OuttakeArmTicks = 0.0;
@@ -65,11 +65,11 @@ public class ServoAndPortTester extends LinearOpMode {
 
         while (opModeIsActive()) {
             // Set and display positions for Control Hub servos
-            ControlHub0.setPosition(CtrlServo0Pos);
-            telemetry.addData("ControlHub0 Position", CtrlServo0Pos);
-
-            ControlHub1.setPosition(CtrlServo1Pos);
-            telemetry.addData("ControlHub1 Position", CtrlServo1Pos);
+            ControlHub0.setPosition(OuttakeClaw);
+            telemetry.addData("Outtake claw", OuttakeClaw);
+                                                           
+            ControlHub1.setPosition(OuttakeFlipper);
+            telemetry.addData("Flipper", OuttakeFlipper);
 
 
             telemetry.addData("Outtake arm(2 and3) ControlHub", OuttakeArmTicks);
@@ -94,13 +94,13 @@ public class ServoAndPortTester extends LinearOpMode {
             ExpServo1Pos = degreesToTicksSwingArm(SwingArmAngleDegrees);
             ExpansionHub1.setPosition(ExpServo1Pos);
             ExpansionHub2.setPosition(ExpServo1Pos);
-            telemetry.addData("Swing Arm (Exp1) Position", ExpServo1Pos);
+            telemetry.addData("Swing Arm (Exp1and2) Position", ExpServo1Pos);
 
-            ExpansionHub3.setPosition(ExpServo3Pos);
-            telemetry.addData("ExpansionHub3 Position", ExpServo3Pos);
-
-            ExpansionHub4.setPosition(ExpServo4Pos);
-            telemetry.addData("ExpansionHub4 Position", ExpServo4Pos);
+            ExpansionHub3.setPosition(IntakeVectoringHand);
+            telemetry.addData("Vectoring hand", IntakeVectoringHand);
+            
+            ExpansionHub4.setPosition(IntakeArmTurret);
+            telemetry.addData("Arm Turret", IntakeArmTurret);
 
             ExpansionHub5.setPosition(ExpServo5Pos);
             telemetry.addData("ExpansionHub5 Position", ExpServo5Pos);

@@ -33,12 +33,6 @@ Vetoring position: 0.6
 
     }
 
-
-    public void BothArm(double x){
-        LServoSwingArm.setPosition(1-x);
-        RServoSwingArm.setPosition(x);
-    }
-
     private double degreesToTicks(double d){return d/270;}
 
     public void close(){Claw.setPosition(0.63);}
@@ -52,25 +46,46 @@ Vetoring position: 0.6
         RServoSwingArm.setPosition(swingArmAngle);
     }
 
+    /*
+    Intake arm turret
+    Intaking: 0.43
+
+     */
+
+    /*
+    Claw
+    Latching: 0.43
+    vectoring: 0.63
+     */
+
+
     public void scan() {
-        setSwingArmAngle(60);
+
+        //swing arm 60 degrees
+        //intake arm turret --> Intaking
+        //Claw: Vectoring
+        //Hand turretdegree: TBD
+
     }
 
     public void hover() {
-        setSwingArmAngle(10);
+       //Swign arm angle at 15
+
     }
 
     public void pickup() {
-        setSwingArmAngle(0);
+
+        //swing arm angle: -5
+        //Claw: latching
+
     }
 
     public void transfer() {
-        setSwingArmAngle(170);
+        //swing arm angle : 175
+        //Hand turret 90 degrees
     }
-
     public void loiter() {
-        setSwingArmAngle(170);
-        // open claw to release sample to outtake
+        //Claw: Vector
     }
 
 }

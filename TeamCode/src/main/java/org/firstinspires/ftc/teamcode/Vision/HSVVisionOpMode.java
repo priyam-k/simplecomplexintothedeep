@@ -12,7 +12,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
 
-@TeleOp(name="Vision OpMode", group="Linear Opmode")
+@TeleOp(name="HSVVision OpMode", group="Linear Opmode")
 public class HSVVisionOpMode extends LinearOpMode {
 
     OpenCvWebcam webcam;

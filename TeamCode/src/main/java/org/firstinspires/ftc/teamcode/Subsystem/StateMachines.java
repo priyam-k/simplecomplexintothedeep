@@ -12,7 +12,6 @@ public class StateMachines {
                 .onEnter(hand::scan)
                 .transition(() -> gamepad.b)
 
-
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover)
                 .transition(() -> gamepad.a)
@@ -32,6 +31,7 @@ public class StateMachines {
                 .build();
     }
 
+    //Milav needs to redo
     public static StateMachine getOuttakeStateMachine(Outtake out, Gamepad gamepad) {
         return new StateMachineBuilder()
                 .state(Transfer.IDLING)
