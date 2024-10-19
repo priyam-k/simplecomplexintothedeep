@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
     public static double OuttakeClaw = 0.44;
-    public static double OuttakeFlipper = 0;
+    public static double OuttakeFlipper = 0.4;
     //public static double CtrlServo2Pos = 0;
     //public static double CtrlServo3Pos = 0.97;
     public static double CtrlServo4Pos = 0;
@@ -22,7 +22,7 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double IntakeVectoringHand = 0.43;
     public static double IntakeArmTurret = 0.43;
     public static double ExpServo5Pos = 0;
-    public static double SwingArmAngleDegrees = 90;
+        public static double SwingArmAngleDegrees = 162;
     public static double HandTurretAngleDegrees = 0;
 
     public static double OuttakeArmTicks = 0.0;
@@ -47,7 +47,7 @@ public class ServoAndPortTester extends LinearOpMode {
 
         // Initialize the servos for the Control Hub
         ControlHub0 = hardwareMap.get(Servo.class, "Servo0");
-        ControlHub1 = hardwareMap.get(Servo.class, "Servo1");
+            ControlHub1 = hardwareMap.get(Servo.class, "Servo1");
         ControlHub2 = hardwareMap.get(Servo.class, "Servo2");
         ControlHub3 = hardwareMap.get(Servo.class, "Servo3");
         ControlHub4 = hardwareMap.get(Servo.class, "Servo4");

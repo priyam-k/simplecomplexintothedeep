@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class StateMachines {
 
     public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
@@ -43,22 +41,24 @@ public class StateMachines {
                 .onEnter(out::Transfer)
                 .transition(()->intake.getState() == Intake.LOITER)
 
-                .state(Outtake.MOVE)
-                .onEnter(out::Move)
-                .transition(()->gamepad.a, Outtake.SCORING)
+                .state(Outtake.BACK)
+                .onEnter(out::Back)
+                .transition(()->gamepad.b, Outtake.SCORING)
 
                 .state(Outtake.SCORING)
                 .onEnter(out::Score)
+
+
                 .transition(() -> gamepad.b, Outtake.LOITERING)
 
                 .build();
     }
 
     enum Outtake {
-        LOITERING, TRANSFERRING, SCORING, MOVE
+        LOITERING, TRANSFERRING, SCORING, BACK
     }
 
-    public enum Intake {
+    enum Intake {
         SCANNING, HOVERING, PICKUP, TRANSFER, LOITER
     }
 }

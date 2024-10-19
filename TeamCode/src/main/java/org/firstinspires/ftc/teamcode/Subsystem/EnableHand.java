@@ -6,21 +6,21 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
-public class EnableHand implements Subsystem{
+public class EnableHand implements Subsystem {
 
-    private Servo Claw, LServoSwingArm, RServoSwingArm,ArmTurr,ClawTurr;
+    private Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
 
-/*
-Latching on to the sample: 0.43
-Vetoring position: 0.6
- */
+    /*
+    Latching on to the sample: 0.43
+    Vectoring position: 0.6
+     */
     @Override
     public void init(HardwareMap hardwareMap) {
-        Claw = hardwareMap.get(Servo.class,"Servo2");
-        LServoSwingArm = hardwareMap.get(Servo.class,"Servo7"); // left servo for intake swing arm
-        RServoSwingArm = hardwareMap.get(Servo.class,"Servo8"); // right servo for intake swing arm
-        ArmTurr = hardwareMap.get(Servo.class,"Servo1");
-        ClawTurr = hardwareMap.get(Servo.class,"Servo4");
+        Claw = hardwareMap.get(Servo.class, "Servo9");
+        LServoSwingArm = hardwareMap.get(Servo.class, "Servo7"); // left servo for intake swing arm
+        RServoSwingArm = hardwareMap.get(Servo.class, "Servo8"); // right servo for intake swing arm
+        ArmTurr = hardwareMap.get(Servo.class, "Servo10");
+        ClawTurr = hardwareMap.get(Servo.class, "Servo6");
     }
 
     @Override
@@ -33,19 +33,24 @@ Vetoring position: 0.6
 
     }
 
-    private double degreesToTicks(double d){return d/270;}
+    private double degreesToTicks(double d) {
+        return d / 270;
+    }
 
-    public void open(){Claw.setPosition(0.63);}
+    public void open() {
+        Claw.setPosition(0.63);
+    }
 
-    public void close(){Claw.setPosition(0.44);}
+    public void close() {
+        Claw.setPosition(0.44);
+    }
 
 
-    void setSwingArmAngle(double angle){
+    void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicks(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
     }
-
 
 
     public void scan() {

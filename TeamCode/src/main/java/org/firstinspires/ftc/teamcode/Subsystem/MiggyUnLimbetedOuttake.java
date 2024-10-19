@@ -6,14 +6,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
-    private Servo outtakeArm, outtakeClaw, outtakeFlipper;
+    private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
 
     @Override
     public void init(HardwareMap hardwareMap) {
         // Initialize servos with corresponding hardware names
-        outtakeArm = hardwareMap.get(Servo.class, "outtakeArm");
-        outtakeClaw = hardwareMap.get(Servo.class, "outtakeClaw");
-        outtakeFlipper = hardwareMap.get(Servo.class, "outtakeFlipper");
+        outtakeArm1 = hardwareMap.get(Servo.class, "Servo2");
+        outtakeArm2 = hardwareMap.get(Servo.class, "Servo3");
+        outtakeClaw = hardwareMap.get(Servo.class, "Servo0");
+        outtakeFlipper = hardwareMap.get(Servo.class, "Servo1");
+    }
+
+
+    public void Arm(double t) {
+        outtakeArm1.setPosition(t);
+        outtakeArm2.setPosition(t);
+
     }
 
     @Override
@@ -29,7 +37,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     // Outtake claw open 0.44, outtake claw close 0.63
     public void Loiter() {
         // Set the arm to the latching position at 0.6
-        outtakeArm.setPosition(0.6);
+        Arm(0.6);
 
         // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
@@ -40,18 +48,18 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void Transfer() {
         // Move the arm to the initial transfer position (0.28)
-        outtakeArm.setPosition(0.28);
+       Arm(0.28);
 
         // Close the claw (0.63)
         outtakeClaw.setPosition(0.63);
 
     }
 
-    public boolean Move() {
+    public void Back() {
 
         // Wait for confirmation from intake claw: vector
         // After confirmation, move the arm to the extended transfer position (0.8)
-        outtakeArm.setPosition(0.8);
+        Arm(0.8);
 
         // Move the flipper to 0.05 for the final transfer
         outtakeFlipper.setPosition(0.05);
