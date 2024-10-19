@@ -34,28 +34,28 @@ public class StateMachines {
     }
 
     public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad, StateMachine intake) {
-        AtomicBoolean check = new AtomicBoolean(false);
         return new StateMachineBuilder()
                 .state(Outtake.LOITERING)
                 .onEnter(out::Loiter)
-                .transition(() -> gamepad.a, Outtake.TRANSFERRING)
+                .transition(() -> gamepad.b, Outtake.TRANSFERRING)
 
                 .state(Outtake.TRANSFERRING)
-                .onEnter(() -> {
-                    check.set(out.Transfer(intake.getState()));
-                })
-                .transition(() -> check.get() && gamepad.a, Outtake.SCORING)
-                .onEnter(()->check.set(false))
+                .onEnter(out::Transfer)
+                .transition(()->intake.getState() == Intake.LOITER)
+
+                .state(Outtake.MOVE)
+                .onEnter(out::Move)
+                .transition(()->gamepad.a, Outtake.SCORING)
 
                 .state(Outtake.SCORING)
                 .onEnter(out::Score)
-                .transition(() -> gamepad.a, Outtake.LOITERING)
+                .transition(() -> gamepad.b, Outtake.LOITERING)
 
                 .build();
     }
 
     enum Outtake {
-        LOITERING, TRANSFERRING, SCORING
+        LOITERING, TRANSFERRING, SCORING, MOVE
     }
 
     public enum Intake {

@@ -38,24 +38,24 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.4);
     }
 
-    public boolean Transfer(Enum state) {
+    public void Transfer() {
         // Move the arm to the initial transfer position (0.28)
         outtakeArm.setPosition(0.28);
 
         // Close the claw (0.63)
         outtakeClaw.setPosition(0.63);
 
+    }
+
+    public boolean Move() {
+
         // Wait for confirmation from intake claw: vector
-        if (state == StateMachines.Intake.LOITER) {
-            // After confirmation, move the arm to the extended transfer position (0.8)
-            outtakeArm.setPosition(0.8);
+        // After confirmation, move the arm to the extended transfer position (0.8)
+        outtakeArm.setPosition(0.8);
 
-            // Move the flipper to 0.05 for the final transfer
-            outtakeFlipper.setPosition(0.05);
+        // Move the flipper to 0.05 for the final transfer
+        outtakeFlipper.setPosition(0.05);
 
-            return true;
-        }
-        return false;
 
     }
 
