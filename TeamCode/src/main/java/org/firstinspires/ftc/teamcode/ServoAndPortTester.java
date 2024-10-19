@@ -22,10 +22,11 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double IntakeVectoringHand = 0.43;
     public static double IntakeArmTurret = 0.43;
     public static double ExpServo5Pos = 0;
-        public static double SwingArmAngleDegrees = 162;
-    public static double HandTurretAngleDegrees = 0;
+        public static double SwingArmAngleDegrees = 90;
+    public static double HandTurretAngleDegrees = 174;
+    public static double offset = 186;
 
-    public static double OuttakeArmTicks = 0.0;
+    public static double OuttakeArmTicks = 0.7;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
@@ -86,7 +87,7 @@ public class ServoAndPortTester extends LinearOpMode {
 
 
             // Hand Turret Position
-            ExpServo0Pos = degreesToTicks(HandTurretAngleDegrees);
+            ExpServo0Pos = setHandTurretDegrees(HandTurretAngleDegrees); //degreesToTicks(HandTurretAngleDegrees);
             ExpansionHub0.setPosition(ExpServo0Pos);
             telemetry.addData("Hand Turret (Exp0) Position", ExpServo0Pos);
 
@@ -118,6 +119,15 @@ public class ServoAndPortTester extends LinearOpMode {
     public double degreesToTicksHandTurret(double d) {
         d = -d;
         return d / 327;
+    }
+
+    // only do degree values between -90 and 180 otherwise it will explode
+    public double setHandTurretDegrees(double d){
+        double t = (((d-offset)/270.0)+3)%1;
+        telemetry.addData("ticks", t);
+        telemetry.addData("degrees", d-180);
+        return t;
+
     }
 
 

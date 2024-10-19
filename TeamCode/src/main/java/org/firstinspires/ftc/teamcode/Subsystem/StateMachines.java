@@ -10,15 +10,15 @@ public class StateMachines {
         return new StateMachineBuilder()
                 .state(Intake.SCANNING)
                 .onEnter(hand::scan)
-                .transition(() -> gamepad.b)
+                .transition(() -> gamepad.a, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover)
-                .transition(() -> gamepad.a)
+                .transition(() -> gamepad.a, Intake.PICKUP)
 
                 .state(Intake.PICKUP)
                 .onEnter(hand::pickup)
-                .transition(() -> gamepad.a)
+                .transition(() -> gamepad.a, Intake.TRANSFER)
 
                 .state(Intake.TRANSFER)
                 .onEnter(hand::transfer)
@@ -47,8 +47,6 @@ public class StateMachines {
 
                 .state(Outtake.SCORING)
                 .onEnter(out::Score)
-
-
                 .transition(() -> gamepad.b, Outtake.LOITERING)
 
                 .build();

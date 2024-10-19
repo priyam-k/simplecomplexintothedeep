@@ -33,6 +33,14 @@ public class EnableHand implements Subsystem {
 
     }
 
+    public static double offset = 186;
+
+    // only do degree values between -90 and 180 otherwise it will explode
+    public double setHandTurretDegrees(double d){
+        return (((d-offset)/270.0)+3)%1;
+
+    }
+
     private double degreesToTicks(double d) {
         return d / 270;
     }
@@ -45,12 +53,19 @@ public class EnableHand implements Subsystem {
         Claw.setPosition(0.44);
     }
 
+    public double degreesToTicksSwingArm(double d) {
+        d = -d;
+        return d / 355 + 0.963;
+    }
+
+
 
     void setSwingArmAngle(double angle) {
-        double swingArmAngle = degreesToTicks(angle);
+        double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
     }
+
 
 
     public void scan() {
@@ -58,13 +73,13 @@ public class EnableHand implements Subsystem {
         setSwingArmAngle(60);
 
         // Intake arm turret: Intaking position
-        ArmTurr.setPosition(0.43);
+        ArmTurr.setPosition(0.44);
 
         // Claw in vectoring position
         open();
 
         // Hand turret angle to be determined
-        ClawTurr.setPosition(0.5); // Placeholder for TBD
+        ClawTurr.setPosition(setHandTurretDegrees(90)); // Placeholder for TBD
     }
 
     public void hover() {
@@ -82,10 +97,10 @@ public class EnableHand implements Subsystem {
 
     public void transfer() {
         // Swing arm angle to 175 degrees
-        setSwingArmAngle(175);
+        setSwingArmAngle(170);
 
         // Hand turret to 90 degrees
-        ArmTurr.setPosition(0.5); // 90 degrees assumed as 0.5
+        ClawTurr.setPosition(setHandTurretDegrees(0));
     }
 
     public void loiter() {
