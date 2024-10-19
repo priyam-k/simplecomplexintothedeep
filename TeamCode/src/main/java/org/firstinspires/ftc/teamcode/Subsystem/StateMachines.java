@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class StateMachines {
 
     public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
@@ -31,33 +33,32 @@ public class StateMachines {
                 .build();
     }
 
-    //Milav needs to redo
-    public static StateMachine getOuttakeStateMachine(Outtake out, Gamepad gamepad) {
+    public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad, StateMachine intake) {
+        AtomicBoolean check = new AtomicBoolean(false);
         return new StateMachineBuilder()
-                .state(Transfer.IDLING)
-                .onEnter(out::idle)
-                .transition(() -> gamepad.a)
+                .state(Outtake.LOITERING)
+                .onEnter(out::Loiter)
+                .transition(() -> gamepad.a, Outtake.TRANSFERRING)
 
-                .state(Transfer.GRABBING)
-                .onEnter(out::grab)
-                .transition(() -> gamepad.a)
+                .state(Outtake.TRANSFERRING)
+                .onEnter(() -> {
+                    check.set(out.Transfer(intake.getState()));
+                })
+                .transition(() -> check.get() && gamepad.a, Outtake.SCORING)
+                .onEnter(()->check.set(false))
 
-                .state(Transfer.FLIPPING)
-                .onEnter(out::flip)
-                .transition(() -> gamepad.a)
-
-                .state(Transfer.DROPPING)
-                .onEnter(out::drop)
-                .transition(() -> gamepad.a, Transfer.IDLING)
+                .state(Outtake.SCORING)
+                .onEnter(out::Score)
+                .transition(() -> gamepad.a, Outtake.LOITERING)
 
                 .build();
     }
 
-    enum Transfer {
-        IDLING, GRABBING, FLIPPING, DROPPING
+    enum Outtake {
+        LOITERING, TRANSFERRING, SCORING
     }
 
-    enum Intake {
+    public enum Intake {
         SCANNING, HOVERING, PICKUP, TRANSFER, LOITER
     }
 }

@@ -7,7 +7,7 @@ import com.sfdev.assembly.state.StateMachine;
 
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
-import org.firstinspires.ftc.teamcode.Subsystem.Outtake;
+import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
 
 @TeleOp(name="Generic Tele")
@@ -16,20 +16,21 @@ public class GenericTele extends LinearOpMode {
 
     Drivetrain drive;
     EnableHand hand;
-    Outtake out;
+    MiggyUnLimbetedOuttake out;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drivetrain();
         hand = new EnableHand();
-        out = new Outtake();
+        out = new MiggyUnLimbetedOuttake();
 
         drive.init(hardwareMap);
         hand.init(hardwareMap);
         out.init(hardwareMap);
 
-        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2);
         StateMachine intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
+        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+
 
         waitForStart();
 
