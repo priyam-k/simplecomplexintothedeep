@@ -34,41 +34,44 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     }
 
-    // Outtake claw open 0.44, outtake claw close 0.63
-    public void Loiter() {
-        // Set the arm to the latching position at 0.6
+    public void loiter1() {
+        // Set the arm to the latching position at 0.7
         Arm(0.7);
+    }
 
+    public void loiter2() {
         // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
+    }
 
-        // Set the flipper to position 0.4
+    public void loiter3() {
+        // Set the flipper to position 0.37
         outtakeFlipper.setPosition(0.37);
     }
 
-    public void Transfer() {
-        // Move the arm to the initial transfer position (0.28)
-       Arm(0.30);
+    public void transfer1() {
+        // Move the arm to the initial transfer position (0.30)
+        Arm(0.30);
+    }
 
+    public void transfer2() {
         // Close the claw (0.63)
         outtakeClaw.setPosition(0.63);
-
     }
 
-    public void Back() {
+    public void back1() {
+        // Move the arm to the extended transfer position (0.8)
+        Arm(0.7);
+    }
 
-        // Wait for confirmation from intake claw: vector
-        // After confirmation, move the arm to the extended transfer position (0.8)
-        Arm(0.8);
-
-        // Move the flipper to 0.05 for the final transfer
+    public void back2() {
+        // Move the flipper to 0.0 for final transfer
         outtakeFlipper.setPosition(0);
-
-
     }
 
-    public void Score() {
+    public void score() {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
+
 }
