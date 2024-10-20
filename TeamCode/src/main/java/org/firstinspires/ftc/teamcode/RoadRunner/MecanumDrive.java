@@ -60,17 +60,17 @@ public final class MecanumDrive {
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.UP;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT;
 
         // drive model parameters
-        public double inPerTick =  0.0010568771; //calculate using math
-        public double lateralInPerTick =  0.0007044523687902289;
-        public double trackWidthTicks = 414.3991715144548;
+        public double inPerTick =  96.0/2560.0; //calculate using math
+        public double lateralInPerTick =  96.0/2668.0;
+        public double trackWidthTicks = 35.0473077639511;
         //possibly real value of trackwidth in ticks/radian: 5451.79113271
 
         // feedforward parameters (in tick units)
-        public double kS = 1.5961816071924555;
-        public double kV = 0.00015352964921449752;
+        public double kS = 1.8382249212895898;
+        public double kV = 0.004830756407779646;
         public double kA = 0.000025;
 
         // path profile parameters (in inches)
@@ -140,7 +140,9 @@ public final class MecanumDrive {
             imu = lazyImu.get();
 
             // TODO: reverse encoders if needed
-            //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+               leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
         }
 
         @Override
@@ -240,7 +242,7 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new TwoDeadWheelLocalizer(hardwareMap,lazyImu.get(), PARAMS.inPerTick);
+        localizer = new DriveLocalizer();
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
