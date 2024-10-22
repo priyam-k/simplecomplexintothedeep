@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -32,8 +36,8 @@ MultipleTelemetry tele;
         slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         // Set motor direction if needed
         //TODO: reverse on of these
@@ -53,8 +57,21 @@ MultipleTelemetry tele;
             // Show the motor power in telemetry
             telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
             telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
+            telemetry.addData("Slide Motor right position ", slideMotorRight.getCurrentPosition());
+            telemetry.addData("Slide Motor left position ", slideMotorLeft.getCurrentPosition());
             telemetry.update();
 
         }
     }
+//    public Action slideUp() {
+//        return new Action() {
+//            int targetPos = 500;
+//            @Override
+//            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//                slideMotorLeft.setPower(0.8);
+//                slideMotorRight.setPower(0.8);
+//                return false;
+//            }
+//        };
+//    }
 }
