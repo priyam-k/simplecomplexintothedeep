@@ -60,7 +60,7 @@ public class EnableHand implements Subsystem {
 
 
 
-    void setSwingArmAngle(double angle) {
+    public void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);

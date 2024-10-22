@@ -30,9 +30,9 @@ public class Auto extends LinearOpMode {
         outtake.init(hardwareMap);
 
         StateMachine intakeMachine = StateMachines.getIntakeStateMachine(intake, gamepad2);
-        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(outtake, gamepad2, intakeMachine);
+        StateMachine outtakeMachine = StateMachines.getOuttakeStateMachine(outtake, gamepad2, intakeMachine);
 
-        transferMachine.start();
+        outtakeMachine.start();
         intakeMachine.start();
 
         while (opModeInInit()) {
@@ -46,13 +46,16 @@ public class Auto extends LinearOpMode {
         }
 
         while (opModeIsActive()){
-            transferMachine.update();
+            outtakeMachine.update();
             intakeMachine.update();
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
             //drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
             drive.drive(10);
-//            drive.alignAprilTag();
+            intake.setSwingArmAngle(90);
+            drive.alignAprilTag(15, 12);
+
+//            intakeMachine.setState(StateMachines.Intake.SCANNING1);
 
 
             telemetry.update();
