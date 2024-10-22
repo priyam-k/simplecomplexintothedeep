@@ -9,33 +9,28 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous (name = "BlueLlainceNetZone")
+@Autonomous (name = "BlueAllainceNetZone")
 public class BlueAllainceNetZone extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(70, 10, Math.toRadians(-110)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(0)));
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .lineToX(30)
-                .turn(Math.toRadians(-85))
-                .lineToY(43)
-                .turn(Math.toRadians(-95))
-                .lineToX(56)
-                .turn(Math.toRadians(-80))
-                .lineToY(56)
-                .turn(Math.toRadians(-50))
-                .lineToY(43)
-                .turn(Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(48, 42, Math.toRadians(-90)), Math.toRadians(-90))
                 .waitSeconds(1)
-                .turn(Math.toRadians(-60))
-                .lineToY(56)
+                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
                 .waitSeconds(1)
-                .turn(Math.toRadians(70))
-                .lineToY(43)
+                .splineToLinearHeading(new Pose2d(58, 42, Math.toRadians(-90)), Math.toRadians(-90))
                 .waitSeconds(1)
-                .lineToY(56)
-                .turn(Math.toRadians(-70))
+                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
+                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(58, 43, Math.toRadians(-60)), Math.toRadians(-90))
+                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
+                .waitSeconds(1)
+                .turn(Math.toRadians(17))
+                .lineToX(25)
                 .build();
         waitForStart();
 
