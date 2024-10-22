@@ -117,6 +117,7 @@ public class Drivetrain implements Subsystem {
             double rightBackPower = +strafe + drive + turn;
 
 
+
             //setting power to all motors
             LF.setPower(leftFrontPower);
             RF.setPower(rightFrontPower);

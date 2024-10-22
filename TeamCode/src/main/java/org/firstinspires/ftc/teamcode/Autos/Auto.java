@@ -54,6 +54,7 @@ public class Auto extends LinearOpMode {
             drive.drive(10);
 //            drive.alignAprilTag();
 
+
             telemetry.update();
         }
 
