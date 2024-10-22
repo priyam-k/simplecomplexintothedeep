@@ -132,6 +132,69 @@ public class Drivetrain implements Subsystem {
         }
     }// April tag method end
 
+    public void alignAprilTag(double distance, int tagID) {
+
+        //make an ArrayList to store the pose values for the april tags detected
+//        List<Double> yValues = new ArrayList<>();
+        //make an ArrayList to store all april tags detected
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+
+        desiredTag = null;
+        // get the tag matching target ID
+        for (int i = 0; i < currentDetections.size(); i++) {
+            if (currentDetections.get(i).id == tagID) {
+                desiredTag = currentDetections.get(i);
+            }
+        }
+
+        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
+        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
+        if (desiredTag != null) {
+            //assign the april tag that is the closest to desiredTag
+            desiredTag = currentDetections.get(targetTagID);
+
+            //make variables for all errors (for rotate, translate, and strafe)
+            double yawError = desiredTag.ftcPose.yaw; // positive error -> robot needs to move right
+            double rangeError = desiredTag.ftcPose.range - distance; // positive error -> robot needs to move forward
+            double headingError = desiredTag.ftcPose.bearing; // positive error -> robot needs to turn counterclockwise
+
+            //using PID to align robot to the april tag
+            double turn = Range.clip(headingError * turnGain, -1, 1);
+            double drive = Range.clip(rangeError * translateGain, -1, 1);
+            double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
+
+            //calculate the powers for all motors
+            double leftFrontPower = +strafe + drive - turn;
+            double rightFrontPower = -strafe + drive + turn;
+            double leftBackPower = -strafe + drive - turn;
+            double rightBackPower = +strafe + drive + turn;
+
+
+            //setting power to all motors
+            LF.setPower(leftFrontPower);
+            RF.setPower(rightFrontPower);
+            LR.setPower(leftBackPower);
+            RR.setPower(rightBackPower);
+
+        } else {
+            //if april tag is not visible, stop motor power
+            LF.setPower(0);
+            RF.setPower(0);
+            LR.setPower(0);
+            RR.setPower(0);
+        }
+    }// April tag method end
+
+    public void drive(double distance) {
+        // positive distance is forward, negative is backward
+    }
+
+    public void strafe(double distance) {
+        // positive distance is right, negative is left
+    }
+
     public void TeleopControl(double y, double x, double rx) {
         y = -y; // Remember, Y stick value is reversed
         y = Math.pow(y, 3);
@@ -175,7 +238,7 @@ public class Drivetrain implements Subsystem {
     }
 
     @Override
-    public void addTelemtry(Telemetry t) {
+    public void addTelemetry(Telemetry t) {
 
     }
     
