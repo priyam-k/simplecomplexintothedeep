@@ -54,10 +54,10 @@ public class Drivetrain implements Subsystem {
         RR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        LF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -181,8 +181,26 @@ public class Drivetrain implements Subsystem {
         }
     }// April tag method end
 
-    public void drive(double distance) {
-        // positive distance is forward, negative is backward
+    public void drive(double time, double power) {
+        // positive power is forward, negative is backward
+        // Set power to all motors
+        LF.setPower(power);
+        LR.setPower(power);
+        RF.setPower(power);
+        RR.setPower(power);
+
+        // Wait for the specified time
+        try {
+            Thread.sleep((long) time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Stop all motors
+        LF.setPower(0);
+        LR.setPower(0);
+        RF.setPower(0);
+        RR.setPower(0);
     }
 
     public void strafe(double distance) {
