@@ -33,7 +33,7 @@ public class ServoAndPortTester extends LinearOpMode {
     private Servo ControlHub2;
     private Servo ControlHub3;
     private Servo ControlHub4;
-    private Servo ControlHub5;
+    private Servo ControlHub5; // TODO make angle to tick thing, and have it set controlhub 3 and 5 to that angle
     private Servo ExpansionHub0;
     private Servo ExpansionHub1;
     private Servo ExpansionHub2;

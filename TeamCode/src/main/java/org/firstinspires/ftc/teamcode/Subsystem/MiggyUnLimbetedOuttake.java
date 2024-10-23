@@ -30,7 +30,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     @Override
-    public void addTelemtry(Telemetry t) {
+    public void addTelemetry(Telemetry t) {
 
     }
 
@@ -66,6 +66,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back2() {
         // Move the flipper to 0.0 for final transfer
+        
         outtakeFlipper.setPosition(0);
     }
 

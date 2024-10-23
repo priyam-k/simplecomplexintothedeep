@@ -21,6 +21,8 @@ public class Drivetrain implements Subsystem {
     public static double strafeGain = 0.03;
 
 
+
+
     private DcMotor LF, LR, RF, RR;
 
     //TODO: tune this on the new robot
@@ -39,7 +41,7 @@ public class Drivetrain implements Subsystem {
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        //VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
+        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
@@ -117,6 +119,7 @@ public class Drivetrain implements Subsystem {
             double rightBackPower = +strafe + drive + turn;
 
 
+
             //setting power to all motors
             LF.setPower(leftFrontPower);
             RF.setPower(rightFrontPower);
@@ -131,6 +134,80 @@ public class Drivetrain implements Subsystem {
             RR.setPower(0);
         }
     }// April tag method end
+
+    public void alignAprilTag(double distance, int tagID) {
+        // ArrayList to store all april tags detected
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        double time = System.currentTimeMillis(); // current time to keep track of loop time
+
+        // loop for 5 seconds to align to apriltags
+        while (System.currentTimeMillis() - time < 5000) {
+            desiredTag = null;
+            // get the tag matching target ID
+            for (int i = 0; i < currentDetections.size(); i++) {
+                if (currentDetections.get(i).id == tagID) {
+                    desiredTag = currentDetections.get(i);
+                }
+            }
+
+            // if a tag is found, align to it, otherwise stop motors
+            if (desiredTag != null) {
+                //make variables for all errors (for rotate, translate, and strafe)
+                double yawError = desiredTag.ftcPose.yaw; // positive error -> robot needs to move right
+                double rangeError = desiredTag.ftcPose.range - distance; // positive error -> robot needs to move forward
+                double headingError = desiredTag.ftcPose.bearing; // positive error -> robot needs to turn counterclockwise
+
+                //using PID to align robot to the april tag
+                double turn = Range.clip(headingError * turnGain, -1, 1);
+                double drive = Range.clip(rangeError * translateGain, -1, 1);
+                double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
+                //calculate the powers for all motors
+                double leftFrontPower = strafe + drive - turn;
+                double rightFrontPower = -strafe + drive + turn;
+                double leftBackPower = -strafe + drive - turn;
+                double rightBackPower = strafe + drive + turn;
+
+                //setting power to all motors
+                LF.setPower(leftFrontPower);
+                RF.setPower(rightFrontPower);
+                LR.setPower(leftBackPower);
+                RR.setPower(rightBackPower);
+            } else {
+                //if april tag is not visible, stop motor power
+                LF.setPower(0);
+                RF.setPower(0);
+                LR.setPower(0);
+                RR.setPower(0);
+            }
+        }
+    }// April tag method end
+
+    public void drive(double time, double power) {
+        // positive power is forward, negative is backward
+        // Set power to all motors
+        LF.setPower(power);
+        LR.setPower(power);
+        RF.setPower(power);
+        RR.setPower(power);
+
+        // Wait for the specified time
+        try {
+            Thread.sleep((long) time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Stop all motors
+        LF.setPower(0);
+        LR.setPower(0);
+        RF.setPower(0);
+        RR.setPower(0);
+    }
+
+    public void strafe(double distance) {
+        // positive distance is right, negative is left
+    }
 
     public void TeleopControl(double y, double x, double rx) {
         y = -y; // Remember, Y stick value is reversed
@@ -175,7 +252,7 @@ public class Drivetrain implements Subsystem {
     }
 
     @Override
-    public void addTelemtry(Telemetry t) {
+    public void addTelemetry(Telemetry t) {
 
     }
     

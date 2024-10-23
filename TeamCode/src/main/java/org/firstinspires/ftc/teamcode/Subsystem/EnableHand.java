@@ -29,7 +29,7 @@ public class EnableHand implements Subsystem {
     }
 
     @Override
-    public void addTelemtry(Telemetry t) {
+    public void addTelemetry(Telemetry t) {
 
     }
 
@@ -60,10 +60,11 @@ public class EnableHand implements Subsystem {
 
 
 
-    void setSwingArmAngle(double angle) {
+    public void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
+        ArmTurr.setPosition(0.44);
     }
 
 

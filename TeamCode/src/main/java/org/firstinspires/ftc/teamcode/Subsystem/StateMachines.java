@@ -44,15 +44,15 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER1)
                 .onEnter(hand::transfer1)
-                .transitionTimed(0.75, Intake.TRANSFER1dot5)
+                .transitionTimed(0.75, Intake.TRANSFER2)
 
                 .waitState(0.5)
 
-                .state(Intake.TRANSFER1dot5)
-                .onEnter(hand::transfer1point5)
-                .transitionTimed(0.75, Intake.TRANSFER2)
-
                 .state(Intake.TRANSFER2)
+                .onEnter(hand::transfer1point5)
+                .transitionTimed(0.75, Intake.TRANSFER3)
+
+                .state(Intake.TRANSFER3)
                 .onEnter(hand::transfer2)
                 .transition(() -> gamepad.a, Intake.WAIT2)
 
@@ -62,12 +62,12 @@ public class StateMachines {
                 .build();
     }
 
-    enum Intake {
+    public enum Intake {
         SCANNING1, SCANNING2, SCANNING3, SCANNING4,
         WAIT,WAIT2,
         HOVERING,
         PICKUP1, PICKUP2,
-        TRANSFER1, TRANSFER1dot5, TRANSFER2,
+        TRANSFER1, TRANSFER2, TRANSFER3,
         LOITER
     }
 
@@ -84,7 +84,7 @@ public class StateMachines {
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
-                .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
@@ -111,7 +111,7 @@ public class StateMachines {
                 .build();
     }
 
-    enum Outtake {
+    public enum Outtake {
         LOITERING1, LOITERING2, LOITERING3,
         TRANSFERRING1, TRANSFERRING2,
         BACK1, BACK2,
