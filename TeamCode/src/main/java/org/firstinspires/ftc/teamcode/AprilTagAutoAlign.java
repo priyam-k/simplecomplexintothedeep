@@ -30,7 +30,7 @@ public class AprilTagAutoAlign extends LinearOpMode {
             drive.translateGain = translateGain;
             drive.strafeGain = strafeGain;
 
-            drive.alignAprilTag(distance);
+            drive.alignAprilTag(RandomdistanceUnits);
         }
 
         waitForStart();

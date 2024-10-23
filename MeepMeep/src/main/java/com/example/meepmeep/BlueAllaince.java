@@ -15,7 +15,7 @@ public class BlueAllaince {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 40, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(51.1, 34.4, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(51.1, 38.5, Math.toRadians(-90)), Math.toRadians(-90))
                 .waitSeconds(1)
                 .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
                 .waitSeconds(1)
