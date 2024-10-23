@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class EnableHand implements Subsystem {
 
-    private Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
+    public Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
 
     /*
     Latching on to the sample: 0.43
@@ -66,6 +66,8 @@ public class EnableHand implements Subsystem {
         RServoSwingArm.setPosition(swingArmAngle);
         ArmTurr.setPosition(0.44);
     }
+
+
 
 
 
