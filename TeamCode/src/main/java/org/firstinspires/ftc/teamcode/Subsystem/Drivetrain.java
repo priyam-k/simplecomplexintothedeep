@@ -21,6 +21,8 @@ public class Drivetrain implements Subsystem {
     public static double strafeGain = 0.03;
 
 
+
+
     private DcMotor LF, LR, RF, RR;
 
     //TODO: tune this on the new robot
@@ -39,7 +41,7 @@ public class Drivetrain implements Subsystem {
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        //VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
+        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
@@ -54,10 +56,10 @@ public class Drivetrain implements Subsystem {
         RR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -161,10 +163,10 @@ public class Drivetrain implements Subsystem {
                 double strafe = Range.clip(yawError * strafeGain, -1, 1);
 
                 //calculate the powers for all motors
-                double leftFrontPower = +strafe + drive - turn;
+                double leftFrontPower = strafe + drive - turn;
                 double rightFrontPower = -strafe + drive + turn;
                 double leftBackPower = -strafe + drive - turn;
-                double rightBackPower = +strafe + drive + turn;
+                double rightBackPower = strafe + drive + turn;
 
                 //setting power to all motors
                 LF.setPower(leftFrontPower);

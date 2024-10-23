@@ -33,8 +33,8 @@ MultipleTelemetry tele;
         slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
         slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
 
-        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
         slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -58,7 +58,6 @@ MultipleTelemetry tele;
             telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
             telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
             telemetry.addData("Slide Motor right position ", slideMotorRight.getCurrentPosition());
-            telemetry.addData("Slide Motor left position ", slideMotorLeft.getCurrentPosition());
             telemetry.update();
 
         }
