@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
 
-@Autonomous(name = "BlueAllaince1_2")
+@Autonomous(name = "BlueAlliance1_2")
 public class BlueAllaince1_1 extends LinearOpMode {
 
 
@@ -29,7 +29,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SlideControl slides = new SlideControl();
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(0)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(270)));
         hand = new EnableHand();
 
 
@@ -47,6 +47,9 @@ public class BlueAllaince1_1 extends LinearOpMode {
 //                .turn(Math.toRadians(15))
 //
 //                .lineToX(23)
+                .build();
+        Action Traj2 = drive.actionBuilder(drive.pose)
+               .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
                 .build();
 
 
@@ -186,23 +189,24 @@ public class BlueAllaince1_1 extends LinearOpMode {
                             out.back1();
                             return false;
                         }, new SleepAction(0.8),
-                        telemetryPacket -> {
-                            telemetry.addLine("Back 2");
-                            telemetry.update();
-                            out.back2();
-                            return false;
-                        }, new SleepAction(0.8),
+                                telemetryPacket -> {
+                                    telemetry.addLine("Back 2");
+                                    telemetry.update();
+                                    out.back2();
+                                    return false;
+                                }, new SleepAction(0.8),
                         telemetryPacket -> {
                             telemetry.addLine("Score");
                             telemetry.update();
                             out.score();
                             return false;
-                        }
+                        }, new SleepAction(0.8),
+                                Traj2
 
 
                 )
         ));
-//        Actions.runBlocking(slides.slideUp());
+//       Actions.runBlocking(slides.slideUp());
 
 
     }
