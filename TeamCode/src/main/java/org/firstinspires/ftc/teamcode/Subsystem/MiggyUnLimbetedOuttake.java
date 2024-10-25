@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -8,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class MiggyUnLimbetedOuttake implements Subsystem {
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
 
+    DcMotorEx Rlift,Llift;
+
     @Override
     public void init(HardwareMap hardwareMap) {
         // Initialize servos with corresponding hardware names
@@ -15,6 +20,23 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeArm2 = hardwareMap.get(Servo.class, "Servo3");
         outtakeClaw = hardwareMap.get(Servo.class, "Servo0");
         outtakeFlipper = hardwareMap.get(Servo.class, "Servo1");
+        Rlift = hardwareMap.get(DcMotorEx.class, "rightLift");
+        Llift = hardwareMap.get(DcMotorEx.class, "leftLift");
+
+        Rlift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Llift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //TODO: EXPIRAMENT WITH REVERSING ONE MOTOR
+        // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Llift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    public void Lift(double x){
+        Rlift.setPower(x);
+        Llift.setPower(x);
     }
 
 

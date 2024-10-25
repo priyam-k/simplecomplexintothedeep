@@ -41,6 +41,7 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
+            out.Lift(gamepad2.left_stick_y);
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
