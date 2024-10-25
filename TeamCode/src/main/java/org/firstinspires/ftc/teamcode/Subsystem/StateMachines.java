@@ -31,7 +31,8 @@ public class StateMachines {
                 .transitionTimed(1, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
-                .onEnter(hand::hover)
+                .onEnter(hand::hover1)
+                .loop(hand::hover2)
                 .transition(() -> gamepad.a, Intake.PICKUP1)
 
                 .state(Intake.PICKUP1)

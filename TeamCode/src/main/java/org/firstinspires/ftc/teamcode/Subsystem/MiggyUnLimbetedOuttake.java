@@ -97,4 +97,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.44);
     }
 
+    public void autonInit() {
+        //flipper shoudl be in loiterng but claw should be lclosed
+        loiter1();
+        transfer2();
+        loiter3();
+    }
 }

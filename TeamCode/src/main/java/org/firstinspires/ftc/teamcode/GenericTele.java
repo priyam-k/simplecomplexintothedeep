@@ -26,7 +26,7 @@ public class GenericTele extends LinearOpMode {
         out = new MiggyUnLimbetedOuttake();
 
         drive.init(hardwareMap);
-        hand.init(hardwareMap);
+        hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
         StateMachine intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);

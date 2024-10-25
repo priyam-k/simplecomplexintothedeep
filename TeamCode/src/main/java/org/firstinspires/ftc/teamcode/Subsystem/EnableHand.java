@@ -13,6 +13,7 @@ public class EnableHand implements Subsystem {
     Gamepad gamepad;
 
     boolean wasPressed = false;
+    boolean wasPressedR = false;
     boolean waspressedGP = false;
 
     private double ANGLE = 90;
@@ -22,6 +23,13 @@ public class EnableHand implements Subsystem {
     Vectoring position: 0.6
      */
     @Override
+    public void init(HardwareMap hardwareMap) {
+        Claw = hardwareMap.get(Servo.class, "Servo9");
+        LServoSwingArm = hardwareMap.get(Servo.class, "Servo7"); // left servo for intake swing arm
+        RServoSwingArm = hardwareMap.get(Servo.class, "Servo8"); // right servo for intake swing arm
+        ArmTurr = hardwareMap.get(Servo.class, "Servo10");
+        ClawTurr = hardwareMap.get(Servo.class, "Servo6");
+    }
     public void init(HardwareMap hardwareMap,Gamepad g2) {
         Claw = hardwareMap.get(Servo.class, "Servo9");
         LServoSwingArm = hardwareMap.get(Servo.class, "Servo7"); // left servo for intake swing arm
@@ -30,7 +38,6 @@ public class EnableHand implements Subsystem {
         ClawTurr = hardwareMap.get(Servo.class, "Servo6");
         gamepad = g2;
     }
-
     @Override
     public void update() {
 
@@ -79,7 +86,6 @@ public class EnableHand implements Subsystem {
 
 
 
-
     public void scan1() {
         // Swing arm to 60 degrees
         setSwingArmAngle(60);
@@ -100,27 +106,24 @@ public class EnableHand implements Subsystem {
         ClawTurr.setPosition(setHandTurretDegrees(0)); // Placeholder for TBD
     }
 
-    public void hover() {
-        setSwingArmAngle(15);
-        setHandTurretDegrees(ANGLE);
-        // Swing arm angle at 15 degrees
-        while (!gamepad.a && !waspressedGP ) {
-            if (gamepad.dpad_left) {
-                wasPressed = true;
-            }
-            if(!gamepad.dpad_left && wasPressed){
-                setHandTurretDegrees(ANGLE - 5);
-            }
-            if(!gamepad.dpad_right && wasPressed){
-                setHandTurretDegrees(ANGLE + 5);
-            }
-
-            if (gamepad.dpad_right) {
-                wasPressed = true;
-            }
-            if (gamepad.a){
-                waspressedGP = true;
-            }
+    public void hover1(){
+        setHandTurretDegrees(0);
+    }
+    public void hover2() {
+        setSwingArmAngle(15);// Swing arm angle at 15 degrees
+        if (gamepad.dpad_left) {
+            wasPressed = true;
+        }
+        if (gamepad.dpad_right) {
+            wasPressedR = true;
+        }
+        if(!gamepad.dpad_left && wasPressed){
+            setHandTurretDegrees(ANGLE - 5);
+            wasPressed = false;
+        }
+        if(!gamepad.dpad_right && wasPressed){
+            setHandTurretDegrees(ANGLE + 5);
+            wasPressedR = false;
         }
     }
 
