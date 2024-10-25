@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.SingleUse;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
-
+@TeleOp(name = "REV Lights opmode")
 public class REVLightsOpmode extends LinearOpMode {
 
 
@@ -16,7 +17,8 @@ public class REVLightsOpmode extends LinearOpMode {
 
         redLED = hardwareMap.get(DigitalChannel.class, "red");
         greenLED = hardwareMap.get(DigitalChannel.class, "green");
-        yellowLED = hardwareMap.get(DigitalChannel.class, "yellow");
+
+//        yellowLED = hardwareMap.get(DigitalChannel.class, "yellow");
 
         redLED.setMode(DigitalChannel.Mode.OUTPUT);
         greenLED.setMode(DigitalChannel.Mode.OUTPUT);
@@ -25,17 +27,19 @@ public class REVLightsOpmode extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (gamepad1.a)
-                redLED.setState(true);
-            redLED.setState(false);
-
-            if (gamepad1.b)
-                greenLED.setState(true);
-            greenLED.setState(false);
-
-            if (gamepad1.x)
-                yellowLED.setState(true);
-            yellowLED.setState(false);
+//            if (gamepad1.a)
+//                redLED.setState(true);
+//            redLED.setState(false);
+//
+//            if (gamepad1.b)
+//                greenLED.setState(true);
+//            greenLED.setState(false);
+//
+//            if (gamepad1.x)
+//                yellowLED.setState(true);
+//            yellowLED.setState(false);
+            greenLED.setState(true);
+            redLED.setState(true);
 
         }
 
