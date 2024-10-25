@@ -42,14 +42,16 @@ public class BlueAllaince1_1 extends LinearOpMode {
         Action myTrajectory = drive.actionBuilder(drive.pose)
                 .splineToLinearHeading(new Pose2d(51.1, 38.5, Math.toRadians(-90)), Math.toRadians(-90))
 //                .waitSeconds(1)
-//                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
-//                .waitSeconds(1)
-//                .turn(Math.toRadians(15))
+//                .
 //
 //                .lineToX(23)
                 .build();
         Action Traj2 = drive.actionBuilder(drive.pose)
                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
+                .build();
+        Action parkTraj = drive.actionBuilder(drive.pose)
+                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
+                .turn(Math.toRadians(15))
                 .build();
 
 
@@ -183,26 +185,29 @@ public class BlueAllaince1_1 extends LinearOpMode {
                             out.transfer2();
                             return false;
                         }, new SleepAction(0.8),
+                        //Goes to basket pistion
+                        Traj2,
+
+
+
                         telemetryPacket -> {
                             telemetry.addLine("Back 1");
                             telemetry.update();
                             out.back1();
                             return false;
-                        }, new SleepAction(0.8),
-                                telemetryPacket -> {
-                                    telemetry.addLine("Back 2");
-                                    telemetry.update();
-                                    out.back2();
-                                    return false;
-                                }, new SleepAction(0.8),
+                            }, new SleepAction(0.8),
+                        telemetryPacket -> {
+                            telemetry.addLine("Back 2");
+                            telemetry.update();
+                            out.back2();
+                            return false;
+                            }, new SleepAction(0.8),
                         telemetryPacket -> {
                             telemetry.addLine("Score");
                             telemetry.update();
                             out.score();
                             return false;
-                        }, new SleepAction(0.8),
-                                Traj2
-
+                            }, new SleepAction(0.8)
 
                 )
         ));

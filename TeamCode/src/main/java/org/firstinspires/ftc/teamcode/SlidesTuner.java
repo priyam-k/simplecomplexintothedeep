@@ -18,6 +18,7 @@ public class SlidesTuner extends LinearOpMode {
     private DcMotorEx slideMotorLeft;
 
     public static double Kp, targetPos;
+    // MAX POS IS 5279 TICKS
     @Override
     public void runOpMode() throws InterruptedException {
         slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
@@ -32,8 +33,7 @@ public class SlidesTuner extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             // obtain the encoder position
-            double encoderPositionRight = slideMotorRight.getCurrentPosition();
-
+            double encoderPositionRight = -slideMotorRight.getCurrentPosition();
             // calculate the error
             double error = targetPos - encoderPositionRight;
             //
