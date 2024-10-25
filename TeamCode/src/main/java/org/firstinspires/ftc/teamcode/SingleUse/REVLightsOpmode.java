@@ -20,10 +20,11 @@ public class REVLightsOpmode extends LinearOpMode {
 
 //        yellowLED = hardwareMap.get(DigitalChannel.class, "yellow");
 
-        redLED.setMode(DigitalChannel.Mode.OUTPUT);
-        greenLED.setMode(DigitalChannel.Mode.OUTPUT);
+
 
         waitForStart();
+        redLED.setMode(DigitalChannel.Mode.OUTPUT);
+        greenLED.setMode(DigitalChannel.Mode.OUTPUT);
 
         while (opModeIsActive()) {
 

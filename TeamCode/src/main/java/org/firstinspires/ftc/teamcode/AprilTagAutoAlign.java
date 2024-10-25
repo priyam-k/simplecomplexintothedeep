@@ -13,9 +13,9 @@ public class AprilTagAutoAlign extends LinearOpMode {
 
     public static double turnGain = 0.04;
     public static double translateGain = 0.2;
-    public static double strafeGain = 0.0001;
+    public static double strafeGain = 0.01;
 
-    public static double RandomdistanceUnits = 12.0;
+    public static double RandomdistanceUnits = 24.0;
 
     Drivetrain drive = new Drivetrain();
     EnableHand intake = new EnableHand();
