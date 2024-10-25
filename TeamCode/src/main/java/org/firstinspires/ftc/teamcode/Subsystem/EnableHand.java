@@ -89,7 +89,7 @@ public class EnableHand implements Subsystem {
 
     public void scan4() {
         // Hand turret angle to 90 degrees (TBD)
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Placeholder for TBD
+        ClawTurr.setPosition(setHandTurretDegrees(0)); // Placeholder for TBD
     }
 
     public void hover() {
