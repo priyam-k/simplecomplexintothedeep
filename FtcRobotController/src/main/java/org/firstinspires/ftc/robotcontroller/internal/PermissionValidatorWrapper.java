@@ -78,7 +78,7 @@ public class PermissionValidatorWrapper extends PermissionValidatorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInsxtanceState);
+        super.onCreate(savedInstanceState);
 
         permissions = robotControllerPermissions;
     }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -9,18 +10,25 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class EnableHand implements Subsystem {
 
     public Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
+    Gamepad gamepad;
+
+    boolean wasPressed = false;
+    boolean waspressedGP = false;
+
+    private double ANGLE = 90;
 
     /*
     Latching on to the sample: 0.43
     Vectoring position: 0.6
      */
     @Override
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap,Gamepad g2) {
         Claw = hardwareMap.get(Servo.class, "Servo9");
         LServoSwingArm = hardwareMap.get(Servo.class, "Servo7"); // left servo for intake swing arm
         RServoSwingArm = hardwareMap.get(Servo.class, "Servo8"); // right servo for intake swing arm
         ArmTurr = hardwareMap.get(Servo.class, "Servo10");
         ClawTurr = hardwareMap.get(Servo.class, "Servo6");
+        gamepad = g2;
     }
 
     @Override
@@ -93,7 +101,30 @@ public class EnableHand implements Subsystem {
     }
 
     public void hover() {
+        setSwingArmAngle(15);
+        setHandTurretDegrees(ANGLE);
         // Swing arm angle at 15 degrees
+        while (!gamepad.a && !waspressedGP ) {
+            if (gamepad.dpad_left) {
+                wasPressed = true;
+            }
+            if(!gamepad.dpad_left && wasPressed){
+                setHandTurretDegrees(ANGLE - 5);
+            }
+            if(!gamepad.dpad_right && wasPressed){
+                setHandTurretDegrees(ANGLE + 5);
+            }
+
+            if (gamepad.dpad_right) {
+                wasPressed = true;
+            }
+            if (gamepad.a){
+                waspressedGP = true;
+            }
+        }
+    }
+
+    public void hoverAuto(){
         setSwingArmAngle(15);
     }
 
