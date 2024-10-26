@@ -104,6 +104,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         transfer2();
         loiter3();
     }
+
+    public void SlidesBrake(){
+        Rlift.setPower(0);
+        Llift.setPower(0);
+    }
     public void PIDLoop(double targetPos) {
         double cuurentPos = -Rlift.getCurrentPosition();
             double error = targetPos - cuurentPos;

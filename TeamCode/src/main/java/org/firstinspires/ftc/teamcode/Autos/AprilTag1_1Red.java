@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autos;
 
-import android.transition.Slide;
-
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -15,18 +12,15 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
-
-@Config
-@Autonomous(name = "April Tag Auto Align")
-public class AprilTagAutoAlign extends LinearOpMode {
-
+@Autonomous(name = "April Tag Red 1 Parking")
+public class AprilTag1_1Red extends LinearOpMode {
     public static double turnGain = 0.04;
     public static double translateGain = 0.2;
     public static double strafeGain = 0.01;
 
-    public static double RandomdistanceUnits = 25.0;
+    public static double RandomdistanceUnits = 32.0;
 
-    public static double SlideTicks = 2000;
+    public static double SlideTicks = 2300;
 
     Drivetrain drive = new Drivetrain();
     EnableHand intake = new EnableHand();
@@ -36,20 +30,23 @@ public class AprilTagAutoAlign extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-       // MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, -31, Math.toRadians(270)));
+        MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, -36, Math.toRadians(270)));
         intake.init(hardwareMap);
         drive.init(hardwareMap);
         outake.init(hardwareMap);
+        intake.setSwingArmAngleAuton(90);
         outake.autonInit();
-//        Action myTrajectory = drive2.actionBuilder(drive2.pose)
-//                .splineToLinearHeading(new Pose2d(-37, -33, Math.toRadians(90)), Math.toRadians(90))
-//                .splineToLinearHeading(new Pose2d(-26, -9, Math.toRadians(90)), Math.toRadians(0))
-//                .build();
 
+        Action myTrajectory = drive2.actionBuilder(drive2.pose)
+                .splineToLinearHeading(new Pose2d(37, -33, Math.toRadians(270)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(26, -9, Math.toRadians(0)), Math.toRadians(180))
+                .build();
+
+        while (!isStopRequested() && !opModeIsActive()) {
+        }
         waitForStart();
 
-
-        intake.setSwingArmAngleAuton(90);
+        if (isStopRequested()) return;
 
         //moving back to see april tags
         drive.drive(700, -0.5);
@@ -68,20 +65,17 @@ public class AprilTagAutoAlign extends LinearOpMode {
                 outake.back2();
             }
             else if (time.seconds()<6){
-                outake.PIDLoop(SlideTicks-500);
+                outake.PIDLoop(SlideTicks-700);
             }
             else if (time.seconds()<8){
                 outake.score();
             }
             else if(time.seconds()<9){
                 outake.PIDLoop(100);
-                //Actions.runBlocking(new SequentialAction(myTrajectory));
+                Actions.runBlocking(new SequentialAction(myTrajectory));
             }
             else if(time.seconds()<10){
                 outake.SlidesBrake();
-                outake.loiter1();
-                outake.loiter2();
-                outake.loiter3();
             }
 
 
@@ -89,3 +83,4 @@ public class AprilTagAutoAlign extends LinearOpMode {
         }
     }
 }
+

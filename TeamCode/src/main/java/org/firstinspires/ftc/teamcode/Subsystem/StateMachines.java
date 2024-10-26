@@ -13,22 +13,22 @@ public class StateMachines {
 
                 .state(Intake.SCANNING1)
                 .onEnter(hand::scan1)
-                .transitionTimed(0.5, Intake.SCANNING2)
+                .transitionTimed(0.25, Intake.SCANNING2)
 
                 .state(Intake.SCANNING2)
                 .onEnter(hand::scan2)
-                .transitionTimed(0.5, Intake.SCANNING3)
+                .transitionTimed(0.25, Intake.SCANNING3)
 
                 .state(Intake.SCANNING3)
                 .onEnter(hand::scan3)
-                .transitionTimed(0.50, Intake.SCANNING4)
+                .transitionTimed(0.25, Intake.SCANNING4)
 
                 .state(Intake.SCANNING4)
                 .onEnter(hand::scan4)
                 .transition(() -> gamepad.a, Intake.WAIT)
 
                 .state(Intake.WAIT)
-                .transitionTimed(0.5, Intake.HOVERING)
+                .transitionTimed(0.25, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)
@@ -37,7 +37,7 @@ public class StateMachines {
 
                 .state(Intake.PICKUP1)
                 .onEnter(hand::pickup1)
-                .transitionTimed(0.5, Intake.PICKUP2)
+                .transitionTimed(0.25, Intake.PICKUP2)
 
                 .state(Intake.PICKUP2)
                 .onEnter(hand::pickup2)
@@ -47,20 +47,20 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER1)
                 .onEnter(hand::transfer1)
-                .transitionTimed(0.5, Intake.TRANSFER2)
+                .transitionTimed(0.25, Intake.TRANSFER2)
 
                 .waitState(0.5)
 
                 .state(Intake.TRANSFER2)
                 .onEnter(hand::transfer1point5)
-                .transitionTimed(0.5, Intake.TRANSFER3)
+                .transitionTimed(0.25, Intake.TRANSFER3)
 
                 .state(Intake.TRANSFER3)
                 .onEnter(hand::transfer2)
                 .transition(() -> gamepad.a, Intake.WAIT2)
 
                 .state(Intake.WAIT2)
-                .transitionTimed(0.5, Intake.LOITER)
+                .transitionTimed(0.25, Intake.LOITER)
 
                 .build();
     }
@@ -105,7 +105,7 @@ public class StateMachines {
                 .onEnter(out::back2)
                 .transition(() -> gamepad.b, Outtake.SCORING)
 
-                .waitState(0.75)
+                .waitState(0.5)
 
                 .state(Outtake.SCORING)
                 .onEnter(out::score)
