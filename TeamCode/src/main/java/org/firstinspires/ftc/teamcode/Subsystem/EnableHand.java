@@ -75,11 +75,12 @@ public class EnableHand implements Subsystem {
 
 
 
+
     public void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.44);
+        ArmTurr.setPosition(0.46);
     }
 
 
@@ -108,9 +109,10 @@ public class EnableHand implements Subsystem {
 
     public void hover1(){
         setHandTurretDegrees(0);
+        setSwingArmAngle(15);// Swing arm angle at 15 degrees
     }
     public void hover2() {
-        setSwingArmAngle(15);// Swing arm angle at 15 degrees
+
         if (gamepad.dpad_left) {
             wasPressed = true;
         }
@@ -118,17 +120,18 @@ public class EnableHand implements Subsystem {
             wasPressedR = true;
         }
         if(!gamepad.dpad_left && wasPressed){
-            setHandTurretDegrees(ANGLE - 5);
+            ClawTurr.setPosition(ClawTurr.getPosition()+0.05);
             wasPressed = false;
         }
-        if(!gamepad.dpad_right && wasPressed){
-            setHandTurretDegrees(ANGLE + 5);
+        if(!gamepad.dpad_right && wasPressedR){
+            ClawTurr.setPosition(ClawTurr.getPosition()-0.05);
             wasPressedR = false;
         }
     }
 
     public void hoverAuto(){
         setSwingArmAngle(15);
+
     }
 
     public void pickup1() {

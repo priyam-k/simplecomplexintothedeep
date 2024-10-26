@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
+    public static double kP = 0.006;
 
     DcMotorEx Rlift,Llift;
 
@@ -30,7 +31,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Llift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -102,5 +103,15 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         loiter1();
         transfer2();
         loiter3();
+    }
+    public void PIDLoop(double targetPos) {
+        double cuurentPos = -Rlift.getCurrentPosition();
+            double error = targetPos - cuurentPos;
+
+            double out = -(kP * error) ;
+
+            Rlift.setPower(out);
+            Llift.setPower(out);
+
     }
 }

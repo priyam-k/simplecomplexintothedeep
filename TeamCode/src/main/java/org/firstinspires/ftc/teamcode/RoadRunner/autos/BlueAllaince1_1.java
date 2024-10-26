@@ -119,7 +119,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
                         telemetryPacket -> {
                             telemetry.addLine("Hovering");
                             telemetry.update();
-                            hand.hover();
+                            hand.hoverAuto();
                             return false;
                         },
                         new SleepAction(0.8),
@@ -215,16 +215,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
                                 telemetryPacket -> {
                                     telemetry.addLine("Slides");
                                     telemetry.update();
-                                    double encoderPositionRight = -slideMotorRight.getCurrentPosition();
-                                    while (encoderPositionRight <= targetPos + 50) {
-                                        encoderPositionRight = -slideMotorRight.getCurrentPosition();
-                                        double error = targetPos - encoderPositionRight;
-
-                                        double out = -(kP * error) ;
-
-                                        slideMotorRight.setPower(out);
-                                        slideMotorLeft.setPower(out);
-                                    }
+                                    out.PIDLoop(4400);
                                     return false;
                                 },
                                 new SleepAction(0.8),
