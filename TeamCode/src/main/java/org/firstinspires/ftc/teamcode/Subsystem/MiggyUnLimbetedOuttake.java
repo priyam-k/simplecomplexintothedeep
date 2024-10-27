@@ -35,6 +35,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     }
 
+    
     public void Lift(double x){
         Rlift.setPower(x);
         Llift.setPower(x);
