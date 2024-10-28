@@ -14,10 +14,10 @@ public class BlueAllaince {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 40, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(51.1, 38.5, Math.toRadians(-90)), Math.toRadians(-90))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 45, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-90)), Math.toRadians(-90))
                 .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(230)), Math.toRadians(100))
                 .waitSeconds(1)
 //                .splineToLinearHeading(new Pose2d(58, 42, Math.toRadians(-90)), Math.toRadians(-90))
 //                .waitSeconds(1)

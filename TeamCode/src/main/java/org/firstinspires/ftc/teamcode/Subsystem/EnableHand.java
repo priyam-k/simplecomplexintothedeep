@@ -137,7 +137,7 @@ public class EnableHand implements Subsystem {
     }
 
     public void hoverAuto(){
-        setSwingArmAngle(15);
+        setSwingArmAngle(30);
 
     }
 

@@ -71,6 +71,65 @@ public class Drivetrain implements Subsystem {
         LR.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    public double getPoseY() {
+        List<Double> yValues = new ArrayList<>();
+        desiredTag = null;
+        //make an ArrayList to store the april tags detected
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        // Extract y values from detections
+        for (AprilTagDetection detection : currentDetections) {
+            yValues.add(detection.ftcPose.y);
+        }
+        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
+        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
+        if (!yValues.isEmpty() && yValues.get(0) != null) {
+            double smallest_yVal = yValues.get(0);
+            int smallestIndex = 0;
+
+            // Find the detection with the smallest y value
+            for (int i = 1; i < yValues.size(); i++) {
+                if (yValues.get(i) < smallest_yVal) {
+                    smallest_yVal = yValues.get(i);
+                    smallestIndex = i;
+                }
+            }
+            //assign the april tag that is the closest to desiredTag
+            desiredTag = currentDetections.get(smallestIndex);
+            return desiredTag.ftcPose.y;
+        }
+        return 0;
+    }
+
+    public double getPoseX() {
+        List<Double> yValues = new ArrayList<>();
+        desiredTag = null;
+        //make an ArrayList to store the april tags detected
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+
+        // Extract y values from detections
+        for (AprilTagDetection detection : currentDetections) {
+            yValues.add(detection.ftcPose.y);
+        }
+        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
+        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
+        if (!yValues.isEmpty() && yValues.get(0) != null) {
+            double smallest_yVal = yValues.get(0);
+            int smallestIndex = 0;
+
+            // Find the detection with the smallest y value
+            for (int i = 1; i < yValues.size(); i++) {
+                if (yValues.get(i) < smallest_yVal) {
+                    smallest_yVal = yValues.get(i);
+                    smallestIndex = i;
+                }
+            }
+            //assign the april tag that is the closest to desiredTag
+            desiredTag = currentDetections.get(smallestIndex);
+            return desiredTag.ftcPose.x;
+        }
+        return 0;
+    }
 
     public void alignAprilTag(double distance) {
 
