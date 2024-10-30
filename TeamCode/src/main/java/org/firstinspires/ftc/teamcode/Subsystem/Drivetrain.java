@@ -17,7 +17,7 @@ import java.util.List;
 public class Drivetrain implements Subsystem {
 
     public static double turnGain = 0.03;
-    public static double translateGain = 0.05;
+    public static double translateGain = 0.1;
     public static double strafeGain = 0.03;
 
 
