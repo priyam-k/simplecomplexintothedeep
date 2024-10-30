@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
+    public double currentPos;
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
     public static double kP = 0.006;
     boolean waspressedlift = false;
@@ -132,5 +134,16 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
             Rlift.setPower(out);
             Llift.setPower(out);
 
+    }
+    public void PIDLoopAuto(double targetPos) {
+        ElapsedTime timer = new ElapsedTime();
+        currentPos = -Rlift.getCurrentPosition();
+        while( currentPos < targetPos-300) {
+            double error = targetPos - currentPos;
+            double out = -(kP * error);
+            Rlift.setPower(out);
+            Llift.setPower(out);
+            currentPos = -Rlift.getCurrentPosition();
+        }
     }
 }

@@ -34,42 +34,32 @@ public class BlueAllaince1_1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SlideControl slides = new SlideControl();
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(270)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(0)));
         hand = new EnableHand();
 
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
-
-        slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
-        slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
-
-        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        slideMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         out.init(hardwareMap);
         hand.init(hardwareMap);
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(51.1, 38.5, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(50.8, 41.5, Math.toRadians(-90)), Math.toRadians(-90))
 //                .waitSeconds(1)
 //                .
 //
 //                .lineToX(23)
                 .build();
-        Action Traj2 = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
+        MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(50.8, 41.5, Math.toRadians(-90)));
+        Action Traj2 = drive2.actionBuilder(drive2.pose)
+                .splineToLinearHeading(new Pose2d(59.2 , 56.2, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
                 .build();
-        Action parkTraj = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(53.2, 47.9, Math.toRadians(225)), Math.toRadians(100))
-                .turn(Math.toRadians(15))
-                .lineToX(23)
-                .build();
+//        Action parkTraj = drive.actionBuilder(drive.pose)
+//                .splineToLinearHeading(new Pose2d(50.6, 34.3, Math.toRadians(225)), Math.toRadians(100))
+//                .turn(Math.toRadians(15))
+//                .lineToX(23)
+//                .build();
 
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -137,6 +127,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
                             telemetry.update();
                             hand.pickup2();
                             return false;
+
                         },
                         new SleepAction(0.8),
 
@@ -163,15 +154,6 @@ public class BlueAllaince1_1 extends LinearOpMode {
                             return false;
                         },
                         new SleepAction(0.8),
-
-                        telemetryPacket -> {
-                            telemetry.addLine("Loiter");
-                            telemetry.update();
-                            hand.loiter();
-                            return false;
-                        },
-                        new SleepAction(0.8),
-
                         new SequentialAction(
                                 telemetryPacket -> {
                                     telemetry.addLine("Loiter 1");
@@ -209,15 +191,15 @@ public class BlueAllaince1_1 extends LinearOpMode {
                                     return false;
                                 },
                                 new SleepAction(0.8),
-                                //Goes to basket pistion
-                                Traj2,
-                                new SleepAction(0.8),
                                 telemetryPacket -> {
-                                    telemetry.addLine("Slides");
+                                    telemetry.addLine("Loiter");
                                     telemetry.update();
-                                    out.PIDLoop(4400);
+                                    hand.loiter();
                                     return false;
                                 },
+                                new SleepAction(0.3),
+                                //Goes to basket pistion
+                                Traj2,
                                 new SleepAction(0.8),
                                 telemetryPacket -> {
                                     telemetry.addLine("Back 1");
@@ -227,11 +209,21 @@ public class BlueAllaince1_1 extends LinearOpMode {
                                 },
                                 new SleepAction(0.8),
                                 telemetryPacket -> {
+                                    telemetry.addData("Slides current pos ", out.currentPos);
+                                    telemetry.update();
+
+                                        out.PIDLoopAuto(3000);
+
+                                    return false;
+                                },
+                                new SleepAction(0.8),
+                                telemetryPacket -> {
                                     telemetry.addLine("Back 2");
                                     telemetry.update();
                                     out.back2();
                                     return false;
                                 },
+
                                 new SleepAction(0.8),
                                 telemetryPacket -> {
                                     telemetry.addLine("Score");
@@ -239,7 +231,26 @@ public class BlueAllaince1_1 extends LinearOpMode {
                                     out.score();
                                     return false;
                                 },
-                                new SleepAction(0.8)
+                                telemetryPacket -> {
+                                    telemetry.addLine("Set slides power to 0");
+                                    telemetry.update();
+                                    out.SlidesBrake();
+                                    return false;
+                                },
+                                new SleepAction(0.8),
+                                telemetryPacket -> {
+                                    telemetry.addLine("back 1 after placing");
+                                    telemetry.update();
+                                    out.back1();
+                                    return false;
+                                },
+                                telemetryPacket -> {
+                                    telemetry.addLine("Slides down");
+                                    telemetry.update();
+                                    out.PIDLoopAuto(0);
+                                    return false;
+                                }
+
 
                         )
                 ));
