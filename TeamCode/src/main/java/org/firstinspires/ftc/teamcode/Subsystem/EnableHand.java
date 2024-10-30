@@ -87,7 +87,7 @@ public class EnableHand implements Subsystem {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.46);
+        ArmTurr.setPosition(0.445);
     }
 
 

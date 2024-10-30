@@ -48,6 +48,9 @@ public class GenericTele extends LinearOpMode {
 
             drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
 
+
+            out.liftSetPos(gamepad2);
+
             telemetry.update();
         }
 

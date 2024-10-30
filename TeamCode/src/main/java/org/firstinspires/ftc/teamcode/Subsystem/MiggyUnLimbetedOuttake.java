@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class MiggyUnLimbetedOuttake implements Subsystem {
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
     public static double kP = 0.006;
+    boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
 
@@ -65,6 +67,18 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void loiter2() {
         // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
+    }
+
+    public void liftSetPos(Gamepad g) {
+        if(g.right_bumper){
+            waspressedlift = true;
+        }
+        if (!g.right_bumper && waspressedlift){
+            while (true) {
+                Lift(1.0);
+            }
+
+        }
     }
 
     public void loiter3() {
