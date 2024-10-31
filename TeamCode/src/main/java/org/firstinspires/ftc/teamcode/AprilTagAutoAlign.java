@@ -21,7 +21,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 public class AprilTagAutoAlign extends LinearOpMode {
 
     public static double turnGain = 0.04;
-    public static double translateGain = 0.2;
+    public static double translateGain = 0.1;
+    //makes sure all theese variable are chaging
+    //the more accurate one should be greater than 2
     public static double strafeGain = 0.01;
 
     public static double RandomdistanceUnits = 26.0;
