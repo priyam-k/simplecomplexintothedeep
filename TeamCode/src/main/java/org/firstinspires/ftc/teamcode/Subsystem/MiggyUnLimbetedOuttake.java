@@ -100,7 +100,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.7);
+        Arm(0.75);
     }
 
     public void back2() {

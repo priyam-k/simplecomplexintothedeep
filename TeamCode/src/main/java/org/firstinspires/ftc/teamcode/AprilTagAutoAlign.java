@@ -24,9 +24,9 @@ public class AprilTagAutoAlign extends LinearOpMode {
     public static double translateGain = 0.2;
     public static double strafeGain = 0.01;
 
-    public static double RandomdistanceUnits = 25.0;
+    public static double RandomdistanceUnits = 26.0;
 
-    public static double SlideTicks = 1700;
+    public static double SlideTicks = 2300;
 
     Drivetrain drive = new Drivetrain();
     EnableHand intake = new EnableHand();
@@ -48,13 +48,11 @@ public class AprilTagAutoAlign extends LinearOpMode {
 
         waitForStart();
 
-        Thread.sleep(10000);
-
 
         intake.setSwingArmAngleAuton(90);
 
         //moving back to see april tags
-        drive.drive(700, -0.5);
+        drive.drive(950, -0.5);
         time.reset();
         time.startTime();
 
@@ -69,17 +67,17 @@ public class AprilTagAutoAlign extends LinearOpMode {
                 outake.back1();
                 outake.back2();
             }
-            else if (time.seconds()<6){
-                outake.PIDLoop(SlideTicks-700);
+            else if (time.seconds()<10){
+                outake.PIDLoop(SlideTicks-1200);
             }
-            else if (time.seconds()<8){
+            else if (time.seconds()<11){
                 outake.score();
             }
-            else if(time.seconds()<9){
+            else if(time.seconds()<13){
                 outake.PIDLoop(100);
                 //Actions.runBlocking(new SequentialAction(myTrajectory));
             }
-            else if(time.seconds()<10){
+            else if(time.seconds()<13.1){
                 outake.SlidesBrake();
                 outake.loiter1();
                 outake.loiter2();
