@@ -34,7 +34,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         //TODO: EXPIRAMENT WITH REVERSING ONE MOTOR
         // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
@@ -71,17 +71,17 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.44);
     }
 
-    public void liftSetPos(Gamepad g) {
-        if(g.right_bumper){
-            waspressedlift = true;
-        }
-        if (!g.right_bumper && waspressedlift){
-            while (true) {
-                Lift(1.0);
-            }
-
-        }
-    }
+//    public void liftSetPos(Gamepad g) {
+//        if(g.right_bumper){
+//            waspressedlift = true;
+//        }
+//        if (!g.right_bumper && waspressedlift){
+//            while (true) {
+//                Lift(1.0);
+//            }
+//
+//        }
+//    }
 
     public void loiter3() {
         // Set the flipper to position 0.37
@@ -100,7 +100,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.75);
+        Arm(0.65);
+    }
+    public void backAuton(){
+    Arm(0.8);
+    outtakeFlipper.setPosition(0);
     }
 
     public void back2() {
@@ -108,6 +112,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         
         outtakeFlipper.setPosition(0);
     }
+
 
     public void score() {
         // Open the claw to release the object (0.44)
@@ -126,7 +131,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Llift.setPower(0);
     }
     public void PIDLoop(double targetPos) {
-        double cuurentPos = -Rlift.getCurrentPosition();
+        double cuurentPos = Rlift.getCurrentPosition();
             double error = targetPos - cuurentPos;
 
             double out = -(kP * error) ;

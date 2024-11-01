@@ -22,6 +22,8 @@ public class SlideControl extends LinearOpMode {
     private DcMotorEx slideMotorLeft;
     private DcMotorEx slideMotorRight;
 
+    private boolean waspressed = false;
+
 MultipleTelemetry tele;
 
     @Override
@@ -33,11 +35,11 @@ MultipleTelemetry tele;
         slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
         slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
 
-        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set motor direction if needed
         //TODO: reverse on of these
@@ -49,14 +51,24 @@ MultipleTelemetry tele;
         // Run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            if(gamepad1.a){
+                waspressed = true;
+            }
+            if(!gamepad1.a && waspressed){
+                slideMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                slideMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                slideMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                waspressed = false;
+            }
+
                 slideMotorRight.setPower(gamepad1.left_stick_y);
                 slideMotorLeft.setPower(gamepad1.left_stick_y);
 
-            telemetry.addData("leftLiftCurrent AMPS: ", slideMotorLeft.getCurrent(CurrentUnit.AMPS));
-            telemetry.addData("rightLiftCurrent AMPS: ", slideMotorRight.getCurrent(CurrentUnit.AMPS));
+
+
             // Show the motor power in telemetry
-            telemetry.addData("Slide Motor Power right", slideMotorRight.getPower());
-            telemetry.addData("Slide Motor Power left", slideMotorLeft.getPower());
+            telemetry.addData("Power",gamepad1.left_stick_y);
             telemetry.addData("Slide Motor right position ", slideMotorRight.getCurrentPosition());
             telemetry.update();
 

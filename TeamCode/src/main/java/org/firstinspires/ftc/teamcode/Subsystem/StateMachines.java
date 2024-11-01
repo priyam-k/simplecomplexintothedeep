@@ -9,7 +9,7 @@ public class StateMachines {
         return new StateMachineBuilder()
                 .state(Intake.LOITER)
                 .onEnter(hand::loiter)
-                .transition(() -> gamepad.a, Intake.SCANNING1)
+                .transition(() -> gamepad.right_bumper, Intake.SCANNING1)
 
                 .state(Intake.SCANNING1)
                 .onEnter(hand::scan1)
@@ -25,7 +25,7 @@ public class StateMachines {
 
                 .state(Intake.SCANNING4)
                 .onEnter(hand::scan4)
-                .transition(() -> gamepad.a, Intake.WAIT)
+                .transition(() -> gamepad.right_bumper, Intake.WAIT)
 
                 .state(Intake.WAIT)
                 .transitionTimed(0.25, Intake.HOVERING)
@@ -33,7 +33,7 @@ public class StateMachines {
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)
                 .loop(hand::hover2)
-                .transition(() -> gamepad.a, Intake.PICKUP1)
+                .transition(() -> gamepad.right_bumper, Intake.PICKUP1)
 
                 .state(Intake.PICKUP1)
                 .onEnter(hand::pickup1)
@@ -41,7 +41,7 @@ public class StateMachines {
 
                 .state(Intake.PICKUP2)
                 .onEnter(hand::pickup2)
-                .transition(() -> gamepad.a, Intake.TRANSFER1)
+                .transition(() -> gamepad.right_bumper, Intake.TRANSFER1)
 
                 .waitState(0.5)
 
@@ -57,7 +57,7 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER3)
                 .onEnter(hand::transfer2)
-                .transition(() -> gamepad.a, Intake.WAIT2)
+                .transition(() -> gamepad.right_bumper, Intake.WAIT2)
 
                 .state(Intake.WAIT2)
                 .transitionTimed(0.25, Intake.LOITER)
@@ -78,16 +78,15 @@ public class StateMachines {
         return new StateMachineBuilder()
                 .state(Outtake.LOITERING1)
                 .onEnter(out::loiter1)
-                .transitionTimed(0.75, Outtake.LOITERING2)
+                .transitionTimed(0.25, Outtake.LOITERING2)
 
                 .state(Outtake.LOITERING2)
                 .onEnter(out::loiter2)
-                .transitionTimed(0.75, Outtake.LOITERING3)
-
+                .transitionTimed(0.25, Outtake.LOITERING3)
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
-                .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.left_bumper  && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
@@ -99,17 +98,17 @@ public class StateMachines {
 
                 .state(Outtake.BACK1)
                 .onEnter(out::back1)
-                .transitionTimed(0.75, Outtake.BACK2)
+                .transitionTimed(0.5, Outtake.BACK2)
 
                 .state(Outtake.BACK2)
                 .onEnter(out::back2)
-                .transition(() -> gamepad.b, Outtake.SCORING)
+                .transition(() -> gamepad.left_bumper, Outtake.SCORING)
 
                 .waitState(0.5)
 
                 .state(Outtake.SCORING)
                 .onEnter(out::score)
-                .transition(() -> gamepad.b, Outtake.LOITERING1)
+                .transition(() -> gamepad.left_bumper, Outtake.LOITERING1)
 
                 .build();
     }

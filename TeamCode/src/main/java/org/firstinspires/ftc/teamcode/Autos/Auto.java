@@ -54,9 +54,9 @@ public class Auto extends LinearOpMode {
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
             //drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
-            drive.drive(500, -0.5);
+          //  drive.drive(-0.3);
             intake.setSwingArmAngle(90);
-            drive.alignAprilTag(15, 12);
+            //drive.alignAprilTag(15, 12);
 
 //            intakeMachine.setState(StateMachines.Intake.SCANNING1);
 

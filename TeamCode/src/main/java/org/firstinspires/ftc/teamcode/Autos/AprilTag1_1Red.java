@@ -49,7 +49,7 @@ public class AprilTag1_1Red extends LinearOpMode {
         if (isStopRequested()) return;
 
         //moving back to see april tags
-        drive.drive(700, -0.5);
+        //drive.drive( -0.5);
         time.reset();
         time.startTime();
 

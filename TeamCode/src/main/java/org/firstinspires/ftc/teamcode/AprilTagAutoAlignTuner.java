@@ -22,13 +22,17 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Autonomous(name = "April Tag Tuner")
 
 public class AprilTagAutoAlignTuner extends LinearOpMode {
-    public static double  RandomdistanceUnits =28.0;
+    public static double  RandomdistanceUnits = 28.0;
     Drivetrain drive = new Drivetrain();
     EnableHand intake = new EnableHand();
     MiggyUnLimbetedOuttake outake = new MiggyUnLimbetedOuttake();
     private DcMotorEx slideMotorRight;
     private DcMotorEx slideMotorLeft;
-    public static double Kp = 0.06, targetPos;
+    public static double KpRange = 0,KpturnGain = 0,KpstrafeGain = 0;
+           //slides
+    public static double targetPos;
+
+    //second kp is 0.3
     public static double pos = 0.455;
     MultipleTelemetry tele;
 
@@ -42,23 +46,46 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
         DcMotorEx slideMotorRight = hardwareMap.get(DcMotorEx.class,"rightLift");
         Servo ArmTurr = hardwareMap.get(Servo.class, "Servo10");
         intake.setSwingArmAngleAuton(90);
+
+
         waitForStart();
         outake.back1();
         outake.back2();
         outake.transfer2();
+
+
+
+
+
+        //start cycling
         while(opModeIsActive())
         {
+            drive.translateGain = KpRange;
+            drive.turnGain =  KpturnGain ;
+            drive.strafeGain = KpstrafeGain;
+            //APRIL TAG STUFF
             ArmTurr.setPosition(pos);
-            drive.translateGain = Kp;
-            drive.alignAprilTag(RandomdistanceUnits);
+             double[] Eror = drive.alignAprilTagtuning(RandomdistanceUnits);
             // obtain the encoder position
+            tele.addData("Straffe error",Eror[0]);
+            //the target is zero
+            tele.addData("Range error", Eror[1]);
+            //current range
+            tele.addData("Random Distance Units it's", RandomdistanceUnits);
+            //target range
+            tele.addData("Turn error",Eror[2]);
+            //the target is 0
+
+
+
+            //SLIDES STUFF
             double encoderPositionRight = -slideMotorRight.getCurrentPosition();
             // calculate the error
            outake.PIDLoop(targetPos);
             //tele.addData("The motor power is: ", out);
-            tele.addData("Current position: ", encoderPositionRight);
-            tele.addData("Target position: ", targetPos);
-            tele.addData("Random Distance Units it's", RandomdistanceUnits);
+            tele.addData("Slides Current position:  ", encoderPositionRight);
+            tele.addData(" Slides Target position: ", targetPos);
+
             tele.update();
         }
     }

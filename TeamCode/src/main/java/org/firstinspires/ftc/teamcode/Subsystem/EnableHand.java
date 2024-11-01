@@ -87,7 +87,7 @@ public class EnableHand implements Subsystem {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.445);
+        ArmTurr.setPosition(0.45);
     }
 
 
@@ -111,11 +111,10 @@ public class EnableHand implements Subsystem {
 
     public void scan4() {
         // Hand turret angle to 90 degrees (TBD)
-        ClawTurr.setPosition(setHandTurretDegrees(0)); // Placeholder for TBD
+        ClawTurr.setPosition(setHandTurretDegrees(90)); // Placeholder for TBD
     }
 
     public void hover1(){
-        setHandTurretDegrees(0);
         setSwingArmAngle(15);// Swing arm angle at 15 degrees
     }
     public void hover2() {
