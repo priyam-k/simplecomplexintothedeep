@@ -39,12 +39,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     }
 
-    
     public void Lift(double x){
         Rlift.setPower(x);
         Llift.setPower(x);
     }
-    pub
 
 
     public void Arm(double t) {
@@ -64,63 +62,62 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void loiter1() {
-        // Set the arm to the latching position at 0.7
+        // Set arm to the latching position and reset claw and flipper
         Arm(0.7);
-    }
-
-    public void loiter2() {
-        // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
-    }
-
-
-//    public void liftSetPos(Gamepad g) {
-//        if(g.right_bumper){
-//            waspressedlift = true;
-//        }
-//        if (!g.right_bumper && waspressedlift){
-//            while (true) {
-//                Lift(1.0);
-//            }
-//
-//        }
-//    }
-
-    public void loiter3() {
-        // Set the flipper to position 0.37
         outtakeFlipper.setPosition(0.37);
     }
 
+    public void loiter2() {
+        // Re-open claw if it was changed
+        outtakeClaw.setPosition(0.44);
+        // Confirm flipper is in position
+        outtakeFlipper.setPosition(0.37);
+        Arm(0.7); // Ensure arm is still in latching position
+    }
+
+    public void loiter3() {
+        // Confirm flipper position
+        outtakeFlipper.setPosition(0.37);
+        outtakeClaw.setPosition(0.44); // Re-confirm claw position
+        Arm(0.7); // Confirm arm position again
+    }
+
     public void transfer1() {
-        // Move the arm to the initial transfer position (0.30)
+        // Prepare arm for transfer, reset claw and flipper if necessary
         Arm(0.30);
+        outtakeClaw.setPosition(0.44); // Re-open claw to prevent accidental drops
+        outtakeFlipper.setPosition(0.37); // Ensure flipper is reset
     }
 
     public void transfer2() {
-        // Close the claw (0.63)
+        // Close claw for holding during transfer
         outtakeClaw.setPosition(0.63);
+        Arm(0.30); // Ensure arm stays in initial transfer position
+        outtakeFlipper.setPosition(0.37); // Confirm flipper position
     }
 
     public void back1() {
-        // Move the arm to the extended transfer position (0.8)
+        // Extend arm further and reset claw and flipper
         Arm(0.65);
-    }
-    public void backAuton(){
-    Arm(0.8);
-    outtakeFlipper.setPosition(0);
+        outtakeClaw.setPosition(0.63); // Keep claw closed during transfer
+        outtakeFlipper.setPosition(0.37); // Confirm flipper position
     }
 
     public void back2() {
-        // Move the flipper to 0.0 for final transfer
-        
-        outtakeFlipper.setPosition(0);
+        // Move flipper for final transfer position
+        Arm(0.65); // Ensure arm position remains extended
+        outtakeClaw.setPosition(0.63); // Ensure claw stays closed
+        outtakeFlipper.setPosition(0.0); // Move flipper to final transfer
     }
-
 
     public void score() {
-        // Open the claw to release the object (0.44)
-        outtakeClaw.setPosition(0.44);
+        // Open claw to release object
+        outtakeClaw.setPosition(0.44); // Open claw to release
+        Arm(0.65); // Keep arm in scoring position
+        outtakeFlipper.setPosition(0.0); // Confirm flipper in scoring position
     }
+
 
     public void autonInit() {
         //flipper shoudl be in loiterng but claw should be lclosed
