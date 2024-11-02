@@ -44,6 +44,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Rlift.setPower(x);
         Llift.setPower(x);
     }
+    pub
 
 
     public void Arm(double t) {
@@ -71,6 +72,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
     }
+
 
 //    public void liftSetPos(Gamepad g) {
 //        if(g.right_bumper){
