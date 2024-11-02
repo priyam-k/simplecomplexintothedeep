@@ -20,9 +20,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Autonomous(name = "April Tag Auto Align")
 public class AprilTagAutoAlign extends LinearOpMode {
 
-    public static double RandomdistanceUnits = 27.0;
+    public static double RandomdistanceUnits = 28.0;
 
-    public static double SlideTicks = 700;
+    public static double SlideTicks = 900;
 
     Drivetrain drive = new Drivetrain();
     EnableHand intake = new EnableHand();
@@ -55,19 +55,23 @@ public class AprilTagAutoAlign extends LinearOpMode {
         while(opModeIsActive()) {
 
             if (time.seconds()<1){
-                drive.drive(-0.8);
+                drive.drive(-1); //use the opti?
                 outake.PIDLoop(SlideTicks);
                 outake.backAuton();
             }
             if (time.seconds()<3){
-                drive.alignAprilTag(RandomdistanceUnits);
+                drive.alignAprilTag(RandomdistanceUnits); // lower this
                 outake.PIDLoop(SlideTicks);
             }
             else if (time.seconds()<3.5){
-                outake.PIDLoop(SlideTicks-500);
+                outake.PIDLoop(SlideTicks-400);
+                //drive.alignApril-000000000Tag(RandomdistanceUnits);
+                //drive.translateGain  = 0.3;
+
             }
             else if (time.seconds()<3.6){
                 outake.score();
+                drive.Brake(); //Stops motor from corretion runoff power
             }
             else if(time.seconds()<4){
                 outake.PIDLoop(0);

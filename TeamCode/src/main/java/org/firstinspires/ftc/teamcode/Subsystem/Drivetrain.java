@@ -21,7 +21,7 @@ public class Drivetrain implements Subsystem {
     public static double turnGain = 0.03;
     public static double translateGain = 0.08;
     // Approx: 0.8 and exact: 0.3
-    public static double strafeGain = 0.02;
+    public static double strafeGain = 0.015;
 
     public static double StrafeLine = 320;  //640
 
@@ -354,6 +354,13 @@ public class Drivetrain implements Subsystem {
         t.addData("Rodo on leftRront", LR.getCurrentPosition());
         t.addData("Lodo on rightFront", RF.getCurrentPosition());
         t.update();
+    }
+
+    public void Brake(){
+        LF.setPower(0);
+        LR.setPower(0);
+        RF.setPower(0);
+        RR.setPower(0);
     }
 
 
