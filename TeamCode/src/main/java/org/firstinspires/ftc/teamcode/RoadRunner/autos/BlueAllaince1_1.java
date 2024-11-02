@@ -25,9 +25,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(0)));
-        hand = new EnableHand();
-
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 34, Math.toRadians(90)));
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
 
@@ -36,15 +34,16 @@ public class BlueAllaince1_1 extends LinearOpMode {
         hand.init(hardwareMap);
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(50.8, 41.5, Math.toRadians(-90)), Math.toRadians(-90))
-//                .waitSeconds(1)
-//                .
-//
-//                .lineToX(23)
+                .splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(0)), Math.toRadians(0))
                 .build();
-        MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(50.8, 41.5, Math.toRadians(-90)));
-        Action Traj2 = drive2.actionBuilder(drive2.pose)
-                .splineToLinearHeading(new Pose2d(59.2 , 56.2, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
+
+        drive = new MecanumDrive(hardwareMap, new Pose2d(0, 45, Math.toRadians(0)));
+        Action Traj2 = drive.actionBuilder(drive.pose)
+                .splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-90)), Math.toRadians(-90)) //56.5, 54
+                .build();
+        drive = new MecanumDrive(hardwareMap, new Pose2d(50.6, 39.7, Math.toRadians(-90)));
+        Action Traj3 = drive.actionBuilder(drive.pose)
+                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
                 .build();
 //        Action parkTraj = drive.actionBuilder(drive.pose)
 //                .splineToLinearHeading(new Pose2d(50.6, 34.3, Math.toRadians(225)), Math.toRadians(100))
@@ -63,7 +62,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         myTrajectory,
-
+                        Traj2,
 
                         telemetryPacket -> {
                             telemetry.addLine("Scan 1");
@@ -190,7 +189,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
                                 },
                                 new SleepAction(0.3),
                                 //Goes to basket pistion
-                                Traj2,
+                                Traj3,
                                 new SleepAction(0.8),
                                 telemetryPacket -> {
                                     telemetry.addLine("Back 1");
