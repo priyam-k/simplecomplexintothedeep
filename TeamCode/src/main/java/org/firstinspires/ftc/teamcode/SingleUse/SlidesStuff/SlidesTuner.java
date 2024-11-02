@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.SingleUse.SlidesStuff;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -36,18 +36,19 @@ public class SlidesTuner extends LinearOpMode {
         slideMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         waitForStart();
         while (opModeIsActive()) {
             // obtain the encoder position
-            double encoderPositionRight = -slideMotorRight.getCurrentPosition();
+            double encoderPositionRight = slideMotorRight.getCurrentPosition();
             // calculate the error
             double error = targetPos - encoderPositionRight;
             //
             double out = -(Kp * error) ;
+            //1428 max
 
             slideMotorRight.setPower(out);
             slideMotorLeft.setPower(out);

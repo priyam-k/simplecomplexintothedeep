@@ -19,6 +19,8 @@ public class GenericTele extends LinearOpMode {
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
 
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new Drivetrain();
@@ -45,8 +47,21 @@ public class GenericTele extends LinearOpMode {
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
+            if(gamepad1.right_bumper){
+                drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
+            }
+            else{
+                drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+            }
 
-            drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+
+
+
+
+
+
+
+           // out.liftSetPos(gamepad2); hanging stuff
 
             telemetry.update();
         }
