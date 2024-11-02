@@ -111,6 +111,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.0); // Move flipper to final transfer
     }
 
+    public void backAuton(){
+        Arm(0.1);
+        outtakeFlipper.setPosition(0.1);
+    }
     public void score() {
         // Open claw to release object
         outtakeClaw.setPosition(0.44); // Open claw to release
