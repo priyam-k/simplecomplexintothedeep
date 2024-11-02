@@ -3,18 +3,14 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
-    public double currentPos;
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
     public static double kP = 0.006;
-    boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
 
@@ -34,7 +30,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         //TODO: EXPIRAMENT WITH REVERSING ONE MOTOR
         // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
@@ -62,66 +58,45 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void loiter1() {
-        // Set arm to the latching position and reset claw and flipper
+        // Set the arm to the latching position at 0.7
         Arm(0.7);
-        outtakeClaw.setPosition(0.44);
-        outtakeFlipper.setPosition(0.37);
     }
 
     public void loiter2() {
-        // Re-open claw if it was changed
+        // Open the claw (0.44)
         outtakeClaw.setPosition(0.44);
-        // Confirm flipper is in position
-        outtakeFlipper.setPosition(0.37);
-        Arm(0.7); // Ensure arm is still in latching position
     }
 
     public void loiter3() {
-        // Confirm flipper position
+        // Set the flipper to position 0.37
         outtakeFlipper.setPosition(0.37);
-        outtakeClaw.setPosition(0.44); // Re-confirm claw position
-        Arm(0.7); // Confirm arm position again
     }
 
     public void transfer1() {
-        // Prepare arm for transfer, reset claw and flipper if necessary
+        // Move the arm to the initial transfer position (0.30)
         Arm(0.30);
-        outtakeClaw.setPosition(0.44); // Re-open claw to prevent accidental drops
-        outtakeFlipper.setPosition(0.37); // Ensure flipper is reset
     }
 
     public void transfer2() {
-        // Close claw for holding during transfer
+        // Close the claw (0.63)
         outtakeClaw.setPosition(0.63);
-        Arm(0.30); // Ensure arm stays in initial transfer position
-        outtakeFlipper.setPosition(0.37); // Confirm flipper position
     }
 
     public void back1() {
-        // Extend arm further and reset claw and flipper
-        Arm(0.65);
-        outtakeClaw.setPosition(0.63); // Keep claw closed during transfer
-        outtakeFlipper.setPosition(0.37); // Confirm flipper position
+        // Move the arm to the extended transfer position (0.8)
+        Arm(0.7);
     }
 
     public void back2() {
-        // Move flipper for final transfer position
-        Arm(0.65); // Ensure arm position remains extended
-        outtakeClaw.setPosition(0.63); // Ensure claw stays closed
-        outtakeFlipper.setPosition(0.0); // Move flipper to final transfer
+        // Move the flipper to 0.0 for final transfer
+
+        outtakeFlipper.setPosition(0);
     }
 
-    public void backAuton(){
-        Arm(0.1);
-        outtakeFlipper.setPosition(0.1);
-    }
     public void score() {
-        // Open claw to release object
-        outtakeClaw.setPosition(0.44); // Open claw to release
-        Arm(0.77); // Keep arm in scoring position
-        outtakeFlipper.setPosition(0.0); // Confirm flipper in scoring position
+        // Open the claw to release the object (0.44)
+        outtakeClaw.setPosition(0.44);
     }
-
 
     public void autonInit() {
         //flipper shoudl be in loiterng but claw should be lclosed
@@ -129,30 +104,14 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         transfer2();
         loiter3();
     }
-
-    public void SlidesBrake(){
-        Rlift.setPower(0);
-        Llift.setPower(0);
-    }
     public void PIDLoop(double targetPos) {
-        double cuurentPos = Rlift.getCurrentPosition();
-            double error = targetPos - cuurentPos;
+        double cuurentPos = -Rlift.getCurrentPosition();
+        double error = targetPos - cuurentPos;
 
-            double out = -(kP * error) ;
+        double out = -(kP * error) ;
 
-            Rlift.setPower(out);
-            Llift.setPower(out);
+        Rlift.setPower(out);
+        Llift.setPower(out);
 
-    }
-    public void PIDLoopAuto(double targetPos) {
-        ElapsedTime timer = new ElapsedTime();
-        currentPos = -Rlift.getCurrentPosition();
-        while( currentPos < targetPos-300) {
-            double error = targetPos - currentPos;
-            double out = -(kP * error);
-            Rlift.setPower(out);
-            Llift.setPower(out);
-            currentPos = -Rlift.getCurrentPosition();
-        }
     }
 }

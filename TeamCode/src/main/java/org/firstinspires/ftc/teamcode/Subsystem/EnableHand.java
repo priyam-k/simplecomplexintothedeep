@@ -80,98 +80,89 @@ public class EnableHand implements Subsystem {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.43);
+        ArmTurr.setPosition(0.46);
     }
 
-    public void setSwingArmAngleAuton(double angle) {
-        double swingArmAngle = degreesToTicksSwingArm(angle);
-        LServoSwingArm.setPosition(swingArmAngle);
-        RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.45);
-    }
+
+
 
 
     public void scan1() {
-        setSwingArmAngle(60);  // Set swing arm to 60 degrees
-        ArmTurr.setPosition(0.44); // Default intake arm turret position
-        open(); // Ensure claw is open
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Default claw turret angle
+        // Swing arm to 60 degrees
+        setSwingArmAngle(60);
     }
 
     public void scan2() {
-        setSwingArmAngle(60);  // Ensure swing arm is at 60 degrees
-        ArmTurr.setPosition(0.44); // Intake arm turret in position for scanning
-        open(); // Claw open
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Default claw turret angle
+        // Intake arm turret: Intaking position
+        ArmTurr.setPosition(0.44);
     }
 
     public void scan3() {
-        setSwingArmAngle(60);  // Ensure swing arm is at 60 degrees
-        ArmTurr.setPosition(0.44); // Arm turret position remains the same
-        open(); // Claw in vectoring (open) position
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Claw turret angle at 90 degrees
+        // Claw in vectoring position
+        open();
     }
 
     public void scan4() {
-        setSwingArmAngle(60);  // Swing arm angle remains at 60 degrees
-        ArmTurr.setPosition(0.44); // Intake position
-        open(); // Claw remains open
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Hand turret angle to 90 degrees
+        // Hand turret angle to 90 degrees (TBD)
+        ClawTurr.setPosition(setHandTurretDegrees(0)); // Placeholder for TBD
     }
 
-    public void hover1() {
-        setSwingArmAngle(15); // Set swing arm angle to 15 degrees
-        ArmTurr.setPosition(0.44); // Default arm turret position
-        open(); // Ensure claw is open
+    public void hover1(){
+        setHandTurretDegrees(0);
+        setSwingArmAngle(15);// Swing arm angle at 15 degrees
     }
-
     public void hover2() {
-        hover1(); // Ensure base hover position
 
-        // Adjust claw position based on D-Pad input
         if (gamepad.dpad_left) {
-            ClawTurr.setPosition(ClawTurr.getPosition() + 0.05);
-        } else if (gamepad.dpad_right) {
-            ClawTurr.setPosition(ClawTurr.getPosition() - 0.05);
+            wasPressed = true;
+        }
+        if (gamepad.dpad_right) {
+            wasPressedR = true;
+        }
+        if(!gamepad.dpad_left && wasPressed){
+            ClawTurr.setPosition(ClawTurr.getPosition()+0.05);
+            wasPressed = false;
+        }
+        if(!gamepad.dpad_right && wasPressedR){
+            ClawTurr.setPosition(ClawTurr.getPosition()-0.05);
+            wasPressedR = false;
         }
     }
 
+    public void hoverAuto(){
+        setSwingArmAngle(15);
+
+    }
+
     public void pickup1() {
-        setSwingArmAngle(-5);  // Set swing arm to -5 degrees for pickup
-        ArmTurr.setPosition(0.44); // Default intake turret position
+        // Swing arm angle at -5 degrees
+        setSwingArmAngle(-5);
     }
 
     public void pickup2() {
-        pickup1(); // Ensure pickup1 position
-        close(); // Claw closed for latching
-
+        // Claw in latching position
+        close();
     }
 
     public void transfer1() {
-        setSwingArmAngle(100);  // Set swing arm to 100 degrees for transfer
-        ArmTurr.setPosition(0.44); // Default intake position
-        open(); // Claw open
+        // Swing arm angle to 175 degrees
+        setSwingArmAngle(100);
     }
 
     public void transfer1point5() {
-        setSwingArmAngle(160);  // Adjust swing arm to 160 degrees
-        ArmTurr.setPosition(0.44); // Default intake position
-        open(); // Claw open
+        setSwingArmAngle(160);
     }
 
+
     public void transfer2() {
-        setSwingArmAngle(160); // Ensure swing arm is at 160 degrees
-        ClawTurr.setPosition(setHandTurretDegrees(0)); // Hand turret to 0 degrees
-        open(); // Claw open
+        // Hand turret to 0 degrees
+        ClawTurr.setPosition(setHandTurretDegrees(0));
     }
 
     public void loiter() {
-        setSwingArmAngle(60); // Default position
-        ArmTurr.setPosition(0.44); // Intake position
-        open(); // Claw open in vectoring position
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Default claw turret angle
+        // Claw in vectoring position
+        open();
     }
-
 
 
 }
