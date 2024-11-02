@@ -118,7 +118,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void score() {
         // Open claw to release object
         outtakeClaw.setPosition(0.44); // Open claw to release
-        Arm(0.65); // Keep arm in scoring position
+        Arm(0.77); // Keep arm in scoring position
         outtakeFlipper.setPosition(0.0); // Confirm flipper in scoring position
     }
 

@@ -99,7 +99,7 @@ public class BlueAllaince1_1 extends LinearOpMode {
                         telemetryPacket -> {
                             telemetry.addLine("Hovering");
                             telemetry.update();
-                            hand.hoverAuto();
+//                            hand.hoverAuto();
                             return false;
                         },
                         new SleepAction(0.8),
