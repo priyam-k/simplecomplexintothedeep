@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
-import org.firstinspires.ftc.teamcode.Subsystem.Subsystem;
 
 @TeleOp(name="Generic Tele")
 @Config
@@ -31,8 +30,7 @@ public class GenericTele extends LinearOpMode {
         hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
-        StateMachine intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
-        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+        StateMachine machine = StateMachines.getMachine(out, hand, gamepad2);
 
 
         waitForStart();
@@ -41,11 +39,10 @@ public class GenericTele extends LinearOpMode {
         intakeMachine.start();
 
         while (opModeIsActive()) {
-            transferMachine.update();
-            intakeMachine.update();
+            machine.update();
             out.Lift(gamepad2.left_stick_y);
 
-            telemetry.addData("Intake state", intakeMachine.getStateString());
+            telemetry.addData("State", machine.getStateString());
 
             if(gamepad1.right_bumper){
                 drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
