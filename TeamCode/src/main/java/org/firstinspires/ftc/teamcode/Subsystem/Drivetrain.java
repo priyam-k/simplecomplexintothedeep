@@ -23,6 +23,8 @@ public class Drivetrain implements Subsystem {
     // Approx: 0.8 and exact: 0.3
     public static double strafeGain = 0.015;
 
+    public static double KpVertical = 0.0,KpStraffe = 0.0,KpRotation = 0.0;
+
     public static double StrafeLine = 320;  //640
 
     public static double VerticalLine = 240; //480
@@ -109,65 +111,6 @@ public class Drivetrain implements Subsystem {
 
     }
 
-//    public double getPoseY() {
-//        List<Double> yValues = new ArrayList<>();
-//        desiredTag = null;
-//        //make an ArrayList to store the april tags detected
-//        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-//
-//        // Extract y values from detections
-//        for (AprilTagDetection detection : currentDetections) {
-//            yValues.add(detection.ftcPose.y);
-//        }
-//        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
-//        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
-//        if (!yValues.isEmpty() && yValues.get(0) != null) {
-//            double smallest_yVal = yValues.get(0);
-//            int smallestIndex = 0;
-//
-//            // Find the detection with the smallest y value
-//            for (int i = 1; i < yValues.size(); i++) {
-//                if (yValues.get(i) < smallest_yVal) {
-//                    smallest_yVal = yValues.get(i);
-//                    smallestIndex = i;
-//                }
-//            }
-//            //assign the april tag that is the closest to desiredTag
-//            desiredTag = currentDetections.get(smallestIndex);
-//            return desiredTag.ftcPose.y;
-//        }
-//        return 0;
-//    }
-//
-//    public double getPoseX() {
-//        List<Double> yValues = new ArrayList<>();
-//        desiredTag = null;
-//        //make an ArrayList to store the april tags detected
-//        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-//
-//        // Extract y values from detections
-//        for (AprilTagDetection detection : currentDetections) {
-//            yValues.add(detection.ftcPose.y);
-//        }
-//        //check if the ArrayList containing the pose values for the april tags is empty and if the first element is null
-//        //if true, find the nearest april tag and align the robot so that it is facing it; if false, set motors to 0 power
-//        if (!yValues.isEmpty() && yValues.get(0) != null) {
-//            double smallest_yVal = yValues.get(0);
-//            int smallestIndex = 0;
-//
-//            // Find the detection with the smallest y value
-//            for (int i = 1; i < yValues.size(); i++) {
-//                if (yValues.get(i) < smallest_yVal) {
-//                    smallest_yVal = yValues.get(i);
-//                    smallestIndex = i;
-//                }
-//            }
-//            //assign the april tag that is the closest to desiredTag
-//            desiredTag = currentDetections.get(smallestIndex);
-//            return desiredTag.ftcPose.x;
-//        }
-//        return 0;
-//    }
 
     public double[] alignAprilTagtuning(double distance) {
         double[] CurrentPosition = new double[3];
@@ -316,9 +259,6 @@ public class Drivetrain implements Subsystem {
         RR.setPower(power);
     }
 
-    public void strafe(double distance) {
-        // positive distance is right, negative is left
-    }
 
     public void TeleopControl(double y, double x, double rx) {
         y = -y; // Remember, Y stick value is reversed
@@ -339,9 +279,6 @@ public class Drivetrain implements Subsystem {
 
         //Right front and left front motors encoder are reversed
 
-        //RF is LODO
-        //LF is Perp or MODO
-        //LR RODO
 
         LF.setPower(frontLeftPower);
         LR.setPower(backLeftPower);
@@ -364,6 +301,20 @@ public class Drivetrain implements Subsystem {
     }
 
 
+    public void toPoint(double targetVert,double targetHorizontal,double Heading){
+        double VerticalError = targetVert -
+        double turn = Range.clip(headingError * turnGain, -1, 1);
+        double drive = Range.clip(rangeError * translateGain, -1, 1);
+        double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
+
+        //calculate the powers for all motors
+        double leftFrontPower = +strafe + drive - turn;
+        double rightFrontPower = -strafe + drive + turn;
+        double leftBackPower = -strafe + drive - turn;
+        double rightBackPower = +strafe + drive + turn;
+
+    }
     @Override
     public void update() {
 
