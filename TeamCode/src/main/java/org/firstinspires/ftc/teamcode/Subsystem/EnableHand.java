@@ -9,13 +9,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class EnableHand implements Subsystem {
 
-    public static double offset = 186;
-    private final double ANGLE = 90;
     public Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
     Gamepad gamepad;
+
     boolean wasPressed = false;
     boolean wasPressedR = false;
     boolean waspressedGP = false;
+
+    private double ANGLE = 90;
 
     /*
     Latching on to the sample: 0.43
@@ -29,8 +30,7 @@ public class EnableHand implements Subsystem {
         ArmTurr = hardwareMap.get(Servo.class, "Servo10");
         ClawTurr = hardwareMap.get(Servo.class, "Servo6");
     }
-
-    public void init(HardwareMap hardwareMap, Gamepad g2) {
+    public void init(HardwareMap hardwareMap,Gamepad g2) {
         Claw = hardwareMap.get(Servo.class, "Servo9");
         LServoSwingArm = hardwareMap.get(Servo.class, "Servo7"); // left servo for intake swing arm
         RServoSwingArm = hardwareMap.get(Servo.class, "Servo8"); // right servo for intake swing arm
@@ -38,7 +38,6 @@ public class EnableHand implements Subsystem {
         ClawTurr = hardwareMap.get(Servo.class, "Servo6");
         gamepad = g2;
     }
-
     @Override
     public void update() {
 
@@ -49,9 +48,11 @@ public class EnableHand implements Subsystem {
 
     }
 
+    public static double offset = 186;
+
     // only do degree values between -90 and 180 otherwise it will explode
-    public double setHandTurretDegrees(double d) {
-        return (((d - offset) / 270.0) + 3) % 1;
+    public double setHandTurretDegrees(double d){
+        return (((d-offset)/270.0)+3)%1;
 
     }
 
@@ -73,19 +74,17 @@ public class EnableHand implements Subsystem {
     }
 
 
+
+
     public void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.43);
+        ArmTurr.setPosition(0.46);
     }
 
-    public void setSwingArmAngleAuton(double angle) {
-        double swingArmAngle = degreesToTicksSwingArm(angle);
-        LServoSwingArm.setPosition(swingArmAngle);
-        RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.445);
-    }
+
+
 
 
     public void scan1() {
@@ -105,15 +104,14 @@ public class EnableHand implements Subsystem {
 
     public void scan4() {
         // Hand turret angle to 90 degrees (TBD)
-        ClawTurr.setPosition(setHandTurretDegrees(90)); // Placeholder for TBD
+        ClawTurr.setPosition(setHandTurretDegrees(0)); // Placeholder for TBD
     }
 
-    public void hover1() {
+    public void hover1(){
         setHandTurretDegrees(0);
         setSwingArmAngle(15);// Swing arm angle at 15 degrees
     }
-
-    public void hover2(Gamepad gamepad) {
+    public void hover2() {
 
         if (gamepad.dpad_left) {
             wasPressed = true;
@@ -121,18 +119,18 @@ public class EnableHand implements Subsystem {
         if (gamepad.dpad_right) {
             wasPressedR = true;
         }
-        if (!gamepad.dpad_left && wasPressed) {
-            ClawTurr.setPosition(ClawTurr.getPosition() + 0.05);
+        if(!gamepad.dpad_left && wasPressed){
+            ClawTurr.setPosition(ClawTurr.getPosition()+0.05);
             wasPressed = false;
         }
-        if (!gamepad.dpad_right && wasPressedR) {
-            ClawTurr.setPosition(ClawTurr.getPosition() - 0.05);
+        if(!gamepad.dpad_right && wasPressedR){
+            ClawTurr.setPosition(ClawTurr.getPosition()-0.05);
             wasPressedR = false;
         }
     }
 
-    public void hoverAuto() {
-        setSwingArmAngle(30);
+    public void hoverAuto(){
+        setSwingArmAngle(15);
 
     }
 

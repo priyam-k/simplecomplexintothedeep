@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.*;
 @TeleOp(name="GenericAuto")
 public class Auto extends LinearOpMode {
 
-    public static double turnGain = 0.03;
-    public static double translateGain = 0.05;
-    public static double strafeGain = 0.03;
+//    public static double turnGain = 0.03;
+//    public static double translateGain = 0.05;
+//    public static double strafeGain = 0.03;
 
     Drivetrain drive;
     EnableHand intake;
@@ -30,29 +30,35 @@ public class Auto extends LinearOpMode {
         outtake.init(hardwareMap);
 
         StateMachine intakeMachine = StateMachines.getIntakeStateMachine(intake, gamepad2);
-        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(outtake, gamepad2, intakeMachine);
+        StateMachine outtakeMachine = StateMachines.getOuttakeStateMachine(outtake, gamepad2, intakeMachine);
 
-        transferMachine.start();
+        outtakeMachine.start();
         intakeMachine.start();
 
-        while (opModeInInit()) {
 
-            drive.turnGain = turnGain;
-            drive.translateGain = translateGain;
-            drive.strafeGain = strafeGain;
+//        while (opModeInInit()) {
+//
+//            drive.turnGain = turnGain;
+//            drive.translateGain = translateGain;
+//            drive.strafeGain = strafeGain;
+//
+//            drive.alignAprilTag(24);
+//
+//        }
 
-            drive.alignAprilTag(24);
-
-        }
+        waitForStart();
 
         while (opModeIsActive()){
-            transferMachine.update();
+            outtakeMachine.update();
             intakeMachine.update();
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
             //drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
-            drive.drive(10);
-//            drive.alignAprilTag();
+            //  drive.drive(-0.3);
+            intake.setSwingArmAngle(90);
+            //drive.alignAprilTag(15, 12);
+
+//            intakeMachine.setState(StateMachines.Intake.SCANNING1);
 
 
             telemetry.update();

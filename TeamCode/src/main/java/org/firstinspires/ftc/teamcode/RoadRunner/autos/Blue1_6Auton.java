@@ -11,51 +11,40 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
+
 @Autonomous(name = "Blue 1+6 Auton")
 public class Blue1_6Auton extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 46, Math.toRadians(-180)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-46, 0, Math.toRadians(270)));
 
 
+
+        // Adjusted trajectory
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                .splineToLinearHeading(new Pose2d(-48, 42, Math.toRadians(-90)), Math.toRadians(-90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-42, -42, Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(80))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(48, 42, Math.toRadians(-90)), Math.toRadians(-90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(58, 42, Math.toRadians(-90)), Math.toRadians(-90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(65, 42, Math.toRadians(-70)), Math.toRadians(-90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(170))
+                .splineToLinearHeading(new Pose2d(-42, 48, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-42, 58, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-42, 60, Math.toRadians(20)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(180))
                 .turn(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-58, 42, Math.toRadians(-90)), Math.toRadians(-90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-42, -58, Math.toRadians(0)), Math.toRadians(0))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(180))
                 .turn(Math.toRadians(45))
-                .splineToLinearHeading(new Pose2d(-53, 42, Math.toRadians(-135)), Math.toRadians(-90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-42, -56, Math.toRadians(-45)), Math.toRadians(0))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56, 56, Math.toRadians(225)), Math.toRadians(90))
-                .waitSeconds(1)
+                .splineToLinearHeading(new Pose2d(-56, 56, Math.toRadians(315)), Math.toRadians(180))
                 .build();
-
 
         waitForStart();
 
-        if(isStopRequested()) return;
+        if (isStopRequested()) return;
 
         Actions.runBlocking(new SequentialAction(myTrajectory));
-
     }
 }

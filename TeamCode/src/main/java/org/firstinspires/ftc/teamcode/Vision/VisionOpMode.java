@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Vision.SampleDetectionPipeline;
+import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvWebcam;
@@ -17,9 +18,16 @@ public class VisionOpMode extends LinearOpMode {
 
     OpenCvWebcam webcam;
     SampleDetectionPipeline pipeline;
+
+    Drivetrain drivetrain;
+    EnableHand intake;
     private Servo wristServo;
     public static double servoAngleOffset = 45; // offset starting position of servo to change servo deadzone
     public static String sampleColor = "yellow"; // color of the sample to detect
+
+    public static double StrafeLine = 320;  //640
+
+    public static double VerticalLine = 240; //480
 
     public double degreesToTicks(double d){
         return d/270;
@@ -28,6 +36,10 @@ public class VisionOpMode extends LinearOpMode {
     @Override
     public void runOpMode() {
         // initialize servo
+
+        intake.init(hardwareMap);
+        drivetrain.init(hardwareMap);
+        intake.setSwingArmAngle(90);
         wristServo = hardwareMap.get(Servo.class, "Servo6");
 
         // Get camera ID from the hardware map
@@ -56,7 +68,7 @@ public class VisionOpMode extends LinearOpMode {
             }
         });
 
-        // Wait for the start command
+        // INIT LOOP STARTS HERE
 
         while (opModeInInit()) {
             // Get the detected stones from the pipeline
@@ -69,6 +81,7 @@ public class VisionOpMode extends LinearOpMode {
             }
 
             SampleDetectionPipeline.AnalyzedStone targetSample;
+
             // get the first detected sample, only if there are detected samples
             if (!detectedStones.isEmpty()) {
                 targetSample = detectedStones.get(0);
@@ -78,6 +91,22 @@ public class VisionOpMode extends LinearOpMode {
                 if (targetSample.color.equalsIgnoreCase(sampleColor))
                     wristServo.setPosition(degreesToTicks(270 - (angle)));
             }
+
+
+
+
+            //TODO: MAIN PEICE FO CODE OVER HERE
+
+            //drivetrain.SampleAlign(pipeline.getCenter());
+
+
+
+
+
+
+
+
+
 
             // Update the telemetry
             telemetry.update();

@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Vision;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.openftc.easyopencv.OpenCvPipeline;
+
+
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -25,6 +25,8 @@ public class SampleDetectionPipeline extends OpenCvPipeline
     Mat ycrcbMat = new Mat();
     Mat crMat = new Mat();
     Mat cbMat = new Mat();
+
+    private static Point center = new Point(0,0);
 
     Mat blueThresholdMat = new Mat();
     Mat redThresholdMat = new Mat();
@@ -62,6 +64,11 @@ public class SampleDetectionPipeline extends OpenCvPipeline
     {
         double angle;
         String color;
+    }
+
+    public Point getCenter(){
+
+        return center;
     }
 
     ArrayList<AnalyzedStone> internalStoneList = new ArrayList<>();
@@ -276,7 +283,13 @@ public class SampleDetectionPipeline extends OpenCvPipeline
         {
             Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
         }
+
+
+        center = rect.center;
+
     }
+
+
 
     static Scalar getColorScalar(String color)
     {

@@ -21,7 +21,7 @@ public class Drivetrain implements Subsystem {
     public static double turnGain = 0.03;
     public static double translateGain = 0.08;
     // Approx: 0.8 and exact: 0.3
-    public static double strafeGain = 0.02;
+    public static double strafeGain = 0.015;
 
     public static double StrafeLine = 320;  //640
 
@@ -76,34 +76,34 @@ public class Drivetrain implements Subsystem {
     }
 
     public void SampleAlign(Point centerofSample){
-        double x = centerofSample.x;
-        double y = centerofSample.y;
+       double x = centerofSample.x;
+       double y = centerofSample.y;
 
-        //make variables for all errors (for rotate, translate, and strafe)
-        double TranslateError = VerticalLine - y; // positive error -> robot needs to move right
-        double StraffeError = StrafeLine - x;// positive error -> robot needs to move forward
-
-
-        //using PID to align robot to the april tag
-
-        double drive = Range.clip(StraffeError * translateGain, -1, 1);
-        double strafe = Range.clip(TranslateError * strafeGain, -1, 1);
+            //make variables for all errors (for rotate, translate, and strafe)
+            double TranslateError = VerticalLine - y; // positive error -> robot needs to move right
+            double StraffeError = StrafeLine - x;// positive error -> robot needs to move forward
 
 
-        //calculate the powers for all motors
-        double leftFrontPower = +strafe + drive;//-turn
-        double rightFrontPower = -strafe + drive;//+
-        double leftBackPower = -strafe + drive;//-
-        double rightBackPower = +strafe + drive;//
+            //using PID to align robot to the april tag
+
+            double drive = Range.clip(StraffeError * translateGain, -1, 1);
+            double strafe = Range.clip(TranslateError * strafeGain, -1, 1);
+
+
+            //calculate the powers for all motors
+            double leftFrontPower = +strafe + drive;//-turn
+            double rightFrontPower = -strafe + drive;//+
+            double leftBackPower = -strafe + drive;//-
+            double rightBackPower = +strafe + drive;//
 
 
 
 
-        //setting power to all motors
-        LF.setPower(leftFrontPower);
-        RF.setPower(rightFrontPower);
-        LR.setPower(leftBackPower);
-        RR.setPower(rightBackPower);
+            //setting power to all motors
+            LF.setPower(leftFrontPower);
+            RF.setPower(rightFrontPower);
+            LR.setPower(leftBackPower);
+            RR.setPower(rightBackPower);
 
 
 
@@ -356,6 +356,13 @@ public class Drivetrain implements Subsystem {
         t.update();
     }
 
+    public void Brake(){
+        LF.setPower(0);
+        LR.setPower(0);
+        RF.setPower(0);
+        RR.setPower(0);
+    }
+
 
     @Override
     public void update() {
@@ -366,5 +373,5 @@ public class Drivetrain implements Subsystem {
     public void addTelemetry(Telemetry t) {
 
     }
-
+    
 }

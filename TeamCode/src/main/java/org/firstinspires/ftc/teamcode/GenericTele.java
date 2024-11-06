@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.sfdev.assembly.state.StateMachine;
 
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
+import org.firstinspires.ftc.teamcode.Subsystem.Subsystem;
 
-@TeleOp(name = "Generic Tele")
+@TeleOp(name="Generic Tele")
 @Config
 public class GenericTele extends LinearOpMode {
 
@@ -20,23 +20,6 @@ public class GenericTele extends LinearOpMode {
     MiggyUnLimbetedOuttake out;
 
 
-    private DcMotorEx slideMotorLeft;
-    private DcMotorEx slideMotorRight;
-
-
-    public void slidesControl() {
-        slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
-        slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
-
-        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        slideMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        slideMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-
-        slideMotorRight.setPower(gamepad2.left_stick_y);
-        slideMotorLeft.setPower(gamepad2.left_stick_y);
-    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,7 +28,7 @@ public class GenericTele extends LinearOpMode {
         out = new MiggyUnLimbetedOuttake();
 
         drive.init(hardwareMap);
-        hand.init(hardwareMap);
+        hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
         StateMachine intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
@@ -60,13 +43,25 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
+            out.Lift(gamepad2.left_stick_y);
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
+            if(gamepad1.right_bumper){
+                drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
+            }
+            else{
+                drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+            }
 
-            drive.TeleopControl(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-            slidesControl();
 
+
+
+
+
+
+
+            // out.liftSetPos(gamepad2); hanging stuff
 
             telemetry.update();
         }

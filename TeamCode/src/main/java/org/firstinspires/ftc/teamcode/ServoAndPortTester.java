@@ -5,11 +5,15 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
 @TeleOp(name = "ServoAndPortTest")
 public class ServoAndPortTester extends LinearOpMode {
+
+
     public static double OuttakeClaw = 0.44;
     public static double OuttakeFlipper = 0.4;
     //public static double CtrlServo2Pos = 0;
@@ -27,13 +31,17 @@ public class ServoAndPortTester extends LinearOpMode {
     public static double offset = 186;
 
     public static double OuttakeArmTicks = 0.7;
+    private DcMotorEx slideMotorRight;
+    private DcMotorEx slideMotorLeft;
+
+    public static double Kp =0.03, targetPos =0.0;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
     private Servo ControlHub2;
     private Servo ControlHub3;
     private Servo ControlHub4;
-    private Servo ControlHub5;
+    private Servo ControlHub5; // TODO make angle to tick thing, and have it set controlhub 3 and 5 to that angle
     private Servo ExpansionHub0;
     private Servo ExpansionHub1;
     private Servo ExpansionHub2;
@@ -45,6 +53,16 @@ public class ServoAndPortTester extends LinearOpMode {
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+
+        slideMotorRight = hardwareMap.get(DcMotorEx.class, "rightLift");
+        slideMotorLeft = hardwareMap.get(DcMotorEx.class, "leftLift");
+
+        slideMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        slideMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        slideMotorRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        slideMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Initialize the servos for the Control Hub
         ControlHub0 = hardwareMap.get(Servo.class, "Servo0");
@@ -107,7 +125,22 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("ExpansionHub5 Position", ExpServo5Pos);
 
 
-            telemetry.update();
+
+
+            // obtain the encoder position
+            double encoderPositionRight = slideMotorRight.getCurrentPosition();
+            // calculate the error
+            double error = targetPos - encoderPositionRight;
+            //
+            double out = -(Kp * error) ;
+            //1428 max
+
+            slideMotorRight.setPower(out);
+            slideMotorLeft.setPower(out);
+            tele.addData("The motor power is: ", out);
+            tele.addData("Current position Slides: ", encoderPositionRight);
+            tele.addData("Target position Slides: ", targetPos);
+            tele.update();
         }
     }
 

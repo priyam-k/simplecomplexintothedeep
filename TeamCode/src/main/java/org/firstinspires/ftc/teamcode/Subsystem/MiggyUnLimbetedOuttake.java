@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -7,6 +10,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
+    public static double kP = 0.006;
+
+    DcMotorEx Rlift,Llift;
 
     @Override
     public void init(HardwareMap hardwareMap) {
@@ -15,6 +21,23 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeArm2 = hardwareMap.get(Servo.class, "Servo3");
         outtakeClaw = hardwareMap.get(Servo.class, "Servo0");
         outtakeFlipper = hardwareMap.get(Servo.class, "Servo1");
+        Rlift = hardwareMap.get(DcMotorEx.class, "rightLift");
+        Llift = hardwareMap.get(DcMotorEx.class, "leftLift");
+
+        Rlift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Llift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //TODO: EXPIRAMENT WITH REVERSING ONE MOTOR
+        // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
+
+    public void Lift(double x){
+        Rlift.setPower(x);
+        Llift.setPower(x);
     }
 
 
@@ -66,7 +89,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back2() {
         // Move the flipper to 0.0 for final transfer
-        
+
         outtakeFlipper.setPosition(0);
     }
 
@@ -75,4 +98,20 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.44);
     }
 
+    public void autonInit() {
+        //flipper shoudl be in loiterng but claw should be lclosed
+        loiter1();
+        transfer2();
+        loiter3();
+    }
+    public void PIDLoop(double targetPos) {
+        double cuurentPos = -Rlift.getCurrentPosition();
+        double error = targetPos - cuurentPos;
+
+        double out = -(kP * error) ;
+
+        Rlift.setPower(out);
+        Llift.setPower(out);
+
+    }
 }
