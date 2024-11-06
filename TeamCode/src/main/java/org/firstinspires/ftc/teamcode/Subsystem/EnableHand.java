@@ -82,6 +82,12 @@ public class EnableHand implements Subsystem {
         RServoSwingArm.setPosition(swingArmAngle);
         ArmTurr.setPosition(0.46);
     }
+    public void setSwingArmAngleAuton(double angle) {
+        double swingArmAngle = degreesToTicksSwingArm(angle);
+        LServoSwingArm.setPosition(swingArmAngle);
+        RServoSwingArm.setPosition(swingArmAngle);
+        ArmTurr.setPosition(0.45);
+    }
 
 
 
@@ -130,8 +136,7 @@ public class EnableHand implements Subsystem {
     }
 
     public void hoverAuto(){
-        setSwingArmAngle(15);
-
+        setSwingArmAngle(25);
     }
 
     public void pickup1() {
@@ -147,6 +152,10 @@ public class EnableHand implements Subsystem {
     public void transfer1() {
         // Swing arm angle to 175 degrees
         setSwingArmAngle(100);
+    }
+    public void turrSet0Auton(){
+        //Set turret position to 0
+        ArmTurr.setPosition(0.44);
     }
 
     public void transfer1point5() {
