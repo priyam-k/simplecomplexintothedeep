@@ -10,12 +10,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class EnableHand implements Subsystem {
 
     public static double offset = 186;
+    private final double ANGLE = 90;
     public Servo Claw, LServoSwingArm, RServoSwingArm, ArmTurr, ClawTurr;
     Gamepad gamepad;
     boolean wasPressed = false;
     boolean wasPressedR = false;
     boolean waspressedGP = false;
-    private final double ANGLE = 90;
 
     /*
     Latching on to the sample: 0.43
