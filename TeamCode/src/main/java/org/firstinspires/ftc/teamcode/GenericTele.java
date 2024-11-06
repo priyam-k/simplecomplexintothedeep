@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
 import org.firstinspires.ftc.teamcode.Subsystem.Subsystem;
 
-@TeleOp(name="Generic Tele")
+@TeleOp(name = "Generic Tele")
 @Config
 public class GenericTele extends LinearOpMode {
 
@@ -45,7 +45,7 @@ public class GenericTele extends LinearOpMode {
             telemetry.addData("Intake state", intakeMachine.getStateString());
 
 
-            drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+            drive.TeleopControl(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             telemetry.update();
         }
