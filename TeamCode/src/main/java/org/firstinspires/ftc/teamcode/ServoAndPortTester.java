@@ -86,7 +86,7 @@ public class ServoAndPortTester extends LinearOpMode {
             // Set and display positions for Control Hub servos
             ControlHub0.setPosition(OuttakeClaw);
             telemetry.addData("Outtake claw", OuttakeClaw);
-                                                           
+
             ControlHub1.setPosition(OuttakeFlipper);
             telemetry.addData("Flipper", OuttakeFlipper);
 
@@ -117,7 +117,7 @@ public class ServoAndPortTester extends LinearOpMode {
 
             ExpansionHub3.setPosition(IntakeVectoringHand);
             telemetry.addData("Vectoring hand", IntakeVectoringHand);
-            
+
             ExpansionHub4.setPosition(IntakeArmTurret);
             telemetry.addData("Arm Turret", IntakeArmTurret);
 

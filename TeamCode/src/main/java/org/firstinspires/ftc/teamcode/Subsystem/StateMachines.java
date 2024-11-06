@@ -27,15 +27,15 @@ public class StateMachines {
                 .onEnter(hand::scan4)
                 .transition(() -> gamepad.right_bumper, Intake.WAIT)
 
-
                 .state(Intake.WAIT)
                 .transitionTimed(0.25, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)
-                .loop(hand::hover2)
+                .loop(()->{
+                    hand.hover2(gamepad);
+                })
                 .transition(() -> gamepad.right_bumper, Intake.PICKUP1)
-
 
                 .state(Intake.PICKUP1)
                 .onEnter(hand::pickup1)
@@ -44,7 +44,6 @@ public class StateMachines {
                 .state(Intake.PICKUP2)
                 .onEnter(hand::pickup2)
                 .transition(() -> gamepad.right_bumper, Intake.TRANSFER1)
-
 
                 .waitState(0.5)
 
@@ -62,12 +61,19 @@ public class StateMachines {
                 .onEnter(hand::transfer2)
                 .transition(() -> gamepad.right_bumper, Intake.WAIT2)
 
-
                 .state(Intake.WAIT2)
                 .transitionTimed(0.25, Intake.LOITER)
 
-
                 .build();
+    }
+
+    public enum Intake {
+        SCANNING1, SCANNING2, SCANNING3, SCANNING4,
+        WAIT,WAIT2,
+        HOVERING,
+        PICKUP1, PICKUP2,
+        TRANSFER1, TRANSFER2, TRANSFER3,
+        LOITER
     }
 
     public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad, StateMachine intake) {
@@ -82,15 +88,15 @@ public class StateMachines {
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
-                .transition(() -> gamepad.left_bumper && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.left_bumper  && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
-                .transitionTimed(0.75, Outtake.TRANSFERRING2)
+                .transitionTimed(0.75 , Outtake.TRANSFERRING2)
 
                 .state(Outtake.TRANSFERRING2)
                 .onEnter(out::transfer2)
-                .transition(() -> intake.getState() == Intake.LOITER, Outtake.BACK1)
+                .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1)
 
                 .state(Outtake.BACK1)
                 .onEnter(out::back1)
@@ -109,21 +115,13 @@ public class StateMachines {
                 .build();
     }
 
-    public enum Intake {
-        SCANNING1, SCANNING2, SCANNING3, SCANNING4,
-        WAIT, WAIT2,
-        HOVERING,
-        PICKUP1, PICKUP2,
-        TRANSFER1, TRANSFER2, TRANSFER3,
-        LOITER
-    }
-
     public enum Outtake {
         LOITERING1, LOITERING2, LOITERING3,
         TRANSFERRING1, TRANSFERRING2,
         BACK1, BACK2,
         SCORING
     }
+
 
 
 }
