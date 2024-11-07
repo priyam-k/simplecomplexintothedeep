@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * classes.  The intent is to develop the generic methods to work for either Red or Blue Alliance
  * sides.  Which one actually runs is determined by this calling OpMode.
  */
-@TeleOp(name = "Run Servo")
+//@TeleOp(name = "Run Servo")
 //@Disabled
 
 public class ServoMove extends LinearOpMode {

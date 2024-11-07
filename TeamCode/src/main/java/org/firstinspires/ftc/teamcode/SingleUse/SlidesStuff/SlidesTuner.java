@@ -19,10 +19,10 @@ public class SlidesTuner extends LinearOpMode {
     private DcMotorEx slideMotorRight;
     private DcMotorEx slideMotorLeft;
 
-    public static double Kp, targetPos; //0.006, 4400
+    public static double Kp, targetPos; //0.1, 1400
 
     MultipleTelemetry tele;
-    // MAX POS IS 5279 TICKS
+    // MAX POS IS 1400 TICKS
     @Override
     public void runOpMode() throws InterruptedException {
 

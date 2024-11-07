@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @Config
-@TeleOp(name="EncoderTesterWithPIDFTuning")
+//@TeleOp(name="EncoderTesterWithPIDFTuning")
 public class EncoderTester extends LinearOpMode {
 
     // Declare motors
@@ -32,6 +32,8 @@ public class EncoderTester extends LinearOpMode {
         rightRearEnc = hardwareMap.get(DcMotorEx.class, "rightRear");
         leftFrontEnc = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftRearEnc = hardwareMap.get(DcMotorEx.class, "leftRear");
+
+
 
         // Set zero power behavior to BRAKE for all motors
         rightFrontEnc.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);

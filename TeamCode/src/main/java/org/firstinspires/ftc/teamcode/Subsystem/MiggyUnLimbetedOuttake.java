@@ -3,14 +3,18 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
+    public double currentPos;
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
-    public static double kP = 0.006;
+    public static double kP = 0.01;
+    boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
 
@@ -28,10 +32,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Llift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        Rlift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+
 
     public void Lift(double x){
         Rlift.setPower(x);
@@ -65,6 +70,19 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.44);
     }
 
+
+//    public void liftSetPos(Gamepad g) {
+//        if(g.right_bumper){
+//            waspressedlift = true;
+//        }
+//        if (!g.right_bumper && waspressedlift){
+//            while (true) {
+//                Lift(1.0);
+//            }
+//
+//        }
+//    }
+
     public void loiter3() {
         // Set the flipper to position 0.37
         outtakeFlipper.setPosition(0.37);
@@ -77,12 +95,16 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void transfer2() {
         // Close the claw (0.63)
-        outtakeClaw.setPosition(0.63);
+        outtakeClaw.setPosition(0.75);
     }
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.7);
+        Arm(0.65);
+    }
+    public void backAuton(){
+        Arm(1);
+        outtakeFlipper.setPosition(0);
     }
 
     public void back2() {
@@ -90,6 +112,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
         outtakeFlipper.setPosition(0);
     }
+
 
     public void score() {
         // Open the claw to release the object (0.44)
@@ -102,8 +125,13 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         transfer2();
         loiter3();
     }
+
+    public void SlidesBrake(){
+        Rlift.setPower(0);
+        Llift.setPower(0);
+    }
     public void PIDLoop(double targetPos) {
-        double cuurentPos = -Rlift.getCurrentPosition();
+        double cuurentPos = Rlift.getCurrentPosition();
         double error = targetPos - cuurentPos;
 
         double out = -(kP * error) ;
@@ -111,5 +139,17 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Rlift.setPower(out);
         Llift.setPower(out);
 
+    }
+    public void PIDLoopAuto(double targetPos) {
+        double currentPos = -Rlift.getCurrentPosition();
+        ElapsedTime elaspedTimer = new ElapsedTime();
+        elaspedTimer.startTime();
+        while( elaspedTimer.seconds() < 2) {
+            double error = targetPos - currentPos;
+            double out = -(kP * error);
+            Rlift.setPower(out);
+            Llift.setPower(out);
+            currentPos = -Rlift.getCurrentPosition();
+        }
     }
 }

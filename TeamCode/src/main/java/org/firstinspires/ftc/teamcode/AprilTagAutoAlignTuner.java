@@ -40,6 +40,7 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         intake.init(hardwareMap);
         drive.init(hardwareMap);
+        drive.initVisionPortal(hardwareMap);
         outake.init(hardwareMap);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
@@ -65,15 +66,15 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
             drive.strafeGain = KpstrafeGain;
             //APRIL TAG STUFF
             ArmTurr.setPosition(pos);
-             double[] Eror = drive.alignAprilTagtuning(RandomdistanceUnits);
+             double[] Error = drive.alignAprilTagtuning(RandomdistanceUnits);
             // obtain the encoder position
-            tele.addData("Straffe error",Eror[0]);
+            tele.addData("Straffe error",Error[0]);
             //the target is zero
-            tele.addData("Range error", Eror[1]);
+            tele.addData("Range error", Error[1]);
             //current range
             tele.addData("Random Distance Units it's", RandomdistanceUnits);
             //target range
-            tele.addData("Turn error",Eror[2]);
+            tele.addData("Turn error",Error[2]);
             //the target is 0
 
 

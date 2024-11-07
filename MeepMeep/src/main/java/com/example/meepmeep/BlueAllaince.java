@@ -17,10 +17,13 @@ public class BlueAllaince {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 34, Math.toRadians(90)))
 
 
-                .splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(0)), Math.toRadians(0))
-                .splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-90)), Math.toRadians(-100))
+                .lineToY(45)
+                .turn(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-95)), Math.toRadians(-100))
                 .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(230)), Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(225)), Math.toRadians(100))
+                .splineToLinearHeading(new Pose2d(59, 39.7, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(225)), Math.toRadians(100))
                 .waitSeconds(1)
                 .build());
 
