@@ -32,9 +32,7 @@ public class StateMachines {
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)
-                .loop(()->{
-                    hand.hover2(gamepad);
-                })
+                .loop(hand::hover2)
                 .transition(() -> gamepad.right_bumper, Intake.PICKUP1)
 
                 .state(Intake.PICKUP1)
