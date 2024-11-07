@@ -1,10 +1,18 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.opencv.core.Point;
+
+import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
+import com.acmerobotics.roadrunner.ftc.RawEncoder;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -30,7 +38,7 @@ public class Drivetrain implements Subsystem {
     public static double VerticalLine = 240; //480
 
 
-    private DcMotor LF, LR, RF, RR;
+    private DcMotor LF, LR, RF, RR,par,perp;
 
     //TODO: tune this on the new robot
     private AprilTagProcessor aprilTag;
@@ -39,6 +47,8 @@ public class Drivetrain implements Subsystem {
 
     private VisionPortal VP;
     private Telemetry t;
+    private IMU imu;
+    private YawPitchRollAngles angles;
 
 
 
@@ -54,18 +64,27 @@ public class Drivetrain implements Subsystem {
         RF = hardwareMap.dcMotor.get("rightFront");
         RR = hardwareMap.dcMotor.get("rightRear");
 
+        par = hardwareMap.get(DcMotorEx.class, "Rodo");
+        perp = hardwareMap.get(DcMotorEx.class, "Lodo");
+
+        par.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         //this must come before the run without encoder
         LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        par.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        perp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         LF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         LR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        par.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        perp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         LF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,6 +94,15 @@ public class Drivetrain implements Subsystem {
         // correct motor directions for Dory
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         LR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        imu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)));
+        //TODO FIX THIS PART
+        imu.resetYaw();
+
     }
 
     public void SampleAlign(Point centerofSample){
@@ -301,11 +329,18 @@ public class Drivetrain implements Subsystem {
     }
 
 
-    public void toPoint(double targetVert,double targetHorizontal,double Heading){
-        double VerticalError = targetVert -
-        double turn = Range.clip(headingError * turnGain, -1, 1);
-        double drive = Range.clip(rangeError * translateGain, -1, 1);
-        double strafe = Range.clip(yawError * strafeGain, -1, 1);
+
+    public double[] toPoint(double targetVert,double targetHorizontal,double targetHeading){
+
+        double VerticalError = targetVert - par.getCurrentPosition();
+        double StraffeError = targetHorizontal - perp.getCurrentPosition();
+        angles = imu.getRobotYawPitchRollAngles();
+        double HeadingError = targetHeading - angles.getYaw(AngleUnit.DEGREES);
+
+
+        double turn = Range.clip(HeadingError * KpRotation, -1, 1);
+        double drive = Range.clip(VerticalError * KpVertical, -1, 1);
+        double strafe = Range.clip(StraffeError * KpStraffe, -1, 1);
 
 
         //calculate the powers for all motors
@@ -313,6 +348,18 @@ public class Drivetrain implements Subsystem {
         double rightFrontPower = -strafe + drive + turn;
         double leftBackPower = -strafe + drive - turn;
         double rightBackPower = +strafe + drive + turn;
+
+        LF.setPower(leftFrontPower);
+        RF.setPower(rightFrontPower);
+        LR.setPower(leftBackPower);
+        RR.setPower(rightBackPower);
+
+        double[] current = new double[3];
+        current[0] = par.getCurrentPosition();
+        current[1] = perp.getCurrentPosition();
+        current[2] = angles.getYaw();
+
+        return current;
 
     }
     @Override
