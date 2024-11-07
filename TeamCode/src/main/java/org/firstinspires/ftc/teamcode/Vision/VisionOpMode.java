@@ -31,6 +31,7 @@ public class VisionOpMode extends LinearOpMode {
     public static double StrafeLine = 320;  //640
 
     public static double VerticalLine = 240; //480
+    
 
     public double degreesToTicks(double d){
         return d/270;

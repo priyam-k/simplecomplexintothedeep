@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class MiggyUnLimbetedOuttake implements Subsystem {
     public double currentPos;
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
-    public static double kP = 0.1;
+    public static double kP = 0.01;
     boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
@@ -105,7 +105,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Arm(0.65);
     }
     public void backAuton(){
-        Arm(0.8);
+        Arm(1);
         outtakeFlipper.setPosition(0);
     }
 
