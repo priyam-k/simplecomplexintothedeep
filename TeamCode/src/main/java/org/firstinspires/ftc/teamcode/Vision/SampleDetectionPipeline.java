@@ -64,6 +64,8 @@ public class SampleDetectionPipeline extends OpenCvPipeline
     {
         double angle;
         String color;
+        double x;
+        double y;
     }
 
     public Point getCenter(){
@@ -250,6 +252,8 @@ public class SampleDetectionPipeline extends OpenCvPipeline
         AnalyzedStone analyzedStone = new AnalyzedStone();
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
+        analyzedStone.x = rotatedRectFitToContour.center.x;
+        analyzedStone.y = rotatedRectFitToContour.center.y;
         internalStoneList.add(analyzedStone);
     }
 

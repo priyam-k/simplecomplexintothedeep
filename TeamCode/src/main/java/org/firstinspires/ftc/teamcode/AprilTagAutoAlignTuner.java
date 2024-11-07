@@ -40,6 +40,7 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         intake.init(hardwareMap);
         drive.init(hardwareMap);
+        drive.initVisionPortal(hardwareMap);
         outake.init(hardwareMap);
         FtcDashboard dashboard = FtcDashboard.getInstance();
         tele = new MultipleTelemetry(telemetry, dashboard.getTelemetry());

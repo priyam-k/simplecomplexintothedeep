@@ -34,6 +34,7 @@ public class AprilTagAutoAlign extends LinearOpMode {
 
         hand.init(hardwareMap);
         drive.init(hardwareMap);
+        drive.initVisionPortal(hardwareMap);
         out.init(hardwareMap);
         out.autonInit();
         hand.setSwingArmAngleAuton(130);

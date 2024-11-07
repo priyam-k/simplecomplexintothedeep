@@ -27,7 +27,8 @@ import java.util.List;
 public class Drivetrain implements Subsystem {
 
     public static double turnGain = 0.03;
-    public static double translateGain = 0.08;
+    // FOR APRILTAGS: turn: 0.03, translate: 0.08, strafe: 0.015
+    public static double translateGain = 0.01;
     // Approx: 0.8 and exact: 0.3
     public static double strafeGain = 0.015;
 
@@ -50,14 +51,16 @@ public class Drivetrain implements Subsystem {
     private IMU imu;
     private YawPitchRollAngles angles;
 
-
+    public void initVisionPortal(HardwareMap hardwareMap){ // IF USING APRILTAGS THEN MAKE SURE TO DO drivetrain.initVisionPortal(hardwaremap)!!!!
+        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
+    }
 
     @Override
     public void init(HardwareMap hardwareMap) {
 
         aprilTag = new AprilTagProcessor.Builder().build();
 
-        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
+//        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
         LF = hardwareMap.dcMotor.get("leftFront");
         LR = hardwareMap.dcMotor.get("leftRear");
@@ -105,37 +108,36 @@ public class Drivetrain implements Subsystem {
 
     }
 
-    public void SampleAlign(Point centerofSample){
-       double x = centerofSample.x;
-       double y = centerofSample.y;
+    public void SampleAlign(double x, double y){
+//        double x = centerofSample.x;
+//        double y = centerofSample.y;
 
-            //make variables for all errors (for rotate, translate, and strafe)
-            double TranslateError = VerticalLine - y; // positive error -> robot needs to move right
-            double StraffeError = StrafeLine - x;// positive error -> robot needs to move forward
-
-
-            //using PID to align robot to the april tag
-
-            double drive = Range.clip(StraffeError * translateGain, -1, 1);
-            double strafe = Range.clip(TranslateError * strafeGain, -1, 1);
+        //make variables for all errors (for rotate, translate, and strafe)
+        double TranslateError = VerticalLine - y; // positive error -> robot needs to move stright
+        double StraffeError = x-StrafeLine;// positive error -> robot needs to move right
 
 
-            //calculate the powers for all motors
-            double leftFrontPower = +strafe + drive;//-turn
-            double rightFrontPower = -strafe + drive;//+
-            double leftBackPower = -strafe + drive;//-
-            double rightBackPower = +strafe + drive;//
+        //using PID to align robot to the april tag
+
+        double drive = Range.clip(TranslateError * translateGain, -1, 1);
+        double strafe = Range.clip(StraffeError * strafeGain, -1, 1);
+        strafe = 0;
+
+
+        //calculate the powers for all motors
+        double leftFrontPower = +strafe + drive;//-turn
+        double rightFrontPower = -strafe + drive;//+
+        double leftBackPower = -strafe + drive;//-
+        double rightBackPower = +strafe + drive;//
 
 
 
 
-            //setting power to all motors
-            LF.setPower(leftFrontPower);
-            RF.setPower(rightFrontPower);
-            LR.setPower(leftBackPower);
-            RR.setPower(rightBackPower);
-
-
+        //setting power to all motors
+        LF.setPower(leftFrontPower);
+        RF.setPower(rightFrontPower);
+        LR.setPower(leftBackPower);
+        RR.setPower(rightBackPower);
 
     }
 
