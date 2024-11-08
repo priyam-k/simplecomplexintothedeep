@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -114,7 +116,6 @@ public class EnableHand implements Subsystem {
     }
 
     public void hover1(){
-        setHandTurretDegrees(0);
         setSwingArmAngle(15);// Swing arm angle at 15 degrees
     }
     public void hover2() {
@@ -125,11 +126,17 @@ public class EnableHand implements Subsystem {
         if (gamepad.dpad_right) {
             wasPressedR = true;
         }
-        if(!gamepad.dpad_left && wasPressed){
+        if(!gamepad.dpad_right && !gamepad.dpad_left && wasPressed && wasPressedR){
+            double x = ClawTurr.getPosition() + (setHandTurretDegrees(90)- setHandTurretDegrees(0));
+                    ClawTurr.setPosition(Range.clip(x,0.0,1.0));
+            wasPressed = false;
+            wasPressedR = false;
+        }
+        else if(!gamepad.dpad_left && wasPressed){
             ClawTurr.setPosition(ClawTurr.getPosition()+0.05);
             wasPressed = false;
         }
-        if(!gamepad.dpad_right && wasPressedR){
+        else if(!gamepad.dpad_right && wasPressedR){
             ClawTurr.setPosition(ClawTurr.getPosition()-0.05);
             wasPressedR = false;
         }
