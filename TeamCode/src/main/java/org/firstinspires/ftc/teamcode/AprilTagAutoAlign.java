@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Autonomous(name = "April Tag Auto Align")
 public class AprilTagAutoAlign extends LinearOpMode {
 
-    public static double RandomdistanceUnits = 35;
+    public static double RandomdistanceUnits = 28;
 
     public static double SlideTicks = 640;
 
@@ -30,7 +30,7 @@ public class AprilTagAutoAlign extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, 34, Math.toRadians(90)));
+        //MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, 34, Math.toRadians(90)));
 
         hand.init(hardwareMap);
         drive.init(hardwareMap);
@@ -38,15 +38,15 @@ public class AprilTagAutoAlign extends LinearOpMode {
         out.init(hardwareMap);
         out.autonInit();
         hand.setSwingArmAngleAuton(130);
-
-        Action myTrajectory = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(0)), Math.toRadians(0)).build();
-
-        drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, 45, Math.toRadians(0)));
-        Action Traj2 = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-90)), Math.toRadians(-90)) //56.5, 54
-                .build();
-        drive2 = new MecanumDrive(hardwareMap, new Pose2d(50.6, 39.7, Math.toRadians(-90)));
-        Action Traj3 = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
-                .build();
+//
+//        Action myTrajectory = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(0)), Math.toRadians(0)).build();
+//
+//        drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, 45, Math.toRadians(0)));
+//        Action Traj2 = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-90)), Math.toRadians(-90)) //56.5, 54
+//                .build();
+//        drive2 = new MecanumDrive(hardwareMap, new Pose2d(50.6, 39.7, Math.toRadians(-90)));
+//        Action Traj3 = drive2.actionBuilder(drive2.pose).splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
+//                .build();
         while (!isStopRequested() && !opModeIsActive()) {
         }
 

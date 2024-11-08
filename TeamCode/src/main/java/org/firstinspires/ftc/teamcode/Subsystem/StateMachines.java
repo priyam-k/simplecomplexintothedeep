@@ -25,10 +25,10 @@ public class StateMachines {
 
                 .state(Intake.SCANNING4)
                 .onEnter(hand::scan4)
-                .transition(() -> gamepad.right_bumper, Intake.WAIT)
+                .transition(() -> gamepad.right_bumper, Intake.HOVERING)
 
-                .state(Intake.WAIT)
-                .transitionTimed(0.25, Intake.HOVERING)
+                //.state(Intake.WAIT)
+               // .transitionTimed(0.25, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)

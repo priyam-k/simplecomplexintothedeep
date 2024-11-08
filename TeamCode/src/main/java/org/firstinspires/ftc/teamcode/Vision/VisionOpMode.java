@@ -24,6 +24,8 @@ public class VisionOpMode extends LinearOpMode {
 
     Drivetrain drivetrain;
     EnableHand intake;
+
+    public static double sampleTranslateGain,sampleStrafeGain;
     private Servo wristServo, armServo;
     public static double servoAngleOffset = 45; // offset starting position of servo to change servo deadzone
     public static String sampleColor = "yellow"; // color of the sample to detect

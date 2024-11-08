@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 @TeleOp(name = "Adi runner Tuner")
 public class AdiRunnerTuner extends LinearOpMode {
     public static double KpVert = 0.0, KpStraffe = 0.0, KpRotation = 0.0;
+    public static double KdVertical = 0.0,KdStrafee =0.0;
     //kpVert 0.0001
     private Drivetrain drive;
 
@@ -32,6 +33,8 @@ public class AdiRunnerTuner extends LinearOpMode {
             drive.KpVertical = KpVert;
             drive.KpStraffe = KpStraffe;
             drive.KpRotation = KpRotation;
+            drive.KdVertical = KdVertical;
+            drive.KdStrafee = KdStrafee;
            double[] current =  drive.toPoint(Ypos,Xpos,Heading);
 
            tele.addData("Vertical Target" , Ypos);
