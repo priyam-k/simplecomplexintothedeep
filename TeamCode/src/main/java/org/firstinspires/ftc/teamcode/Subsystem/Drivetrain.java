@@ -3,12 +3,9 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.AprilTagAlignmentTest;
+import org.firstinspires.ftc.teamcode.SingleUse.AprilTagAlignmentTest;
 import org.firstinspires.ftc.teamcode.Vision.VisionOpMode;
-import org.opencv.core.Point;
 
-import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
-import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -30,13 +27,13 @@ public class Drivetrain implements Subsystem {
 
     public static double turnGain = 0.03;
     // FOR APRILTAGS: turn: 0.03, translate: 0.08, strafe: 0.015
-    public static double translateGain = 0.01;
+    public static double translateGain = 0.07;
     // Approx: 0.8 and exact: 0.3
-    public static double strafeGain = 0.015;
+    public static double strafeGain = 0.01;
 
-    public static double KpVertical = 0.0,KpStraffe = 0.0,KpRotation = 0.0;
+    public static double KpVertical = 0.000101,KpStraffe = 0.0003,KpRotation = 0.04;
 
-    public static double KdVertical = 0.0,KdStrafee =0.0;
+    public static double KdVertical = 0.00035,KdStrafee =0.001;
 
     public static double StrafeLine = 320;  //640
 
@@ -57,6 +54,7 @@ public class Drivetrain implements Subsystem {
 
     private double prevVerticalError = 0;
     private double prevStraffeError = 0;
+
 
     public void initVisionPortal(HardwareMap hardwareMap){ // IF USING APRILTAGS THEN MAKE SURE TO DO drivetrain.initVisionPortal(hardwaremap)!!!!
         VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
@@ -417,6 +415,15 @@ public class Drivetrain implements Subsystem {
         RR.setPower(0);
     }
 
+    public void RESET(){
+        imu.resetYaw();
+        perp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        par.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        perp.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        par.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
 
 
     public double[] toPoint(double targetVert, double targetHorizontal, double targetHeading) {
@@ -432,8 +439,9 @@ public class Drivetrain implements Subsystem {
         double dVerticalError = VerticalError - prevVerticalError;
         double dStraffeError = StraffeError - prevStraffeError;
 
+
         // PID control calculations with added derivative terms
-        double turn = Range.clip(HeadingError * KpRotation, -1, 1);
+        double turn = Range.clip((HeadingError * KpRotation) , -1, 1);
         double drive = Range.clip((VerticalError * KpVertical) + (dVerticalError * KdVertical), -1, 1);
         double strafe = Range.clip((StraffeError * KpStraffe) + (dStraffeError * KdStrafee), -1, 1);
 

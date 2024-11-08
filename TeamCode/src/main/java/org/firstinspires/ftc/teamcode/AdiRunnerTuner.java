@@ -10,13 +10,17 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
+
 @Config
 @TeleOp(name = "Adi runner Tuner")
 public class AdiRunnerTuner extends LinearOpMode {
-    public static double KpVert = 0.0, KpStraffe = 0.0, KpRotation = 0.0;
-    public static double KdVertical = 0.0,KdStrafee =0.0;
+    public static double KpVert = 0.000101, KpStraffe = 0.0003, KpRotation = 0.04;
+    public static double KdVertical = 0.00035,KdStrafee =0.001;
     //kpVert 0.0001
     private Drivetrain drive;
+
+    private EnableHand hand;
 
     public static double Ypos = 0.0,Xpos = 0.0 ,Heading= 0.0;
 
@@ -29,12 +33,15 @@ public class AdiRunnerTuner extends LinearOpMode {
 
         waitForStart();
 
+
+
         while (opModeIsActive()){
             drive.KpVertical = KpVert;
             drive.KpStraffe = KpStraffe;
             drive.KpRotation = KpRotation;
             drive.KdVertical = KdVertical;
             drive.KdStrafee = KdStrafee;
+
            double[] current =  drive.toPoint(Ypos,Xpos,Heading);
 
            tele.addData("Vertical Target" , Ypos);
@@ -60,5 +67,8 @@ public class AdiRunnerTuner extends LinearOpMode {
         drive.init(hardwareMap);
         dashboard = FtcDashboard.getInstance();
         tele =  new MultipleTelemetry(telemetry,dashboard.getTelemetry());
+        hand = new EnableHand();
+        hand.init(hardwareMap);
+        hand.setSwingArmAngleAuton(90);
     }
 }

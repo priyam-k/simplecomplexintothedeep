@@ -5,11 +5,11 @@ import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
 public class StateMachines {
-    public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
+    public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad,StateMachine out) {
         return new StateMachineBuilder()
                 .state(Intake.LOITER)
                 .onEnter(hand::loiter)
-                .transition(() -> gamepad.right_bumper, Intake.SCANNING1)
+                .transition(() -> gamepad.a, Intake.SCANNING1)
 
                 .state(Intake.SCANNING1)
                 .onEnter(hand::scan1)
@@ -25,15 +25,15 @@ public class StateMachines {
 
                 .state(Intake.SCANNING4)
                 .onEnter(hand::scan4)
-                .transition(() -> gamepad.right_bumper, Intake.HOVERING)
+                .transition(() -> gamepad.a, Intake.WAIT)
 
-                //.state(Intake.WAIT)
-               // .transitionTimed(0.25, Intake.HOVERING)
+                .state(Intake.WAIT)
+                .transitionTimed(0.25, Intake.HOVERING)
 
                 .state(Intake.HOVERING)
                 .onEnter(hand::hover1)
                 .loop(hand::hover2)
-                .transition(() -> gamepad.right_bumper, Intake.PICKUP1)
+                .transition(() -> gamepad.a, Intake.PICKUP1)
 
                 .state(Intake.PICKUP1)
                 .onEnter(hand::pickup1)
@@ -41,7 +41,7 @@ public class StateMachines {
 
                 .state(Intake.PICKUP2)
                 .onEnter(hand::pickup2)
-                .transition(() -> gamepad.right_bumper, Intake.TRANSFER1)
+                .transition(() -> gamepad.a, Intake.TRANSFER1)
 
                 .waitState(0.5)
 
@@ -51,7 +51,7 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER2)
                 .onEnter(hand::transfer2)
-                .transition(() -> gamepad.right_bumper, Intake.WAIT2)
+                .transition(() -> gamepad.a, Intake.WAIT2)
 
                 .state(Intake.WAIT2)
                 .transitionTimed(0.25, Intake.LOITER)
@@ -80,11 +80,11 @@ public class StateMachines {
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
-                .transition(() -> gamepad.left_bumper  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
-                .transitionTimed(0.75 , Outtake.TRANSFERRING2)
+                .transitionTimed(0.25 , Outtake.TRANSFERRING2)
 
                 .state(Outtake.TRANSFERRING2)
                 .onEnter(out::transfer2)
@@ -92,17 +92,11 @@ public class StateMachines {
 
                 .state(Outtake.BACK1)
                 .onEnter(out::back1)
-                .transitionTimed(0.5, Outtake.BACK2)
-
-                .state(Outtake.BACK2)
-                .onEnter(out::back2)
-                .transition(() -> gamepad.left_bumper, Outtake.SCORING)
-
-                .waitState(0.5)
+                .transition(()->gamepad.b, Outtake.SCORING)
 
                 .state(Outtake.SCORING)
                 .onEnter(out::score)
-                .transition(() -> gamepad.left_bumper, Outtake.LOITERING1)
+                .transitionTimed(0.75, Outtake.LOITERING1)
 
                 .build();
     }

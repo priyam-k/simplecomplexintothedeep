@@ -28,7 +28,7 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
     MiggyUnLimbetedOuttake outake = new MiggyUnLimbetedOuttake();
     private DcMotorEx slideMotorRight;
     private DcMotorEx slideMotorLeft;
-    public static double KpRange = 0,KpturnGain = 0,KpstrafeGain = 0;
+    public static double KpRange = 0.07,KpturnGain = 0.03,KpstrafeGain = 0.01;
            //slides
     public static double targetPos;
 
@@ -50,9 +50,7 @@ public class AprilTagAutoAlignTuner extends LinearOpMode {
 
 
         waitForStart();
-        outake.back1();
-        outake.back2();
-        outake.transfer2();
+        outake.backAuton();
 
 
 

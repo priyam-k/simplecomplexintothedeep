@@ -18,6 +18,7 @@ public class GenericTele extends LinearOpMode {
     Drivetrain drive;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
+    StateMachine intakeMachine,transferMachine;
 
 
 
@@ -31,8 +32,8 @@ public class GenericTele extends LinearOpMode {
         hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
-        StateMachine intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
-        StateMachine transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+        intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2, transferMachine);
+        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
 
 
         waitForStart();

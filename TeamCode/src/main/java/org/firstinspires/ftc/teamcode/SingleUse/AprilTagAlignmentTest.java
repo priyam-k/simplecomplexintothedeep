@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.SingleUse;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -45,9 +45,7 @@ public class AprilTagAlignmentTest extends LinearOpMode {
 
 
             waitForStart();
-            outake.back1();
-            outake.back2();
-            outake.transfer2();
+            outake.backAuton();
 
 
 

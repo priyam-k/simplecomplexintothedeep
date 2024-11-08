@@ -88,7 +88,7 @@ public class EnableHand implements Subsystem {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.45);
+        ArmTurr.setPosition(0.45); //to account for camera not being staight
     }
 
 
@@ -126,17 +126,18 @@ public class EnableHand implements Subsystem {
         if (gamepad.dpad_right) {
             wasPressedR = true;
         }
-        if(!gamepad.dpad_right && !gamepad.dpad_left && wasPressed && wasPressedR){
-            double x = ClawTurr.getPosition() + (setHandTurretDegrees(90)- setHandTurretDegrees(0));
-                    ClawTurr.setPosition(Range.clip(x,0.0,1.0));
-            wasPressed = false;
-            wasPressedR = false;
+        if(gamepad.dpad_up){
+            waspressedGP = true;
         }
-        else if(!gamepad.dpad_left && wasPressed){
+        if(!gamepad.dpad_up && waspressedGP){
+            ClawTurr.setPosition(setHandTurretDegrees(0));
+            waspressedGP = false;
+        }
+         if(!gamepad.dpad_left && wasPressed){
             ClawTurr.setPosition(ClawTurr.getPosition()+0.05);
             wasPressed = false;
         }
-        else if(!gamepad.dpad_right && wasPressedR){
+        if(!gamepad.dpad_right && wasPressedR){
             ClawTurr.setPosition(ClawTurr.getPosition()-0.05);
             wasPressedR = false;
         }
