@@ -46,16 +46,10 @@ public class StateMachines {
                 .waitState(0.5)
 
                 .state(Intake.TRANSFER1)
-                .onEnter(hand::transfer1)
+                .onEnter(hand::transfer1point5)
                 .transitionTimed(0.25, Intake.TRANSFER2)
 
-                .waitState(0.5)
-
                 .state(Intake.TRANSFER2)
-                .onEnter(hand::transfer1point5)
-                .transitionTimed(0.25, Intake.TRANSFER3)
-
-                .state(Intake.TRANSFER3)
                 .onEnter(hand::transfer2)
                 .transition(() -> gamepad.right_bumper, Intake.WAIT2)
 
@@ -86,7 +80,7 @@ public class StateMachines {
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
-                .transition(() -> gamepad.left_bumper  && intake.getState() == Intake.TRANSFER3, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.left_bumper  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
