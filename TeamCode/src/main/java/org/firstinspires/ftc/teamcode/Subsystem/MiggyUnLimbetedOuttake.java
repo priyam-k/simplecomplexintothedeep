@@ -31,8 +31,6 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Rlift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Llift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //TODO: EXPIRAMENT WITH REVERSING ONE MOTOR
-        // Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

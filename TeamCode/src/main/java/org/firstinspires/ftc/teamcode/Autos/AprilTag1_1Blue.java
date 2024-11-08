@@ -30,16 +30,25 @@ public class AprilTag1_1Blue extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-         MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(0, 31, Math.toRadians(90)));
+         MecanumDrive drive1 = new MecanumDrive(hardwareMap, new Pose2d(0, 40, Math.toRadians(90)));
         intake.init(hardwareMap);
         drive.init(hardwareMap);
         outake.init(hardwareMap);
         intake.setSwingArmAngleAuton(90);
         outake.autonInit();
 
-        Action myTrajectory = drive2.actionBuilder(drive2.pose)
+        Action Traj1 = drive1.actionBuilder(drive1.pose)
                 .splineToLinearHeading(new Pose2d(-37, 33, Math.toRadians(90)), Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(-26, 9, Math.toRadians(90)), Math.toRadians(0))
+                .build();
+        MecanumDrive drive2 = new MecanumDrive(hardwareMap, new Pose2d(-26, 9, Math.toRadians(90)));
+
+        Action Traj2 = drive2.actionBuilder(drive2.pose)
+                .splineToLinearHeading(new Pose2d(50.8, 41.5, Math.toRadians(-90)), Math.toRadians(-90))
+                .build();
+        MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(50.8, 41.5, Math.toRadians(-90)));
+        Action Traj3 = drive3.actionBuilder(drive3.pose)
+                .splineToLinearHeading(new Pose2d(59.2 , 56.2, Math.toRadians(230)), Math.toRadians(100)) //56.5, 54
                 .build();
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -72,7 +81,7 @@ public class AprilTag1_1Blue extends LinearOpMode {
             }
             else if(time.seconds()<9){
                 outake.PIDLoop(100);
-                Actions.runBlocking(new SequentialAction(myTrajectory));
+                Actions.runBlocking(new SequentialAction(Traj1));
             }
             else if(time.seconds()<10){
                 outake.SlidesBrake();
