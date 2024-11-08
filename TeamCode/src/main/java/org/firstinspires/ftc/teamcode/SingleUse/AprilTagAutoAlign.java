@@ -77,10 +77,10 @@ public class AprilTagAutoAlign extends LinearOpMode {
             } else if (time.seconds() < 3.8) {
                 out.PIDLoop(SlideTicks - 320);
             }
-            else if (time.seconds() < 4.5) {
+            else if (time.seconds() < 4.2) {
                 out.score();
             }
-           else if (time.seconds() < 6) {
+           else if (time.seconds() < 5.5) {
                 out.PIDLoop(0);
                 out.loiter1();
                 out.loiter2();
@@ -88,13 +88,44 @@ public class AprilTagAutoAlign extends LinearOpMode {
                 drive.Brake();
                 drive.RESET(); //Get ready for adi runner
             }
+           //poverty starts here
             else if(time.seconds()<7.5) {
                 out.SlidesBrake();
                 drive.toPoint(7000,0,-90);
             }
-            else if (time.seconds()<8){
+            else if (time.seconds()<7.6){
                 drive.Brake();
+                drive.RESET();
             }
+            else if(time.seconds() < 9 ){
+                drive.toPoint(33000,-5000,0);
+            }
+            else if(time.seconds() < 10.5){
+                drive.toPoint(33000,-5000,-135);
+            }
+            //should end here
+            else if(time.seconds() < 10.6){
+                drive.Brake();
+                drive.RESET();
+            }
+            else if(time.seconds() < 12.0){
+                drive.toPoint(-7000,-2000,0);
+                hand.setSwingArmAngleAdiRunner(15,0.6);
+            }
+            else if(time.seconds() < 14.0){
+                drive.toPoint(-11000,8000,0);
+                hand.setSwingArmAngleAdiRunner(180,0.43);
+            }
+            // 1. Hand turret viertical
+
+            //First block drive.toPoint(-7000,-2000,0);
+
+            //Scoring position drive.toPoint(-11000,8000,0);
+
+
+
+
+
 
 
 

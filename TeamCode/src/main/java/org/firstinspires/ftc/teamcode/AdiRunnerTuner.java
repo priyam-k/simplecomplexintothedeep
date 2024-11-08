@@ -11,16 +11,25 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
+import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
 @Config
 @TeleOp(name = "Adi runner Tuner")
 public class AdiRunnerTuner extends LinearOpMode {
-    public static double KpVert = 0.000101, KpStraffe = 0.0003, KpRotation = 0.04;
-    public static double KdVertical = 0.00035,KdStrafee =0.001;
-    //kpVert 0.0001
+    public double KpVert = 0.000101, KpStraffe = 0.0003, KpRotation = 0.04;
+    public double KdVertical = 0.00035,KdStrafee =0.001;
+
+    public static double swingArmAngle = 90;
+    public static double ArmTurr = 0.43;
+
+    public static double slideticks = 0;
+
     private Drivetrain drive;
 
     private EnableHand hand;
+    private MiggyUnLimbetedOuttake out;
+
+
 
     public static double Ypos = 0.0,Xpos = 0.0 ,Heading= 0.0;
 
@@ -41,6 +50,10 @@ public class AdiRunnerTuner extends LinearOpMode {
             drive.KpRotation = KpRotation;
             drive.KdVertical = KdVertical;
             drive.KdStrafee = KdStrafee;
+
+            hand.setSwingArmAngleAdiRunner(swingArmAngle,ArmTurr);
+            out.PIDLoop(slideticks);
+
 
            double[] current =  drive.toPoint(Ypos,Xpos,Heading);
 
@@ -69,6 +82,7 @@ public class AdiRunnerTuner extends LinearOpMode {
         tele =  new MultipleTelemetry(telemetry,dashboard.getTelemetry());
         hand = new EnableHand();
         hand.init(hardwareMap);
-        hand.setSwingArmAngleAuton(90);
+        out = new MiggyUnLimbetedOuttake();
+        out.init(hardwareMap);
     }
 }

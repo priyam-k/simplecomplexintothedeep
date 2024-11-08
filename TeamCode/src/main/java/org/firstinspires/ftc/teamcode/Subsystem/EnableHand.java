@@ -90,6 +90,12 @@ public class EnableHand implements Subsystem {
         RServoSwingArm.setPosition(swingArmAngle);
         ArmTurr.setPosition(0.45); //to account for camera not being staight
     }
+    public void setSwingArmAngleAdiRunner(double angle,double armturr){
+        double swingArmAngle = degreesToTicksSwingArm(angle);
+        LServoSwingArm.setPosition(swingArmAngle);
+        RServoSwingArm.setPosition(swingArmAngle);
+        ArmTurr.setPosition(armturr);
+    }
 
 
 
