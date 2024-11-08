@@ -70,7 +70,6 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.44);
     }
 
-
 //    public void liftSetPos(Gamepad g) {
 //        if(g.right_bumper){
 //            waspressedlift = true;
@@ -88,6 +87,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.55);
     }
 
+
     public void transfer1() {
         // Move the arm to the initial transfer position (0.30)
         Arm(0.30);
@@ -102,12 +102,12 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
         Arm(0.65);
-        outtakeFlipper.setPosition(0.22);
+        outtakeFlipper.setPosition(0.1);
     }
     public void backAuton(){
         Arm(0.73);
         outtakeFlipper.setPosition(0);
-        //clow claw
+        //close claw
         outtakeClaw.setPosition(0.63);
     }
 

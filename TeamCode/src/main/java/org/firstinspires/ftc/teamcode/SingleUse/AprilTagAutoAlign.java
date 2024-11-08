@@ -109,13 +109,25 @@ public class AprilTagAutoAlign extends LinearOpMode {
                 drive.RESET();
             }
             else if(time.seconds() < 12.0){
-                drive.toPoint(-7000,-2000,0);
+                drive.toPoint(-9000,0,0);
                 hand.setSwingArmAngleAdiRunner(15,0.6);
             }
-            else if(time.seconds() < 14.0){
-                drive.toPoint(-11000,8000,0);
-                hand.setSwingArmAngleAdiRunner(180,0.43);
+            else if(time.seconds() < 13.0){
+                hand.setSwingArmAngleAdiRunner(-5, 0.6);
             }
+            else if ( time.seconds() <13.5){hand.close();}
+            else if (time.seconds() < 13.75) {
+                drive.toPoint(-11000, 2000, 0);
+                hand.setSwingArmAngleAdiRunner(180, 0.43);
+            }
+            else if (time.seconds() < 16.0) {out.loiter1();}
+            else if (time.seconds() < 16.25) {out.loiter2();}
+            else if (time.seconds() < 16.5) {out.loiter3();}
+            else if (time.seconds() < 17) {out.transfer1();}
+            else if(time.seconds() < 17.75){out.PIDLoop(1400);}
+            else if (time.seconds() < 18.75){out.backAuton();}
+            else if(time.seconds() < 19){out.score();}
+
             // 1. Hand turret viertical
 
             //First block drive.toPoint(-7000,-2000,0);
