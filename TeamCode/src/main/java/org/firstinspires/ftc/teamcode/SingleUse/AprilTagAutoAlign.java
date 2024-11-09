@@ -19,9 +19,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Autonomous(name = "April Tag Auto Align")
 public class AprilTagAutoAlign extends LinearOpMode {
 
-    public static double RandomdistanceUnits = 26.5;
+    public static double RandomdistanceUnits = 26.0;
 
-    public static double SlideTicks = 640;
+    public static double SlideTicks = 900;
 
     Drivetrain drive = new Drivetrain();
     EnableHand hand = new EnableHand();
@@ -66,8 +66,8 @@ public class AprilTagAutoAlign extends LinearOpMode {
             if (time.seconds() < 1.2) {
                 drive.drive(-0.5);
                 out.PIDLoop(SlideTicks);
-                out.backAuton();
                 hand.setSwingArmAngleAuton(90);
+                out.backAuton();
             }
             //Going back to the correct location
             else if (time.seconds() < 3) {

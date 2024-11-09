@@ -106,7 +106,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
     public void backAuton(){
         Arm(0.73);
-        outtakeFlipper.setPosition(0);
+        outtakeFlipper.setPosition(0.0);
         //close claw
         outtakeClaw.setPosition(0.63);
     }
