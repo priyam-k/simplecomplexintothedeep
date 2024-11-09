@@ -159,6 +159,10 @@ public class EnableHand implements Subsystem {
         setSwingArmAngle(-5);
     }
 
+    public void pickup2Auton(){
+        setSwingArmAngle(5);
+    }
+
 
     public void pickup2() {
         // Claw in latching position

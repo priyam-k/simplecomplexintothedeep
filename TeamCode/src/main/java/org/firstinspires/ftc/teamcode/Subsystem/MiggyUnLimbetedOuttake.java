@@ -61,11 +61,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void loiter1() {
-        Arm(0.5);
+        Arm(0.37);
     }
 
     public void autoLoiter1() {
-        Arm(0.7);
+        Arm(0.57);
     }
 
     public void loiter2() {
@@ -93,7 +93,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void transfer1() {
         // Move the arm to the initial transfer position (0.30)
-        Arm(0.30);
+        Arm(0.17);
 
     }
 
@@ -104,11 +104,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.65);
+        Arm(0.52);
         outtakeFlipper.setPosition(0.1);
     }
     public void backAuton(){
-        Arm(0.73);
+        Arm(0.6);
         outtakeFlipper.setPosition(0.0);
         //close claw
         outtakeClaw.setPosition(0.63);
@@ -117,6 +117,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void back2() {
         // Move the flipper to 0.0 for final transfer
 
+    }
+
+    public void back2Auton(){
+        outtakeFlipper.setPosition(0.6);
+        Arm(0.22);
     }
 
 
