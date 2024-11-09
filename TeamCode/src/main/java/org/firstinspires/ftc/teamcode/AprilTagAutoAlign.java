@@ -1,16 +1,10 @@
-package org.firstinspires.ftc.teamcode.SingleUse;
+package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
@@ -19,9 +13,9 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Autonomous(name = "April Tag Auto Align")
 public class AprilTagAutoAlign extends LinearOpMode {
 
-    public static double RandomdistanceUnits = 26.0;
+    public static double RandomdistanceUnits = 25.5;
 
-    public static double SlideTicks = 900;
+    public static double SlideTicks = 640;
 
     Drivetrain drive = new Drivetrain();
     EnableHand hand = new EnableHand();
@@ -66,8 +60,8 @@ public class AprilTagAutoAlign extends LinearOpMode {
             if (time.seconds() < 1.2) {
                 drive.drive(-0.5);
                 out.PIDLoop(SlideTicks);
-                hand.setSwingArmAngleAuton(90);
                 out.backAuton();
+                hand.setSwingArmAngleAuton(90);
             }
             //Going back to the correct location
             else if (time.seconds() < 3) {
@@ -101,32 +95,54 @@ public class AprilTagAutoAlign extends LinearOpMode {
                 drive.toPoint(33000,-5000,0);
             }
             else if(time.seconds() < 10.5){
-                drive.toPoint(33000,-5000,-135);
+                drive.toPoint(33000,-5000,-90);
             }
             //should end here
             else if(time.seconds() < 10.6){
                 drive.Brake();
                 drive.RESET();
             }
+            //poverty end here
+
+
             else if(time.seconds() < 12.0){
-                drive.toPoint(-9000,0,0);
-                hand.setSwingArmAngleAdiRunner(15,0.6);
+                drive.toPoint(-6500,-500,0);
+                hand.setSwingArmAngleAdiRunner(30,0.43);
             }
+
             else if(time.seconds() < 13.0){
-                hand.setSwingArmAngleAdiRunner(-5, 0.6);
+                hand.setSwingArmAngleAdiRunner(-5, 0.43);
             }
-            else if ( time.seconds() <13.5){hand.close();}
-            else if (time.seconds() < 13.75) {
-                drive.toPoint(-11000, 2000, 0);
+
+            else if ( time.seconds() <14.5){hand.close();}
+            else if (time.seconds() < 15.5) {
+                drive.toPoint(-12000, -1700, 0);
                 hand.setSwingArmAngleAdiRunner(180, 0.43);
             }
-            else if (time.seconds() < 16.0) {out.loiter1();}
-            else if (time.seconds() < 16.25) {out.loiter2();}
+
+
+
+
+            //
+
+           else if (time.seconds() < 16) {
+               out.loiter1();
+                drive.toPoint(-12000, -1700, -45);
+           }
+            else if (time.seconds() < 16.25) {
+            out.loiter2();}
             else if (time.seconds() < 16.5) {out.loiter3();}
-            else if (time.seconds() < 17) {out.transfer1();}
-            else if(time.seconds() < 17.75){out.PIDLoop(1400);}
-            else if (time.seconds() < 18.75){out.backAuton();}
-            else if(time.seconds() < 19){out.score();}
+            else if (time.seconds() < 17) {out.transfer1();
+            hand.loiter();}
+            else if(time.seconds() < 17.75){out.backAuton();}
+            else if (time.seconds() < 18.75){out.PIDLoop(1400);}
+            else if(time.seconds() < 25){
+            out.score();
+            drive.toPoint(-19000, -1700, -45);}
+
+            else if (time.seconds() < 23.1){
+                drive.Brake();
+            }
 
             // 1. Hand turret viertical
 

@@ -151,6 +151,7 @@ public class EnableHand implements Subsystem {
 
     public void hoverAuto(){
         setSwingArmAngle(25);
+        ClawTurr.setPosition(setHandTurretDegrees(0));
     }
 
     public void pickup1() {

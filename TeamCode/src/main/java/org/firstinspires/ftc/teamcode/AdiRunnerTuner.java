@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 @Config
 @TeleOp(name = "Adi runner Tuner")
 public class AdiRunnerTuner extends LinearOpMode {
-    public double KpVert = 0.000101, KpStraffe = 0.0003, KpRotation = 0.04;
+    public static double KpVert = 0.000101, KpStraffe = 0.0003, KpRotation = 0.04;
     public double KdVertical = 0.00035,KdStrafee =0.001;
 
     public static double swingArmAngle = 90;
