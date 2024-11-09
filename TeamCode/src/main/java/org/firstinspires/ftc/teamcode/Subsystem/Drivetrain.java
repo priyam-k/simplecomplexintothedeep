@@ -113,19 +113,19 @@ public class Drivetrain implements Subsystem {
 
     }
 
-    public double[] SampleAlign(double x, double y){
+    public double[] SampleAlign(double x, double y, double strafeGain, double translateGain){
 //        double x = centerofSample.x;
 //        double y = centerofSample.y;
 
         //make variables for all errors (for rotate, translate, and strafe)
-        double TranslateError = x-VerticalLine; // positive error -> robot needs to move stright
-        double StraffeError = y-StrafeLine;// positive error -> robot needs to move right
+        double TranslateError = y-VerticalLine; // positive error -> robot needs to move stright
+        double StraffeError = StrafeLine-x;// positive error -> robot needs to move right
 
 
         //using PID to align robot to the april tag
 
-        double drive = Range.clip(TranslateError * VisionOpMode.sampleTranslateGain, -1, 1);
-        double strafe = Range.clip(StraffeError * VisionOpMode.sampleStrafeGain, -1, 1);
+        double drive = Range.clip(TranslateError * translateGain, -1, 1);
+        double strafe = Range.clip(StraffeError * strafeGain, -1, 1);
 
 
         //calculate the powers for all motors

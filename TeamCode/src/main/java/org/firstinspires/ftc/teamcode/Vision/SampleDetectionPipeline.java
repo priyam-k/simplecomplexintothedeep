@@ -66,6 +66,8 @@ public class SampleDetectionPipeline extends OpenCvPipeline
         String color;
         double x;
         double y;
+        double centerX;
+        double centerY;
     }
 
     public Point getCenter(){
@@ -108,8 +110,11 @@ public class SampleDetectionPipeline extends OpenCvPipeline
     @Override
     public Mat processFrame(Mat input)
     {
-        Imgproc.line(input, new Point(VisionOpMode.StrafeLine,0), new Point(VisionOpMode.StrafeLine,240),new Scalar(0,0,0));
-        Imgproc.line(input,new Point(0,VisionOpMode.VerticalLine),new Point(640,VisionOpMode.VerticalLine),new Scalar(0,0,0));
+        // Draw the crosshair lines
+        Imgproc.line(input, new Point(VisionOpMode.StrafeLine, 0), new Point(VisionOpMode.StrafeLine, input.rows()), new Scalar(0, 255, 0), 2);
+        Imgproc.line(input, new Point(0, VisionOpMode.VerticalLine), new Point(input.cols(), VisionOpMode.VerticalLine), new Scalar(0, 255, 0), 2);
+
+
         internalStoneList.clear();
 
         /*

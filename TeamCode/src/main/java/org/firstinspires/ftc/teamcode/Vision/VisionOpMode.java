@@ -4,12 +4,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.ArrayList;
@@ -25,7 +27,8 @@ public class VisionOpMode extends LinearOpMode {
     Drivetrain drivetrain;
     EnableHand intake;
 
-    public static double sampleTranslateGain,sampleStrafeGain;
+    public static double sampleTranslateGain = 0.03;
+    public static double sampleStrafeGain = 0.005;
     private Servo wristServo, armServo;
     public static double servoAngleOffset = 45; // offset starting position of servo to change servo deadzone
     public static String sampleColor = "yellow"; // color of the sample to detect
@@ -70,11 +73,13 @@ public class VisionOpMode extends LinearOpMode {
 //        armServo = hardwareMap.get(Servo.class, "Servo10");
 
 
+
         // Get camera ID from the hardware map
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
 
 
         // Initialize the pipeline
@@ -88,7 +93,7 @@ public class VisionOpMode extends LinearOpMode {
             @Override
             public void onOpened() {
                 // Start streaming the video feed at a resolution of 320x240
-                webcam.startStreaming(176,144);
+                webcam.startStreaming(640,480, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
 
             @Override
@@ -98,7 +103,7 @@ public class VisionOpMode extends LinearOpMode {
         });
 
         // INIT LOOP STARTS HERE
-
+        //TODO: issue is that the camera is rotated 90 degrees, so that horizontal becomes vertical and vice versa, messing up everything
         while (opModeInInit()) {
             // Get the detected stones from the pipeline
             ArrayList<SampleDetectionPipeline.AnalyzedStone> detectedStones = pipeline.getDetectedStones();
@@ -110,16 +115,23 @@ public class VisionOpMode extends LinearOpMode {
             }
 
             SampleDetectionPipeline.AnalyzedStone targetSample;
-            detectedStones = detectedStones.stream()
-                    .filter(stone -> stone.color.equalsIgnoreCase(sampleColor))
-                    .collect(Collectors.toCollection(ArrayList::new));
+            // filter out the detected stones that are not the sample color
+            detectedStones.removeIf(stone -> !stone.color.equalsIgnoreCase(sampleColor));
 
             targetSample = closestStone(detectedStones, StrafeLine, VerticalLine);
 
             if (targetSample != null) {
+                telemetry.addData("x", targetSample.x);
+                telemetry.addData("y", targetSample.y);
+                telemetry.addData("x error", StrafeLine - targetSample.x);
+                telemetry.addData("y error", targetSample.y - VerticalLine);
+                telemetry.addData("x power", Range.clip((StrafeLine - targetSample.x) * sampleStrafeGain, -1, 1));
+                telemetry.addData("y power", Range.clip((targetSample.y - VerticalLine) * sampleTranslateGain, -1, 1));
+                telemetry.update();
+
                 angle = targetSample.angle;
                 wristServo.setPosition(degreesToTicks(270 - (angle)));
-                drivetrain.SampleAlign(targetSample.x, targetSample.y);
+                drivetrain.SampleAlign(targetSample.x, targetSample.y, sampleStrafeGain, sampleTranslateGain);
             } else {
                 drivetrain.Brake();
             }
