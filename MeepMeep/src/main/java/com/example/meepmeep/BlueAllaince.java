@@ -7,24 +7,23 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class BlueAllaince {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(750);
+        MeepMeep meepMeep = new MeepMeep(550);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 34, Math.toRadians(90)))
-
-
-                .lineToY(45)
-                .turn(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(50.6, 39.7, Math.toRadians(-95)), Math.toRadians(-100))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(225)), Math.toRadians(100))
-                .splineToLinearHeading(new Pose2d(59, 39.7, Math.toRadians(-90)), Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(59.8, 57.5, Math.toRadians(225)), Math.toRadians(100))
-                .waitSeconds(1)
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 36, Math.toRadians(90)))
+                .splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(-5)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51.8, 43, Math.toRadians(-95)), Math.toRadians(-90))
+                .waitSeconds(5.2)
+                .splineToLinearHeading(new Pose2d(61, 47.5, Math.toRadians(220)), Math.toRadians(100))
+                .waitSeconds(4.8)
+                .splineToLinearHeading(new Pose2d(69, 43, Math.toRadians(-95)), Math.toRadians(-90))
+                .waitSeconds(5.2)
+                .splineToLinearHeading(new Pose2d(61, 47.5, Math.toRadians(220)), Math.toRadians(100))
+                .waitSeconds(5.2)
                 .build());
 
 
