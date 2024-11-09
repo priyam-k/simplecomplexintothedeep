@@ -108,7 +108,7 @@ public class EnableHand implements Subsystem {
 
     public void scan2() {
         // Intake arm turret: Intaking position
-        ArmTurr.setPosition(0.45);
+        ArmTurr.setPosition(0.43);
     }
 
     public void scan3() {
@@ -151,13 +151,14 @@ public class EnableHand implements Subsystem {
 
     public void hoverAuto(){
         setSwingArmAngle(25);
-        ClawTurr.setPosition(setHandTurretDegrees(0));
     }
 
+    public void autonPickup1(){ClawTurr.setPosition(setHandTurretDegrees(90));}
     public void pickup1() {
         // Swing arm angle at -5 degrees
         setSwingArmAngle(-5);
     }
+
 
     public void pickup2() {
         // Claw in latching position
@@ -182,6 +183,7 @@ public class EnableHand implements Subsystem {
         // Hand turret to 0 degrees
         ClawTurr.setPosition(setHandTurretDegrees(0));
     }
+    public void autonTransfer2(){ClawTurr.setPosition(setHandTurretDegrees(90));}
 
     public void loiter() {
         // Claw in vectoring position
