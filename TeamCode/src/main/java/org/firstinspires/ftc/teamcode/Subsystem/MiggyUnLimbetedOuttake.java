@@ -61,8 +61,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void loiter1() {
-        // Set the arm to the latching position at 0.7
         Arm(0.5);
+    }
+
+    public void autoLoiter1() {
+        Arm(0.7);
     }
 
     public void loiter2() {
@@ -124,9 +127,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void autonInit() {
         //flipper shoudl be in loiterng but claw should be lclosed
-        loiter1();
+        autoLoiter1();
         transfer2();
         loiter3();
+
     }
 
     public void SlidesBrake(){
