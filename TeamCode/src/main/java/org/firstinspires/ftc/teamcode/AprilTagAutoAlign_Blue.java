@@ -364,208 +364,208 @@ public class AprilTagAutoAlign_Blue extends LinearOpMode {
                                         //END OF SAMPLE 1 SCORING
                                         //START OF SAMPLE 2 PICKUP
 
-                                        ,
-                                        sample2Traj
-                                        ,
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Scan 1");
-                                            telemetry.update();
-                                            hand.scan1();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Scan 2");
-                                            telemetry.update();
-                                            hand.scan2();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Scan 3");
-                                            telemetry.update();
-                                            //hand.scan3();
-                                            hand.close();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Hovering");
-                                            telemetry.update();
-                                            hand.hoverAuto();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Picking up 1");
-                                            telemetry.update();
-                                            hand.autonPickup1();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Picking up 1");
-                                            telemetry.update();
-                                            hand.pickup2Auton();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Picking up 2");
-                                            telemetry.update();
-                                            hand.open();
-                                            return false;
-
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Transferring 1");
-                                            telemetry.update();
-                                            hand.transfer1();
-                                            return false;
-                                        },
-                                        new SleepAction(0.3),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine(" Set Turret position too center");
-                                            telemetry.update();
-                                            hand.turrSet0Auton();
-                                            return false;
-                                        },
-                                        new SequentialAction(
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Loiter 1");
-                                                    telemetry.update();
-                                                    out.loiter1();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Loiter 2");
-                                                    telemetry.update();
-                                                    out.loiter2();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Loiter 3");
-                                                    telemetry.update();
-                                                    out.loiter3();
-                                                    return false;
-                                                },
-                                        new SleepAction(0.7),
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Transferring 1.5");
-                                            telemetry.update();
-                                            hand.transfer1point5();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                        telemetryPacket -> {
-                                            telemetry.addLine("Transferring 2");
-                                            telemetry.update();
-                                            hand.autonTransfer2();
-                                            return false;
-                                        },
-                                        new SleepAction(0.7),
-
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Transfer 1");
-                                                    telemetry.update();
-                                                    out.transfer1();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Transfer 2");
-                                                    telemetry.update();
-                                                    out.transfer2();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Loiter");
-                                                    telemetry.update();
-                                                    hand.close();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.3),
-                                                //Goes to basket pistion
-                                                basketTraj,
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Back 1");
-                                                    telemetry.update();
-                                                    out.back1();
-                                                    return false;
-                                                },
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Back 2");
-                                                    telemetry.update();
-                                                    out.back2Auton();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    out.PIDLoopAuto(1000);
-                                                    telemetry.addData("Slides current pos ", out.currentPos);
-                                                    telemetry.update();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Back 2");
-                                                    telemetry.update();
-                                                    out.backAuton();
-                                                    return false;
-                                                },
-
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Score");
-                                                    telemetry.update();
-                                                    out.score();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Set slides power to 0");
-                                                    telemetry.update();
-                                                    out.SlidesBrake();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("back 1 after placing");
-                                                    telemetry.update();
-                                                    out.back1();
-                                                    return false;
-                                                },
-                                                new SleepAction(0.7),
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Slides down");
-                                                    telemetry.update();
-                                                    out.PIDLoop(-20);
-                                                    return false;
-                                                }
-                                                ,
-                                                new SleepAction(2)
-                                                ,
-                                                telemetryPacket -> {
-                                                    telemetry.addLine("Slides brake");
-                                                    telemetry.update();
-                                                    out.SlidesBrake();
-                                                    return false;
-                                                }
-                                ))));
+//                                        ,
+//                                        sample2Traj
+//                                        ,
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Scan 1");
+//                                            telemetry.update();
+//                                            hand.scan1();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Scan 2");
+//                                            telemetry.update();
+//                                            hand.scan2();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Scan 3");
+//                                            telemetry.update();
+//                                            //hand.scan3();
+//                                            hand.close();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Hovering");
+//                                            telemetry.update();
+//                                            hand.hoverAuto();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Picking up 1");
+//                                            telemetry.update();
+//                                            hand.autonPickup1();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Picking up 1");
+//                                            telemetry.update();
+//                                            hand.pickup2Auton();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Picking up 2");
+//                                            telemetry.update();
+//                                            hand.open();
+//                                            return false;
+//
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Transferring 1");
+//                                            telemetry.update();
+//                                            hand.transfer1();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.3),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine(" Set Turret position too center");
+//                                            telemetry.update();
+//                                            hand.turrSet0Auton();
+//                                            return false;
+//                                        },
+//                                        new SequentialAction(
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Loiter 1");
+//                                                    telemetry.update();
+//                                                    out.loiter1();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Loiter 2");
+//                                                    telemetry.update();
+//                                                    out.loiter2();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Loiter 3");
+//                                                    telemetry.update();
+//                                                    out.loiter3();
+//                                                    return false;
+//                                                },
+//                                        new SleepAction(0.7),
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Transferring 1.5");
+//                                            telemetry.update();
+//                                            hand.transfer1point5();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                        telemetryPacket -> {
+//                                            telemetry.addLine("Transferring 2");
+//                                            telemetry.update();
+//                                            hand.autonTransfer2();
+//                                            return false;
+//                                        },
+//                                        new SleepAction(0.7),
+//
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Transfer 1");
+//                                                    telemetry.update();
+//                                                    out.transfer1();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Transfer 2");
+//                                                    telemetry.update();
+//                                                    out.transfer2();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Loiter");
+//                                                    telemetry.update();
+//                                                    hand.close();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.3),
+//                                                //Goes to basket pistion
+//                                                basketTraj,
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Back 1");
+//                                                    telemetry.update();
+//                                                    out.back1();
+//                                                    return false;
+//                                                },
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Back 2");
+//                                                    telemetry.update();
+//                                                    out.back2Auton();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    out.PIDLoopAuto(1000);
+//                                                    telemetry.addData("Slides current pos ", out.currentPos);
+//                                                    telemetry.update();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Back 2");
+//                                                    telemetry.update();
+//                                                    out.backAuton();
+//                                                    return false;
+//                                                },
+//
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Score");
+//                                                    telemetry.update();
+//                                                    out.score();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Set slides power to 0");
+//                                                    telemetry.update();
+//                                                    out.SlidesBrake();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("back 1 after placing");
+//                                                    telemetry.update();
+//                                                    out.back1();
+//                                                    return false;
+//                                                },
+//                                                new SleepAction(0.7),
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Slides down");
+//                                                    telemetry.update();
+//                                                    out.PIDLoop(-20);
+//                                                    return false;
+//                                                }
+//                                                ,
+//                                                new SleepAction(2)
+//                                                ,
+//                                                telemetryPacket -> {
+//                                                    telemetry.addLine("Slides brake");
+//                                                    telemetry.update();
+//                                                    out.SlidesBrake();
+//                                                    return false;
+//                                                }
+                                )));
             }
         }
     }
