@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -38,37 +39,37 @@ public class Red1_3Sample extends LinearOpMode{
         Action basketTraj1= drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(40)));
+        drive3.pose =  new Pose2d(-56, -52, Math.toRadians(40));
 
         Action sample1Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-49, -47, Math.toRadians(85)), Math.toRadians(90))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-49, -48, Math.toRadians(85)));
+        drive3.pose = new Pose2d(-49, -48, Math.toRadians(85));
 
         Action basketTraj2 = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(40)));
+        drive3.pose =  new Pose2d(-56, -52, Math.toRadians(40));
 
         Action sample2Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(85)), Math.toRadians(90))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-64, -43, Math.toRadians(85)));
+        drive3.pose =  new Pose2d(-64, -43, Math.toRadians(85));
 
         Action basketTraj3 = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(40)));
+        drive3.pose =  new Pose2d(-56, -52, Math.toRadians(40));
 
         Action sample3Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-47, -25.5, Math.toRadians(180)), Math.toRadians(90))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-47, -25.5, Math.toRadians(180)));
+        drive3.pose =  new Pose2d(-47, -25.5, Math.toRadians(180));
 
         Action basketTraj4 = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(40)));
+        drive3.pose =  new Pose2d(-56, -52, Math.toRadians(40));
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
