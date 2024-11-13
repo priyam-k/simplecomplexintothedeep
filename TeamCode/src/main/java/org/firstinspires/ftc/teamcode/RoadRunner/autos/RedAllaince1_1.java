@@ -9,22 +9,26 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous (name = "RedAllaince1_2")
+@Autonomous (name = "Red Specimen Path")
 public class RedAllaince1_1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, -40, Math.toRadians(180)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(16.75, -60.75, Math.toRadians(270)));
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
-                // .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(45)), Math.toRadians(270))
-               //.waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(-48, -42, Math.toRadians(90)), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(45)), Math.toRadians(270))
-                .waitSeconds(1)
-                .turn(Math.toRadians(17))
-                .lineToX(-30)
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(0, -35, Math.toRadians(270)), Math.toRadians(90))
+                .setReversed(false)
+                .splineToLinearHeading(new Pose2d(47, -59, Math.toRadians(90)), Math.toRadians(270))
+                .waitSeconds(4)
+                .splineToLinearHeading(new Pose2d(0, -35, Math.toRadians(270)), Math.toRadians(90))
+                .waitSeconds(2)
+                .splineToLinearHeading(new Pose2d(47, -59, Math.toRadians(90)), Math.toRadians(270))
+                .waitSeconds(4)
+                .splineToLinearHeading(new Pose2d(0, -35, Math.toRadians(270)), Math.toRadians(90))
+                .setReversed(false)
+                .splineToLinearHeading(new Pose2d(47, -59, Math.toRadians(270)), Math.toRadians(270))
                 .build();
         waitForStart();
 
