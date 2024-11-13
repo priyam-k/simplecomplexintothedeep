@@ -114,6 +114,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.63);
     }
 
+    public void outtakeFlipper(double pos) {
+        outtakeFlipper.setPosition(pos);
+    }
+
     public void back2() {
         // Move the flipper to 0.0 for final transfer
 

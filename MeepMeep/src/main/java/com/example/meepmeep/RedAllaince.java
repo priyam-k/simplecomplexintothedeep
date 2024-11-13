@@ -14,16 +14,12 @@ public class RedAllaince {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -36, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(0, -45, Math.toRadians(175)), Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-51.8, -43, Math.toRadians(85)), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(-61, -47.5, Math.toRadians(40)), Math.toRadians(280))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(-69, -43, Math.toRadians(85)), Math.toRadians(90))
-                .waitSeconds(1)
-                .splineToLinearHeading(new Pose2d(-61, -47.5, Math.toRadians(40)), Math.toRadians(280))
-                .waitSeconds(1)
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-30.75, -63.25, Math.toRadians(90)))
+                .setTangent(Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
+                .splineToLinearHeading(new Pose2d(-51.8, -43.5, Math.toRadians(85)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-64, -43, Math.toRadians(85)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-47, -25.5, Math.toRadians(180)), Math.toRadians(90))
                 .build());
 
 
