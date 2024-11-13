@@ -14,7 +14,7 @@ public class RedAllaince {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-30.75, -63.25, Math.toRadians(0)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-30.75, -63.25, Math.toRadians(90)))
                 .setTangent(Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .splineToLinearHeading(new Pose2d(-51.8, -43.5, Math.toRadians(85)), Math.toRadians(90))

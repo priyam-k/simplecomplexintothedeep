@@ -26,7 +26,7 @@ public class Red1_3Sample extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(-30.75, -63.25, Math.toRadians(0)));
+        MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(-30.75, -63.25, Math.toRadians(90)));
 //
 //        hand.init(hardwareMap);
 //        drive.init(hardwareMap);
@@ -40,7 +40,7 @@ public class Red1_3Sample extends LinearOpMode{
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(-56, -52, Math.toRadians(40)), Math.toRadians(280))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(175)));
+        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-56, -52, Math.toRadians(40)));
 
         Action sample1Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-51.8, -43.5, Math.toRadians(85)), Math.toRadians(90))
@@ -50,11 +50,12 @@ public class Red1_3Sample extends LinearOpMode{
         Action sample2Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-64, -43, Math.toRadians(85)), Math.toRadians(90))
                 .build();
-        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-58, -50, Math.toRadians(40)));
+        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-64, -43, Math.toRadians(85)));
 
         Action sample3Traj = drive3.actionBuilder(drive3.pose)
                 .splineToLinearHeading(new Pose2d(-47, -25.5, Math.toRadians(180)), Math.toRadians(90))
                 .build();
+        drive3 = new MecanumDrive(hardwareMap, new Pose2d(-47, -25.5, Math.toRadians(180)));
         while (!isStopRequested() && !opModeIsActive()) {
         }
 
