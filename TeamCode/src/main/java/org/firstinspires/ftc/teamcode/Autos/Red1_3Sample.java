@@ -35,9 +35,9 @@ public class Red1_3Sample extends LinearOpMode {
 
 
         Pose2d basketPose = new Pose2d(-57, -57, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-52, -48, Math.toRadians(100));
-        Pose2d samplePose2 = new Pose2d(-65.5, -50, Math.toRadians(100));
-        Pose2d samplePose3 = new Pose2d(-47, -25.5, Math.toRadians(180));
+        Pose2d samplePose1 = new Pose2d(-52, -47.5, Math.toRadians(100));
+        Pose2d samplePose2 = new Pose2d(-64.5, -49, Math.toRadians(100));
+        Pose2d samplePose3 = new Pose2d(-48, -26.5, Math.toRadians(180));
 
         Action basket1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
         drive3 = new MecanumDrive(hardwareMap, basketPose);
@@ -521,6 +521,7 @@ public class Red1_3Sample extends LinearOpMode {
                 , sample1Action
                 , basket2Action
                 , sample2Action
+                , basket3Action
 //               ,basket3Action
 //               ,sample3Action
 //               ,basket4Action
