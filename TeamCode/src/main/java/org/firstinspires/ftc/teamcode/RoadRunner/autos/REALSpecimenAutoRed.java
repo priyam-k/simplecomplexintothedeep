@@ -35,7 +35,7 @@ public class REALSpecimenAutoRed extends LinearOpMode {
 
 
         Pose2d highChamberPose = new Pose2d(0, -35, Math.toRadians(270));
-        Pose2d obsZonePose = new Pose2d(47, -52, Math.toRadians(90));
+        Pose2d obsZonePose = new Pose2d(47, -52, Math.toRadians(86));
         Pose2d parkPose = new Pose2d(47, -61, Math.toRadians(270));
         Pose2d obsZonePickupPose= new Pose2d(47, -59, Math.toRadians(90));
 
