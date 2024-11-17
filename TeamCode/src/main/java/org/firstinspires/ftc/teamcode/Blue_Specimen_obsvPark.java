@@ -14,11 +14,11 @@ import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
 @Config
-@Autonomous(name = " RED segment observation park")
-public class Red_Specimen_obsvPark extends LinearOpMode {
+@Autonomous(name = " BLUE segment observation park")
+public class Blue_Specimen_obsvPark extends LinearOpMode {
     MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(0, -36, Math.toRadians(90)));
     Action myTrajectory = drive3.actionBuilder(drive3.pose)
-            .splineToLinearHeading(new Pose2d(56, -60, Math.toRadians(180)), Math.toRadians(0))
+            .splineToLinearHeading(new Pose2d(-56, 60, Math.toRadians(0)), Math.toRadians(180))
             .build();
     public static double RandomdistanceUnits = 26.0;
 

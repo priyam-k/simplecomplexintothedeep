@@ -16,9 +16,9 @@ public class BlueAllainceObsPark {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -36, Math.toRadians(0)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 36, Math.toRadians(90)))
 
-               .splineToLinearHeading(new Pose2d(56, -60, Math.toRadians(0)), Math.toRadians(180))
+               .splineToLinearHeading(new Pose2d(-56, 60, Math.toRadians(0)), Math.toRadians(180))
 
 
                 .build());
