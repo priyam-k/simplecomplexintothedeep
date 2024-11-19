@@ -134,7 +134,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
-    public void highBasket(){PIDLoop(1280);}
+    public void highBasket(){PIDLoop(1290);}
     public void slidesTransfer(){PIDLoop(0);}
     public void latch() {
        // Makes sure that slides are latched and held in place
@@ -184,6 +184,9 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
             Llift.setPower(out);
             currentPos = -Rlift.getCurrentPosition();
         }
+    }
+    public double slidesPower(){
+        return Rlift.getPower();
     }
 
 }

@@ -603,8 +603,8 @@ public class Red1_3Sample extends LinearOpMode {
                 , basket2Action
                 , sample2Action
                ,basket3Action
-//               ,sample3Action
-//               ,basket4Action
+              ,sample3Action
+               ,basket4Action
         ));
     }
 }
