@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
     public double currentPos;
-    private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
-    public static double kP = 0.01;
+    private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper, slidesLatch;
+    public static double kP = 0.09;
     boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
@@ -25,6 +25,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeArm2 = hardwareMap.get(Servo.class, "Servo3");
         outtakeClaw = hardwareMap.get(Servo.class, "Servo0");
         outtakeFlipper = hardwareMap.get(Servo.class, "Servo1");
+        slidesLatch = hardwareMap.get(Servo.class, "Servo4");
         Rlift = hardwareMap.get(DcMotorEx.class, "rightLift");
         Llift = hardwareMap.get(DcMotorEx.class, "leftLift");
 
@@ -133,12 +134,28 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
+    public void highBasket(){PIDLoop(1280);}
+    public void slidesTransfer(){PIDLoop(0);}
+    public void latch() {
+       // Makes sure that slides are latched and held in place
+        slidesLatch.setPosition(0.27);
+    }
+    public void unlatch() {
+        // Makes sure that slides are released
+        slidesLatch.setPosition(0);
+    }
+    public void latchAuto() {
+        // Makes sure that slides are latched and held in place
+        slidesLatch.setPosition(0.27);
+        SlidesBrake();
+    }
 
     public void autonInit() {
         //flipper shoudl be in loiterng but claw should be lclosed
         autoLoiter1();
         transfer2();
         loiter3();
+        unlatch();
 
     }
 
@@ -168,4 +185,5 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
             currentPos = -Rlift.getCurrentPosition();
         }
     }
+
 }

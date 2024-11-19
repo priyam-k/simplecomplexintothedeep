@@ -20,7 +20,7 @@ public class GenericTele extends LinearOpMode {
     public Servo slidesServo;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
-    StateMachine intakeMachine,transferMachine;
+    StateMachine intakeMachine,transferMachine, slidesMachine;
 
     public double HoldingSlide = 0.12;
 
@@ -43,18 +43,20 @@ public class GenericTele extends LinearOpMode {
 
         intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2, transferMachine);
         transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
-
+        slidesMachine = StateMachines.getSlidesStateMachine(out, gamepad2);
 
         waitForStart();
 
         transferMachine.start();
         intakeMachine.start();
+        slidesMachine.start();
 
         slidesServo.setPosition(0.12);
 
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
+            slidesMachine.update();
             out.Lift(gamepad2.left_stick_y);
 
             telemetry.addData("Intake state", intakeMachine.getStateString());

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import android.transition.Slide;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
@@ -106,6 +108,35 @@ public class StateMachines {
         TRANSFERRING1, TRANSFERRING2,
         BACK1, BACK2,
         SCORING
+    }
+    public static StateMachine getSlidesStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad) {
+        return new StateMachineBuilder()
+                .state(Slides.Latched)
+                .onEnter(out::latchAuto)
+                .transition(()->gamepad.y, Slides.Unlatched)
+
+                .waitState(0.5)
+
+                .state(Slides.Unlatched)
+                .onEnter(out::unlatch)
+                .transitionTimed(0.25, Slides.HighBasket)
+                
+                .state(Slides.HighBasket)
+                .onEnter(out::highBasket)
+                .loop(out::highBasket)
+                .transition(()-> gamepad.y, Slides.SlidesTransfer)
+                
+                .waitState(0.5)
+                
+                .state(Slides.SlidesTransfer)
+                .onEnter(out::slidesTransfer)
+                .loop(out::slidesTransfer)
+                .transitionTimed(2, Slides.Latched)
+                .build();
+    }
+
+    public enum Slides {
+        Latched, SlidesTransfer, Unlatched, HighBasket, SlidesBrake
     }
 
 

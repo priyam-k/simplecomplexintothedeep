@@ -61,6 +61,8 @@ public class Red1_3Sample extends LinearOpMode {
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
+        out.latchAuto();
+
         waitForStart();
 
         out.autonInit();
@@ -79,8 +81,17 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.back2Auton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-//            out.PIDLoop(1000);
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("unlatch slides");
+                    telemetry.update();
+                   // out.unlatch();
+                    out.SlidesBrake();
+                    return false;
+                }, new SleepAction(0.7),
+          telemetryPacket -> {
+            out.PIDLoop(1000);
             telemetry.addData("Slides current pos", out.currentPos);
             telemetry.update();
             return false;
@@ -107,9 +118,18 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-//            out.PIDLoop(0);
+            out.PIDLoop(0);
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("Latching");
+                    telemetry.update();
+                  //  out.latchAuto();
+                    out.SlidesBrake();
+                    return false;
+                },
+        new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
@@ -213,8 +233,18 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.back2Auton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-//            out.PIDLoop(1000);
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("UNlatching");
+                    telemetry.update();
+                   // out.unlatch();
+                    out.SlidesBrake();
+                    return false;
+                },
+
+                new SleepAction(0.7), telemetryPacket -> {
+            out.PIDLoop(1000);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
@@ -241,9 +271,18 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-//            out.PIDLoop(0);
+           out.PIDLoop(0);
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("Latching");
+                    telemetry.update();
+                   // out.latchAuto();
+                    out.SlidesBrake();
+                    return false;
+                },
+                new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
@@ -337,7 +376,8 @@ public class Red1_3Sample extends LinearOpMode {
             hand.close();
             return false;
         });
-        Action basket3Action = new SequentialAction(basket3traj, new SleepAction(0.3), telemetryPacket -> {
+        Action basket3Action = new SequentialAction(basket3traj, new SleepAction(0.3),
+           telemetryPacket -> {
             telemetry.addLine("Back 1");
             telemetry.update();
             out.back1();
@@ -347,8 +387,16 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.back2Auton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-//            out.PIDLoop(1000);
+        },
+        new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("unlatching");
+                    telemetry.update();
+                   // out.unlatch();
+                    out.SlidesBrake();
+                    return false;
+                }, new SleepAction(0.7), telemetryPacket -> {
+            out.PIDLoop(1000);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
@@ -375,9 +423,16 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-//            out.PIDLoop(0);
+            out.PIDLoop(0);
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("Latching");
+                    telemetry.update();
+                  //  out.latchAuto();
+                    out.SlidesBrake();
+                    return false;
+                }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
@@ -475,7 +530,9 @@ public class Red1_3Sample extends LinearOpMode {
             hand.close();
             return false;
         });
-        Action basket4Action = new SequentialAction(basket4traj, new SleepAction(0.3), telemetryPacket -> {
+        Action basket4Action = new SequentialAction(basket4traj,
+          new SleepAction(0.3),
+          telemetryPacket -> {
             telemetry.addLine("Back 1");
             telemetry.update();
             out.back1();
@@ -485,8 +542,17 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.back2Auton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-//            out.PIDLoop(1000);
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("unlatching");
+                    telemetry.update();
+                   // out.unlatch();
+                    out.SlidesBrake();
+                    return false;
+                },
+                new SleepAction(0.7), telemetryPacket -> {
+            out.PIDLoop(1000);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
@@ -513,9 +579,18 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-//            out.PIDLoop(0);
+            out.PIDLoop(0);
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        },
+                new SleepAction(0.3),
+                telemetryPacket -> {
+                    telemetry.addLine("unlatching");
+                    telemetry.update();
+                  //  out.unlatch();
+                    out.SlidesBrake();
+                    return false;
+                },
+                new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();

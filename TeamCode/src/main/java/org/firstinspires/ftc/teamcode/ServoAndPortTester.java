@@ -34,7 +34,7 @@ public class ServoAndPortTester extends LinearOpMode {
     private DcMotorEx slideMotorRight;
     private DcMotorEx slideMotorLeft;
 
-    public static double Kp =0.03, targetPos =0.0;
+    public static double Kp =0.08, targetPos =0.0;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
@@ -133,7 +133,7 @@ public class ServoAndPortTester extends LinearOpMode {
             double error = targetPos - encoderPositionRight;
             //
             double out = -(Kp * error) ;
-            //1428 max
+            //max is 1280 ticks
 
             slideMotorRight.setPower(out);
             slideMotorLeft.setPower(out);
