@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
-@Autonomous(name = "THE BEST AUTON EVER RED SIDE")
+
 public class REALSpecimenAutoRed extends LinearOpMode {
     Drivetrain drive = new Drivetrain();
     EnableHand hand = new EnableHand();

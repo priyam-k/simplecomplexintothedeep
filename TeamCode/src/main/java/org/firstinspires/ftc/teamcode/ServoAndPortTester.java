@@ -101,7 +101,7 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("ControlHub4 Position", CtrlServo4Pos);
 
             ControlHub5.setPosition(Servo5Pos);
-            telemetry.addData("Left Latch", Servo5Pos);
+            telemetry.addData("Servo 5", Servo5Pos);
 
             // Set and display positions for Expansion Hub servos
 
@@ -124,7 +124,7 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("Arm Turret", IntakeArmTurret);
 
             ExpansionHub5.setPosition(ExpServo5Pos);
-            telemetry.addData("Right Latch", ExpServo5Pos);
+            telemetry.addData("Servo 11", ExpServo5Pos);
 
 
 

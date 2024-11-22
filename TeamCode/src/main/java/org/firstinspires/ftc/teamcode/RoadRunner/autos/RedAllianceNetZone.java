@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous (name = "RedAllianceNetZone")
+
 public class RedAllianceNetZone extends LinearOpMode {
 
     @Override

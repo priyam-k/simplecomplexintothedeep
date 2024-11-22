@@ -61,7 +61,6 @@ public class Red1_3Sample extends LinearOpMode {
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
-        out.latchAuto();
 
         waitForStart();
 

@@ -109,36 +109,6 @@ public class StateMachines {
         BACK1, BACK2,
         SCORING
     }
-    public static StateMachine getSlidesStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad) {
-        return new StateMachineBuilder()
-                .state(Slides.Latched)
-                .onEnter(out::latch)
-                .transition(()->gamepad.y, Slides.Unlatched)
-
-                .waitState(0.5)
-
-                .state(Slides.Unlatched)
-                .onEnter(out::unlatch)
-                .transitionTimed(2, Slides.HighBasket)
-                
-                .state(Slides.HighBasket)
-                .onEnter(out::highBasket)
-                .loop(out::highBasket)
-                .transition(()-> gamepad.y, Slides.SlidesTransfer)
-                
-                .waitState(0.5)
-                
-                .state(Slides.SlidesTransfer)
-                .onEnter(out::slidesTransfer)
-                .loop(out::slidesTransfer)
-                .transitionTimed(10, Slides.Latched)
-                .build();
-    }
-
-    public enum Slides {
-        Latched, SlidesTransfer, Unlatched, HighBasket, SlidesBrake
-    }
-
 
 
 }

@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
-@Autonomous(name = "A Specimen Auto Red")
+
 public class SpecimenAutoRed extends LinearOpMode {
 
 

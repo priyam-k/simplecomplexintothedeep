@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous(name = "Blue 1+6 Auton")
+
 public class Blue1_6Auton extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

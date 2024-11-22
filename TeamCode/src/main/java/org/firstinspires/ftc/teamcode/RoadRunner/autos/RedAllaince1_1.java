@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous (name = "Red Specimen Path")
+
 public class RedAllaince1_1 extends LinearOpMode {
 
     @Override

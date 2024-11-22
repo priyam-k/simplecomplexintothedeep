@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
-@Autonomous (name = "A Red Sample 1+3")
 
 public class Red1_3Sample extends LinearOpMode{
     Drivetrain drive = new Drivetrain();
