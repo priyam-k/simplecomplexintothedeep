@@ -50,7 +50,8 @@ public class GenericTele extends LinearOpMode {
         transferMachine.start();
         intakeMachine.start();
         slidesMachine.start();
-
+        telemetry.addData("rightLift power:", out.slidesPower());
+        telemetry.update();
         slidesServo.setPosition(0.12);
 
         while (opModeIsActive()) {
@@ -75,8 +76,7 @@ public class GenericTele extends LinearOpMode {
             if (gamepad2.y){
                 slidesbuttonpressed = true;
             }
-
-
+            telemetry.addData("rightLift power:", out.slidesPower());
 
 
 

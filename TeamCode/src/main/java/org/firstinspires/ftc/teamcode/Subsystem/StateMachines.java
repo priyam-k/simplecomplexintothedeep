@@ -119,7 +119,7 @@ public class StateMachines {
 
                 .state(Slides.Unlatched)
                 .onEnter(out::unlatch)
-                .transitionTimed(0.25, Slides.HighBasket)
+                .transitionTimed(2, Slides.HighBasket)
                 
                 .state(Slides.HighBasket)
                 .onEnter(out::highBasket)
@@ -131,7 +131,7 @@ public class StateMachines {
                 .state(Slides.SlidesTransfer)
                 .onEnter(out::slidesTransfer)
                 .loop(out::slidesTransfer)
-                .transitionTimed(2, Slides.Latched)
+                .transitionTimed(10, Slides.Latched)
                 .build();
     }
 

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
-import android.transition.Slide;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MiggyUnLimbetedOuttake implements Subsystem {
     public double currentPos;
-    private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper, slidesLatchRight;
+    private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper, slidesLatch;
     public static double kP = 0.09;
     boolean waspressedlift = false;
 
@@ -27,8 +25,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeArm2 = hardwareMap.get(Servo.class, "Servo3");
         outtakeClaw = hardwareMap.get(Servo.class, "Servo0");
         outtakeFlipper = hardwareMap.get(Servo.class, "Servo1");
-        slidesLatchRight = hardwareMap.get(Servo.class, "Servo11");
-
+        slidesLatch = hardwareMap.get(Servo.class, "Servo4");
         Rlift = hardwareMap.get(DcMotorEx.class, "rightLift");
         Llift = hardwareMap.get(DcMotorEx.class, "leftLift");
 
@@ -137,24 +134,19 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
-    public void highBasket(){PIDLoop(1280);
-        unlatch();
-    }
+    public void highBasket(){PIDLoop(1290);}
     public void slidesTransfer(){PIDLoop(0);}
-
-
     public void latch() {
        // Makes sure that slides are latched and held in place
-        slidesLatchRight.setPosition(0.3);
-        SlidesBrake();
+        slidesLatch.setPosition(0.27);
     }
     public void unlatch() {
         // Makes sure that slides are released
-        slidesLatchRight.setPosition(0);
+        slidesLatch.setPosition(0);
     }
     public void latchAuto() {
         // Makes sure that slides are latched and held in place
-        slidesLatchRight.setPosition(0.27);
+        slidesLatch.setPosition(0.27);
         SlidesBrake();
     }
 
@@ -192,6 +184,9 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
             Llift.setPower(out);
             currentPos = -Rlift.getCurrentPosition();
         }
+    }
+    public double slidesPower(){
+        return Rlift.getPower();
     }
 
 }
