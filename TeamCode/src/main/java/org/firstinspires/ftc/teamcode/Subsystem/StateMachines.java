@@ -112,7 +112,7 @@ public class StateMachines {
     public static StateMachine getSlidesStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad) {
         return new StateMachineBuilder()
                 .state(Slides.Latched)
-                .onEnter(out::latchAuto)
+                .onEnter(out::latch)
                 .transition(()->gamepad.y, Slides.Unlatched)
 
                 .waitState(0.5)

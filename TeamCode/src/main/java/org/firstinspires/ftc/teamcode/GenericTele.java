@@ -57,10 +57,10 @@ public class GenericTele extends LinearOpMode {
             transferMachine.update();
             intakeMachine.update();
             slidesMachine.update();
-            out.Lift(gamepad2.left_stick_y);
+            //out.Lift(gamepad2.left_stick_y);
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
-
+            telemetry.addData("Slides state", slidesMachine.getStateString());
             if(gamepad1.right_bumper){
                 drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
             }
