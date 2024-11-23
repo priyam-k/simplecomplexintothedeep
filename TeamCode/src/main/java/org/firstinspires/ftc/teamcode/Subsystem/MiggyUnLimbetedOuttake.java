@@ -59,6 +59,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void addTelemetry(Telemetry t) {
 
     }
+    public void dontgetstuckonbasket(){
+        loiter3();
+        loiter2();
+        Arm(0.5);
+    }
 
     public void loiter1() {
         Arm(0.37);
@@ -96,6 +101,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Arm(0.17);
 
     }
+
 
     public void transfer2() {
         // Close the claw (0.63)

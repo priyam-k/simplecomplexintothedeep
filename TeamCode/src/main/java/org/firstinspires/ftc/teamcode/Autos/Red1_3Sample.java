@@ -34,11 +34,11 @@ public class Red1_3Sample extends LinearOpMode {
         hand.open();
 
 
-        Pose2d basketPose = new Pose2d(-56.5, -56.5, Math.toRadians(45));
-        Pose2d basketPose2 = new Pose2d(-57-1, -57-1, Math.toRadians(45));
-        Pose2d basketPose3 = new Pose2d(-57-2, -57-2, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-53.3, -47.5, Math.toRadians(95));
-        Pose2d samplePose2 = new Pose2d(-67, -49.5, Math.toRadians(95));
+        Pose2d basketPose = new Pose2d(-56, -55, Math.toRadians(45));
+        Pose2d basketPose2 = new Pose2d(-57-1, -57-2, Math.toRadians(45));
+        Pose2d basketPose3 = new Pose2d(-57-2, -57-3, Math.toRadians(45));
+        Pose2d samplePose1 = new Pose2d(-53.6, -46.5, Math.toRadians(95));
+        Pose2d samplePose2 = new Pose2d(-68, -49, Math.toRadians(95));
         Pose2d samplePose3 = new Pose2d(-48, -25.5, Math.toRadians(180));
 
         Action basket1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
@@ -53,8 +53,8 @@ public class Red1_3Sample extends LinearOpMode {
         Action sample2traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose2, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose2);
 
-        Action basket3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose2, Math.toRadians(280)).build();
-        drive3 = new MecanumDrive(hardwareMap, basketPose2);
+        Action basket3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose3, Math.toRadians(280)).build();
+        drive3 = new MecanumDrive(hardwareMap, basketPose3);
 
         Action sample3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose3, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose3);
@@ -98,15 +98,11 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.score();
             return false;
-        }, telemetryPacket -> {
-            telemetry.addLine("Set slides power to 0");
+        }
+        , new SleepAction(0.3), telemetryPacket -> {
+            telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
-            //out.SlidesBrake();
-            return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("back 1 after placing");
-            telemetry.update();
-            out.back1();
+            out.dontgetstuckonbasket();
             return false;
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
@@ -114,7 +110,6 @@ public class Red1_3Sample extends LinearOpMode {
             out.PIDLoop(0);
             return false;
         },
-                new SleepAction(0.3),
         new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
@@ -183,7 +178,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter1();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }/*, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("Loiter 2");
             telemetry.update();
             out.loiter2();
@@ -193,7 +188,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter3();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        },*/, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
@@ -244,9 +239,9 @@ public class Red1_3Sample extends LinearOpMode {
             // out.SlidesBrake();
             return false;
         }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("back 1 after placing");
+            telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
-            out.back1();
+            out.dontgetstuckonbasket();
             return false;
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
@@ -323,7 +318,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter1();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }/*, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("Loiter 2");
             telemetry.update();
             out.loiter2();
@@ -333,7 +328,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter3();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
@@ -383,9 +378,9 @@ public class Red1_3Sample extends LinearOpMode {
             out.SlidesBrake();
             return false;
         }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("back 1 after placing");
+            telemetry.addLine("don't get stuck on basket");
             telemetry.update();
-            out.back1();
+            out.dontgetstuckonbasket();
             return false;
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
@@ -465,7 +460,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter1();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }/*, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("Loiter 2");
             telemetry.update();
             out.loiter2();
@@ -475,7 +470,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter3();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
@@ -526,9 +521,9 @@ public class Red1_3Sample extends LinearOpMode {
             out.SlidesBrake();
             return false;
         }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("back 1 after placing");
+            telemetry.addLine("Don't get it stuck on basket");
             telemetry.update();
-            out.back1();
+            out.dontgetstuckonbasket();
             return false;
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");

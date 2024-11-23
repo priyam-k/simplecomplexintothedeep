@@ -170,7 +170,8 @@ public class EnableHand implements Subsystem {
     }
 
     public void transfer1() {
-        // NOT BEING USED Swing arm angle to 175 degrees
+        // NOT BEING USED
+        // Delete all usages
         setSwingArmAngle(100);
     }
     public void turrSet0Auton(){
@@ -188,6 +189,12 @@ public class EnableHand implements Subsystem {
         ClawTurr.setPosition(setHandTurretDegrees(0));
     }
     public void autonTransfer2(){ClawTurr.setPosition(setHandTurretDegrees(90));}
+
+    public void intaketrasnferinone(){
+        transfer1point5();
+        turrSet0Auton();
+        autonTransfer2();
+    }
 
     public void loiter() {
         // Claw in vectoring position
