@@ -34,11 +34,11 @@ public class Red1_3Sample extends LinearOpMode {
         hand.open();
 
 
-        Pose2d basketPose = new Pose2d(-56, -55, Math.toRadians(45));
-        Pose2d basketPose2 = new Pose2d(-57-1, -57-2, Math.toRadians(45));
-        Pose2d basketPose3 = new Pose2d(-57-2, -57-3, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-53.6, -46.5, Math.toRadians(95));
-        Pose2d samplePose2 = new Pose2d(-68, -49, Math.toRadians(95));
+        Pose2d basketPose = new Pose2d(-56, -53, Math.toRadians(45));
+        Pose2d basketPose2 = new Pose2d(-56-1, -53, Math.toRadians(45));
+        Pose2d basketPose3 = new Pose2d(-56-2, -53, Math.toRadians(45));
+        Pose2d samplePose1 = new Pose2d(-53.6, -44, Math.toRadians(95));
+        Pose2d samplePose2 = new Pose2d(-64.5, -42, Math.toRadians(95));
         Pose2d samplePose3 = new Pose2d(-48, -25.5, Math.toRadians(180));
 
         Action basket1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
@@ -249,7 +249,6 @@ public class Red1_3Sample extends LinearOpMode {
            out.PIDLoop(0);
             return false;
         },
-                new SleepAction(0.3),
                 new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
