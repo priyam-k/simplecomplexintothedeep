@@ -34,10 +34,12 @@ public class Red1_3Sample extends LinearOpMode {
         hand.open();
 
 
-        Pose2d basketPose = new Pose2d(-57, -57, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-52, -48, Math.toRadians(100));
-        Pose2d samplePose2 = new Pose2d(-69, -49.8, Math.toRadians(95));
-        Pose2d samplePose3 = new Pose2d(-47, -25.5, Math.toRadians(180));
+        Pose2d basketPose = new Pose2d(-56.5, -56.5, Math.toRadians(45));
+        Pose2d basketPose2 = new Pose2d(-57-1, -57-1, Math.toRadians(45));
+        Pose2d basketPose3 = new Pose2d(-57-2, -57-2, Math.toRadians(45));
+        Pose2d samplePose1 = new Pose2d(-53.3, -47.5, Math.toRadians(95));
+        Pose2d samplePose2 = new Pose2d(-71, -49.5, Math.toRadians(95));
+        Pose2d samplePose3 = new Pose2d(-48, -25.5, Math.toRadians(180));
 
         Action basket1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
         drive3 = new MecanumDrive(hardwareMap, basketPose);
@@ -45,14 +47,14 @@ public class Red1_3Sample extends LinearOpMode {
         Action sample1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose1, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose1);
 
-        Action basket2traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
-        drive3 = new MecanumDrive(hardwareMap, basketPose);
+        Action basket2traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose2, Math.toRadians(280)).build();
+        drive3 = new MecanumDrive(hardwareMap, basketPose2);
 
         Action sample2traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose2, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose2);
 
-        Action basket3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
-        drive3 = new MecanumDrive(hardwareMap, basketPose);
+        Action basket3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose2, Math.toRadians(280)).build();
+        drive3 = new MecanumDrive(hardwareMap, basketPose2);
 
         Action sample3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose3, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose3);
@@ -80,26 +82,18 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.back2Auton();
             return false;
-        },
-                new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("unlatch slides");
-                    telemetry.update();
-                   // out.unlatch();
-                    out.SlidesBrake();
-                    return false;
-                }, new SleepAction(0.7),
+        },new SleepAction(0.7),
           telemetryPacket -> {
-            out.PIDLoop(1000);
+            out.PIDLoop(1280);
             telemetry.addData("Slides current pos", out.currentPos);
             telemetry.update();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-            telemetry.addLine("Back 2");
+        }, new SleepAction(1.5), telemetryPacket -> {
+            telemetry.addLine("Back");
             telemetry.update();
             out.backAuton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Score");
             telemetry.update();
             out.score();
@@ -107,7 +101,7 @@ public class Red1_3Sample extends LinearOpMode {
         }, telemetryPacket -> {
             telemetry.addLine("Set slides power to 0");
             telemetry.update();
-            out.SlidesBrake();
+            //out.SlidesBrake();
             return false;
         }, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("back 1 after placing");
@@ -121,13 +115,6 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
                 new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("Latching");
-                    telemetry.update();
-                  //  out.latchAuto();
-                    out.SlidesBrake();
-                    return false;
-                },
         new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
@@ -234,25 +221,18 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
                 new SleepAction(0.3),
+                new SleepAction(0.7),
                 telemetryPacket -> {
-                    telemetry.addLine("UNlatching");
-                    telemetry.update();
-                   // out.unlatch();
-                    out.SlidesBrake();
-                    return false;
-                },
-
-                new SleepAction(0.7), telemetryPacket -> {
-            out.PIDLoop(1000);
+            out.PIDLoop(1280);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(1.5), telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.backAuton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Score");
             telemetry.update();
             out.score();
@@ -260,7 +240,8 @@ public class Red1_3Sample extends LinearOpMode {
         }, telemetryPacket -> {
             telemetry.addLine("Set slides power to 0");
             telemetry.update();
-            out.SlidesBrake();
+           //
+            // out.SlidesBrake();
             return false;
         }, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("back 1 after placing");
@@ -274,13 +255,6 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
                 new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("Latching");
-                    telemetry.update();
-                   // out.latchAuto();
-                    out.SlidesBrake();
-                    return false;
-                },
                 new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
@@ -388,23 +362,17 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
         new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("unlatching");
-                    telemetry.update();
-                   // out.unlatch();
-                    out.SlidesBrake();
-                    return false;
-                }, new SleepAction(0.7), telemetryPacket -> {
-            out.PIDLoop(1000);
+                new SleepAction(0.7), telemetryPacket -> {
+            out.PIDLoop(1280);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-            telemetry.addLine("Back 2");
+        }, new SleepAction(1.5), telemetryPacket -> {
+            telemetry.addLine("Back");
             telemetry.update();
             out.backAuton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Score");
             telemetry.update();
             out.score();
@@ -425,13 +393,7 @@ public class Red1_3Sample extends LinearOpMode {
             out.PIDLoop(0);
             return false;
         }, new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("Latching");
-                    telemetry.update();
-                  //  out.latchAuto();
-                    out.SlidesBrake();
-                    return false;
-                }, new SleepAction(0.7), telemetryPacket -> {
+                new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
@@ -543,24 +505,17 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
                 new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("unlatching");
-                    telemetry.update();
-                   // out.unlatch();
-                    out.SlidesBrake();
-                    return false;
-                },
                 new SleepAction(0.7), telemetryPacket -> {
-            out.PIDLoop(1000);
+            out.PIDLoop(1280);
             telemetry.addData("Slides current pos ", out.currentPos);
             telemetry.update();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-            telemetry.addLine("Back 2");
+        }, new SleepAction(1.5), telemetryPacket -> {
+            telemetry.addLine("Back");
             telemetry.update();
             out.backAuton();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Score");
             telemetry.update();
             out.score();
@@ -582,13 +537,6 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         },
                 new SleepAction(0.3),
-                telemetryPacket -> {
-                    telemetry.addLine("unlatching");
-                    telemetry.update();
-                  //  out.unlatch();
-                    out.SlidesBrake();
-                    return false;
-                },
                 new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
