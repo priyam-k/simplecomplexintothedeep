@@ -88,7 +88,7 @@ public class VisionOpMode extends LinearOpMode {
             @Override
             public void onOpened() {
                 // Start streaming the video feed at a resolution of 320x240
-                webcam.startStreaming(176,144);
+                webcam.startStreaming(320,240);
             }
 
             @Override
@@ -119,9 +119,9 @@ public class VisionOpMode extends LinearOpMode {
             if (targetSample != null) {
                 angle = targetSample.angle;
                 wristServo.setPosition(degreesToTicks(270 - (angle)));
-                drivetrain.SampleAlign(targetSample.x, targetSample.y);
+               // drivetrain.SampleAlign(targetSample.x, targetSample.y);
             } else {
-                drivetrain.Brake();
+               // drivetrain.Brake();
             }
 
             // get the first detected sample, only if there are detected samples
