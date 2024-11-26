@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.SingleUse;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,14 +13,9 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
-
 @Config
-@Autonomous(name = " BLUE segment observation park")
-public class Blue_Specimen_obsvPark extends LinearOpMode {
-    MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(0, -36, Math.toRadians(90)));
-    Action myTrajectory = drive3.actionBuilder(drive3.pose)
-            .splineToLinearHeading(new Pose2d(-56, 60, Math.toRadians(0)), Math.toRadians(180))
-            .build();
+@Autonomous(name = " SegmentAuto")
+public class Red_Specimen extends LinearOpMode {
     public static double RandomdistanceUnits = 26.0;
 
     public static double SlideTicks = 640;
@@ -83,10 +79,6 @@ public class Blue_Specimen_obsvPark extends LinearOpMode {
                 out.SlidesBrake();
                 out.autonInit();
                 hand.setSwingArmAngleAuton(135);
-            }
-            else {
-
-                Actions.runBlocking(new SequentialAction(myTrajectory));
             }
         }
     }
