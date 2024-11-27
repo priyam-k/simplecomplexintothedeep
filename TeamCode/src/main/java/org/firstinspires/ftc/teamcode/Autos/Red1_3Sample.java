@@ -34,12 +34,13 @@ public class Red1_3Sample extends LinearOpMode {
         hand.open();
 
 
-        Pose2d basketPose = new Pose2d(-56, -53, Math.toRadians(45));
+        Pose2d basketPose = new Pose2d(-56, -53, Math.toRadians(50));
         Pose2d basketPose2 = new Pose2d(-56-1, -53, Math.toRadians(45));
-        Pose2d basketPose3 = new Pose2d(-56-2, -53, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-53.6, -44, Math.toRadians(95));
-        Pose2d samplePose2 = new Pose2d(-64.5, -42, Math.toRadians(95));
+        Pose2d basketPose3 = new Pose2d(-56-3, -53-3, Math.toRadians(45));
+        Pose2d samplePose1 = new Pose2d(-53.6, -44.5, Math.toRadians(95));
+        Pose2d samplePose2 = new Pose2d(-68.5, -45, Math.toRadians(95));
         Pose2d samplePose3 = new Pose2d(-48, -25.5, Math.toRadians(180));
+        Pose2d parktraj = new Pose2d(-34,-10, Math.toRadians(0));
 
         Action basket1traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
         drive3 = new MecanumDrive(hardwareMap, basketPose);
@@ -56,10 +57,15 @@ public class Red1_3Sample extends LinearOpMode {
         Action basket3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose3, Math.toRadians(280)).build();
         drive3 = new MecanumDrive(hardwareMap, basketPose3);
 
+        Action obsvzntraj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(parktraj, Math.toRadians(0)).build();
+
+        drive3 = new MecanumDrive(hardwareMap, parktraj);
+
         Action sample3traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(samplePose3, Math.toRadians(90)).build();
         drive3 = new MecanumDrive(hardwareMap, samplePose3);
 
         Action basket4traj = drive3.actionBuilder(drive3.pose).splineToLinearHeading(basketPose, Math.toRadians(280)).build();
+        drive3 = new MecanumDrive(hardwareMap, basketPose);
 
         while (!isStopRequested() && !opModeIsActive()) {
         }
@@ -71,13 +77,13 @@ public class Red1_3Sample extends LinearOpMode {
         if (isStopRequested()) return;
 
         Action basket1Action = new SequentialAction(basket1traj,
-        new SleepAction(0.3),
-          telemetryPacket -> {
+        new SleepAction(0.3)
+         /* telemetryPacket -> {
             telemetry.addLine("Back 1");
             telemetry.update();
             out.back1();
             return false;
-        }, telemetryPacket -> {
+        }*/, telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.back2Auton();
@@ -104,35 +110,38 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.dontgetstuckonbasket();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-            out.PIDLoop(0);
+            out.PIDLoop(-100);
             return false;
         },
-        new SleepAction(0.7), telemetryPacket -> {
+        new SleepAction(1), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
             return false;
         });
-        Action sample1Action = new SequentialAction(sample1traj, telemetryPacket -> {
-            telemetry.addLine("Scan 1");
-            telemetry.update();
-            hand.scan1();
-            return false;
-        }, new SleepAction(0.2), telemetryPacket -> {
+
+
+        Action sample1Action = new SequentialAction(sample1traj,
+                telemetryPacket -> {
+                    telemetry.addLine("Scan 1");
+                    telemetry.update();
+                    hand.scan1();
+                    return false;
+                }, new SleepAction(0.2), telemetryPacket -> {
             telemetry.addLine("Scan 2");
             telemetry.update();
             hand.scan2();
             return false;
-        }, new SleepAction(0.2), telemetryPacket -> {
-            telemetry.addLine("Scan 3");
+        }, telemetryPacket -> {
+            telemetry.addLine("open");
             telemetry.update();
             //hand.scan3();
             hand.close();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, telemetryPacket -> {
             telemetry.addLine("Hovering");
             telemetry.update();
             hand.hoverAuto();
@@ -156,9 +165,9 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Transferring 1");
             telemetry.update();
-            hand.transfer1();
+            hand.intaketrasnferinone();
             return false;
-        }, telemetryPacket -> {
+        }/*, telemetryPacket -> {
             telemetry.addLine(" Set Turret position to center");
             telemetry.update();
             hand.turrSet0Auton();
@@ -173,7 +182,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             hand.autonTransfer2();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Loiter 1");
             telemetry.update();
             out.loiter1();
@@ -188,12 +197,12 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter3();
             return false;
-        },*/, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, new SleepAction(0.2), telemetryPacket -> {
             telemetry.addLine("Transfer 2");
             telemetry.update();
             out.transfer2();
@@ -204,26 +213,28 @@ public class Red1_3Sample extends LinearOpMode {
             hand.close();
             return false;
         });
-        Action basket2Action = new SequentialAction(basket2traj, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("Back 1");
-            telemetry.update();
-            out.back1();
-            return false;
-        }, telemetryPacket -> {
+
+
+        Action basket2Action = new SequentialAction(basket2traj,
+                new SleepAction(0.3)
+                /*telemetryPacket -> {
+                    telemetry.addLine("Back 1");
+                    telemetry.update();
+                    out.back1();
+                    return false;
+                }*/, telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.back2Auton();
             return false;
-        },
-                new SleepAction(0.3),
-                new SleepAction(0.7),
+        },new SleepAction(0.7),
                 telemetryPacket -> {
-            out.PIDLoop(1280);
-            telemetry.addData("Slides current pos ", out.currentPos);
-            telemetry.update();
-            return false;
-        }, new SleepAction(1.5), telemetryPacket -> {
-            telemetry.addLine("Back 2");
+                    out.PIDLoop(1280);
+                    telemetry.addData("Slides current pos", out.currentPos);
+                    telemetry.update();
+                    return false;
+                }, new SleepAction(1.5), telemetryPacket -> {
+            telemetry.addLine("Back");
             telemetry.update();
             out.backAuton();
             return false;
@@ -232,30 +243,27 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.score();
             return false;
-        }, telemetryPacket -> {
-            telemetry.addLine("Set slides power to 0");
-            telemetry.update();
-           //
-            // out.SlidesBrake();
-            return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }
+                , new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
             out.dontgetstuckonbasket();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-           out.PIDLoop(0);
+            out.PIDLoop(-100);
             return false;
         },
-                new SleepAction(0.7), telemetryPacket -> {
+                new SleepAction(1), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
             return false;
         });
-        Action sample2Action = new SequentialAction(sample2traj, telemetryPacket -> {
+        Action sample2Action = new SequentialAction(
+                sample2traj,
+                telemetryPacket -> {
             telemetry.addLine("Scan 1");
             telemetry.update();
             hand.scan1();
@@ -265,13 +273,13 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             hand.scan2();
             return false;
-        }, new SleepAction(0.2), telemetryPacket -> {
-            telemetry.addLine("Scan 3");
+        }, telemetryPacket -> {
+            telemetry.addLine("open");
             telemetry.update();
             //hand.scan3();
             hand.close();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, telemetryPacket -> {
             telemetry.addLine("Hovering");
             telemetry.update();
             hand.hoverAuto();
@@ -295,9 +303,9 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Transferring 1");
             telemetry.update();
-            hand.transfer1();
+            hand.intaketrasnferinone();
             return false;
-        }, telemetryPacket -> {
+        }/*, telemetryPacket -> {
             telemetry.addLine(" Set Turret position to center");
             telemetry.update();
             hand.turrSet0Auton();
@@ -312,7 +320,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             hand.autonTransfer2();
             return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Loiter 1");
             telemetry.update();
             out.loiter1();
@@ -327,12 +335,12 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter3();
             return false;
-        }*/, new SleepAction(0.7), telemetryPacket -> {
+        }*/, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, new SleepAction(0.2), telemetryPacket -> {
             telemetry.addLine("Transfer 2");
             telemetry.update();
             out.transfer2();
@@ -343,19 +351,18 @@ public class Red1_3Sample extends LinearOpMode {
             hand.close();
             return false;
         });
-        Action basket3Action = new SequentialAction(basket3traj, new SleepAction(0.3),
-           telemetryPacket -> {
+        Action basket3Action = new SequentialAction(basket3traj, new SleepAction(0.3)
+          /* telemetryPacket -> {
             telemetry.addLine("Back 1");
             telemetry.update();
             out.back1();
             return false;
-        }, telemetryPacket -> {
+        }*/, telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.back2Auton();
             return false;
         },
-        new SleepAction(0.3),
                 new SleepAction(0.7), telemetryPacket -> {
             out.PIDLoop(1280);
             telemetry.addData("Slides current pos ", out.currentPos);
@@ -384,10 +391,9 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-            out.PIDLoop(0);
+            out.PIDLoop(-100);
             return false;
-        }, new SleepAction(0.3),
-                new SleepAction(0.7), telemetryPacket -> {
+        }, new SleepAction(1), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
@@ -486,13 +492,13 @@ public class Red1_3Sample extends LinearOpMode {
             return false;
         });
         Action basket4Action = new SequentialAction(basket4traj,
-          new SleepAction(0.3),
-          telemetryPacket -> {
+          new SleepAction(0.3)
+          /*telemetryPacket -> {
             telemetry.addLine("Back 1");
             telemetry.update();
             out.back1();
             return false;
-        }, telemetryPacket -> {
+        }*/, telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.back2Auton();
@@ -527,25 +533,27 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-            out.PIDLoop(0);
+            out.PIDLoop(-100);
             return false;
         },
-                new SleepAction(0.3),
-                new SleepAction(0.7), telemetryPacket -> {
+                new SleepAction(1), telemetryPacket -> {
             telemetry.addLine("Slides brake");
             telemetry.update();
             out.SlidesBrake();
             return false;
         });
 
+        Action obsvzoneAction = new SequentialAction(obsvzntraj);
+
         Actions.runBlocking(new SequentialAction(
                 basket1Action
                 , sample1Action
                 , basket2Action
                 , sample2Action
-               ,basket3Action
-              ,sample3Action
-               ,basket4Action
+               ,basket3Action,
+                obsvzoneAction
+//              ,sample3Action
+//               ,basket4Action
         ));
     }
 }

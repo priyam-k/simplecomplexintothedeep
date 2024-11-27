@@ -20,7 +20,7 @@ public class GenericTele extends LinearOpMode {
     public Servo slidesServo;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
-    StateMachine intakeMachine,transferMachine, slidesMachine;
+    StateMachine intakeMachine,transferMachine;
 
     public double HoldingSlide = 0.12;
 
@@ -48,7 +48,6 @@ public class GenericTele extends LinearOpMode {
 
         transferMachine.start();
         intakeMachine.start();
-        slidesMachine.start();
         telemetry.addData("rightLift power:", out.slidesPower());
         telemetry.update();
         slidesServo.setPosition(0.12);
@@ -56,25 +55,19 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            //out.Lift(gamepad2.left_stick_y);
+            if (intakeMachine.getStateString() == "SCANNING4"|| intakeMachine.getStateString() == "HOVERING" || intakeMachine.getStateString() == "PICKUP2"){
+                out.Lift(gamepad2.left_stick_y);
+            }
+
+
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
-            telemetry.addData("Slides state", slidesMachine.getStateString());
             if(gamepad1.right_bumper){
                 drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
             }
             else{
                 drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
             }
-            if (!gamepad2.y && slidesbuttonpressed){
-               double x =  (slidesServo.getPosition() == SlidesActivated)? HoldingSlide : SlidesActivated;
-               slidesServo.setPosition(x);
-            slidesbuttonpressed = false;}
-
-            if (gamepad2.y){
-                slidesbuttonpressed = true;
-            }
-            telemetry.addData("rightLift power:", out.slidesPower());
 
 
 

@@ -74,14 +74,20 @@ public class StateMachines {
         return new StateMachineBuilder()
                 .state(Outtake.LOITERING1)
                 .onEnter(out::loiter1)
-                .transitionTimed(0.25, Outtake.LOITERING2)
+                .transitionTimed(0.05,Outtake.LOITERING2)
 
                 .state(Outtake.LOITERING2)
                 .onEnter(out::loiter2)
-                .transitionTimed(0.25, Outtake.LOITERING3)
+                .transitionTimed(0.05, Outtake.SLIDESDOWN)
+
+                .state(Outtake.SLIDESDOWN)
+                .onEnter(out::slidesTransfer)
+                .loop(out::slidesTransfer)
+                .transitionTimed(1, Outtake.LOITERING3)
 
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
+                .onEnter(out::SlidesBrake)
                 .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
@@ -94,6 +100,7 @@ public class StateMachines {
 
                 .state(Outtake.BACK1)
                 .onEnter(out::back1)
+                .loop(out::highBasket)
                 .transition(()->gamepad.b, Outtake.SCORING)
 
                 .state(Outtake.SCORING)
@@ -107,7 +114,8 @@ public class StateMachines {
         LOITERING1, LOITERING2, LOITERING3,
         TRANSFERRING1, TRANSFERRING2,
         BACK1, BACK2,
-        SCORING
+        SCORING,
+        SLIDESDOWN
     }
 
 
