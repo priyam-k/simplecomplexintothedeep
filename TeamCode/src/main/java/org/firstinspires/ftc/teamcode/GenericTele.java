@@ -42,7 +42,7 @@ public class GenericTele extends LinearOpMode {
         out.init(hardwareMap);
 
         intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2, transferMachine);
-        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2);
+        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
 
         waitForStart();
 
@@ -55,7 +55,7 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            if (intakeMachine.getStateString() == "SCANNING4"|| intakeMachine.getStateString() == "HOVERING" || intakeMachine.getStateString() == "PICKUP2"){
+            if (intakeMachine.getStateString() == "SCANNING4"||intakeMachine.getStateString() == "HOVERING"||intakeMachine.getStateString() == "PICKUP2"){
                 out.Lift(gamepad2.left_stick_y);
             }
 
@@ -68,13 +68,6 @@ public class GenericTele extends LinearOpMode {
             else{
                 drive.TeleopControl(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
             }
-
-
-
-
-
-
-
 
             // out.liftSetPos(gamepad2); hanging stuff
 
