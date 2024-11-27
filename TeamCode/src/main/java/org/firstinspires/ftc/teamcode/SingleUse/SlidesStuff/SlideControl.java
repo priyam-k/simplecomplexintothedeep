@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @TeleOp(name="SlideControl", group="Linear Opmode")
 public class SlideControl extends LinearOpMode {
-
+    public static double targetPos =0.0;
 
     private DcMotorEx slideMotorLeft;
     private DcMotorEx slideMotorRight;

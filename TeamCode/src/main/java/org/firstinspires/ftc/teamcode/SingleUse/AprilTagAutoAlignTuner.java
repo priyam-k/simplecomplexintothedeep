@@ -13,8 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
-@Config
-@Autonomous(name = "April Tag Tuner")
+
 
 public class AprilTagAutoAlignTuner extends LinearOpMode {
     public static double  RandomdistanceUnits = 28.0;

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
-@Autonomous(name = "Outake States Tester")
+
 public class outTester extends LinearOpMode{
     MiggyUnLimbetedOuttake out;
     @Override
