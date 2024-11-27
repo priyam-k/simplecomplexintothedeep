@@ -42,7 +42,7 @@ public class GenericTele extends LinearOpMode {
         out.init(hardwareMap);
 
         intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2, transferMachine);
-        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2);
 
         waitForStart();
 
