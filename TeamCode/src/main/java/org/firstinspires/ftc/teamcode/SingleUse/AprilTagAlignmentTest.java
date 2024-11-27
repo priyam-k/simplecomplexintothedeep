@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
 @Config
-@Autonomous(name = "AprilTagAlignmentTest")
 public class AprilTagAlignmentTest extends LinearOpMode {
         public static double  RandomdistanceUnits = 28.0;
         Drivetrain drive = new Drivetrain();
