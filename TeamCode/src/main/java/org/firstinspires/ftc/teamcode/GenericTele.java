@@ -55,13 +55,14 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            if (intakeMachine.getStateString() == "SCANNING4" || intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2"){
+            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2"){
                 out.Lift(gamepad2.left_stick_y);
             }
 
 
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
+            telemetry.addData("Outtake States:", transferMachine.getStateString());
             if(gamepad1.right_bumper){
                 drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
             }

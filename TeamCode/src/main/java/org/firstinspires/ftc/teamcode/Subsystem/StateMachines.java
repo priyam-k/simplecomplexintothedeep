@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
-import android.transition.Slide;
-
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
@@ -45,7 +43,6 @@ public class StateMachines {
                 .onEnter(hand::pickup2)
                 .transition(() -> gamepad.a, Intake.TRANSFER1)
 
-                .waitState(0.5)
 
                 .state(Intake.TRANSFER1)
                 .onEnter(hand::transfer1point5)
@@ -74,7 +71,7 @@ public class StateMachines {
         return new StateMachineBuilder()
                 .state(Outtake.LOITERING1)
                 .onEnter(out::loiter1)
-                .transitionTimed(0.05,Outtake.LOITERING2)
+                .transitionTimed(0.25,Outtake.LOITERING2)
 
                 .state(Outtake.LOITERING2)
                 .onEnter(out::loiter2)
@@ -86,9 +83,59 @@ public class StateMachines {
                 .transitionTimed(1, Outtake.LOITERING3)
 
                 .state(Outtake.LOITERING3)
-                .onEnter(out::loiter3)
-                .onEnter(out::SlidesBrake)
+                .onEnter(() -> {
+                    out.loiter3();
+                    out.SlidesBrake();
+                })
                 .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.triangle && intake.getState() == Intake.SCANNING4, Outtake.WAIT1)
+
+
+
+
+                .state(Outtake.WAIT1)
+                .transitionTimed(0.25,Outtake.SPECIMENPICKUPSTART)
+
+                .state(Outtake.SPECIMENPICKUPSTART)
+                .onEnter(out::specimenPickupStart)
+                .transition(() -> gamepad.triangle, Outtake.WAIT2)
+
+                .state(Outtake.WAIT2)
+                .transitionTimed(0.25,Outtake.SPECIMENPICKUPGRAB)
+
+                .state(Outtake.SPECIMENPICKUPGRAB)
+                .onEnter(out::specimenPickupGrab)
+                .transition(()->gamepad.triangle, Outtake.WAIT3)
+
+                .state(Outtake.WAIT3)
+                .transitionTimed(0.25,Outtake.SPECIMENPICKUPUP)
+
+
+                .state(Outtake.SPECIMENPICKUPUP)
+                .onEnter(out::specimenPickupUp)
+                .transition(() -> gamepad.triangle, Outtake.WAIT4)
+
+                .state(Outtake.WAIT4)
+                .transitionTimed(0.25, Outtake.SPECIMENSLIDEUP)
+
+                .state(Outtake.SPECIMENSLIDEUP)
+                .onEnter(out::specimenSlideUp)
+                .loop(out::specimenSlideUp)
+                .transition(() -> gamepad.triangle, Outtake.WAIT5)
+
+                .state(Outtake.WAIT5)
+                .transitionTimed(0.25,Outtake.SPECIMENSLIDEDOWN)
+
+
+                .state(Outtake.SPECIMENSLIDEDOWN)
+                .onEnter(out::specimenSlideDown)
+                .transitionTimed(0.5, Outtake.SPECIMENRELEASE)
+
+                .state(Outtake.SPECIMENRELEASE)
+                .onEnter(out::specimenRelease)
+                .transition(() -> gamepad.y, Outtake.LOITERING1)
+
+                .waitState(0.5)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
@@ -115,7 +162,8 @@ public class StateMachines {
         TRANSFERRING1, TRANSFERRING2,
         BACK1, BACK2,
         SCORING,
-        SLIDESDOWN
+        SLIDESDOWN,
+        SPECIMENPICKUPSTART, SPECIMENPICKUPGRAB, SPECIMENPICKUPUP, SPECIMENSLIDEUP, SPECIMENSLIDEDOWN, BRAKE2, SPECIMENRELEASE,WAIT1,WAIT2,WAIT3,WAIT4,WAIT5
     }
 
 

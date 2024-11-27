@@ -180,8 +180,12 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public double slidesPower(){
         return Rlift.getPower();
     }
-    public void specimenPickup1(){Arm(0);}
-    public void specimenPickup2(){outtakeFlipper.setPosition(0.45);}
+    public void specimenPickupStart(){Arm(0); outtakeFlipper.setPosition(0.45);}
+    public void specimenPickupGrab(){outtakeClaw.setPosition(0.6);}
+    public void specimenPickupUp(){outtakeFlipper.setPosition(0.5);}
+    public void specimenSlideUp(){PIDLoop(700);}
+    public void specimenSlideDown(){PIDLoop(600);}
+    public void specimenRelease(){outtakeClaw.setPosition(0.44);}
 
 
 }
