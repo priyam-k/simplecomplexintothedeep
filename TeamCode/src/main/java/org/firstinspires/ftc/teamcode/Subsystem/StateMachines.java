@@ -70,7 +70,7 @@ public class StateMachines {
         LOITER
     }
 
-    public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad) {
+    public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad, StateMachine intake) {
         return new StateMachineBuilder()
                 .state(Outtake.LOITERING1)
                 .onEnter(out::loiter1)
@@ -88,7 +88,7 @@ public class StateMachines {
                 .state(Outtake.LOITERING3)
                 .onEnter(out::loiter3)
                 .onEnter(out::SlidesBrake)
-                .transition(() -> gamepad.b, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
 
                 .state(Outtake.TRANSFERRING1)
                 .onEnter(out::transfer1)
@@ -96,7 +96,7 @@ public class StateMachines {
 
                 .state(Outtake.TRANSFERRING2)
                 .onEnter(out::transfer2)
-                .transition(()->g Outtake.BACK1)
+                .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1)
 
                 .state(Outtake.BACK1)
                 .onEnter(out::back1)
