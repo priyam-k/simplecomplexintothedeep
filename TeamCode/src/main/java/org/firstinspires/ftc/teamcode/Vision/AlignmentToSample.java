@@ -20,7 +20,7 @@ public class AlignmentToSample extends LinearOpMode {
 
     private FtcDashboard dash;
 
-    public static double KpVertical = 0.002,KpStraffe = -0.0021;
+    public static double KpVertical = 0.0022,KpStraffe = -0.003;
 
     public Point PickupPixels;
 
@@ -38,7 +38,7 @@ public class AlignmentToSample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Target positions of camera pixels
-        PickupPixels= new Point(212.5,340.0);
+        PickupPixels= new Point(212.5,330.0);
         //hand intiallization
         hand = new EnableHand();
         drive = new Drivetrain();

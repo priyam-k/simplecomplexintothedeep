@@ -5,7 +5,7 @@ import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
 public class StateMachines {
-    public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad,StateMachine out) {
+    public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
         return new StateMachineBuilder()
                 .state(Intake.LOITER)
                 .onEnter(hand::loiter)
@@ -88,9 +88,8 @@ public class StateMachines {
                     out.SlidesBrake();
                 })
                 .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
+                .transition(() -> gamepad.x && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1OBSZONE)
                 .transition(() -> gamepad.triangle && intake.getState() == Intake.SCANNING4, Outtake.WAIT1)
-
-
 
 
                 .state(Outtake.WAIT1)
@@ -143,11 +142,23 @@ public class StateMachines {
 
                 .state(Outtake.TRANSFERRING2)
                 .onEnter(out::transfer2)
-                .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1)
+                .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1HIGH)
 
-                .state(Outtake.BACK1)
+                .state(Outtake.TRANSFERRING1OBSZONE)
+                .onEnter(out::transfer1)
+                .transitionTimed(0.25 , Outtake.TRANSFERRING2OBSZONE)
+
+                .state(Outtake.TRANSFERRING2OBSZONE)
+                .onEnter(out::transfer2)
+                .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1OBSZON)
+
+                .state(Outtake.BACK1HIGH)
                 .onEnter(out::back1)
                 .loop(out::highBasket)
+                .transition(()->gamepad.b, Outtake.SCORING)
+
+                .state(Outtake.BACK1OBSZON)
+                .onEnter(out::back1)
                 .transition(()->gamepad.b, Outtake.SCORING)
 
                 .state(Outtake.SCORING)
@@ -160,7 +171,7 @@ public class StateMachines {
     public enum Outtake {
         LOITERING1, LOITERING2, LOITERING3,
         TRANSFERRING1, TRANSFERRING2,
-        BACK1, BACK2,
+        BACK1HIGH, BACK2,BACK1OBSZON,TRANSFERRING1OBSZONE,TRANSFERRING2OBSZONE,
         SCORING,
         SLIDESDOWN,
         SPECIMENPICKUPSTART, SPECIMENPICKUPGRAB, SPECIMENPICKUPUP, SPECIMENSLIDEUP, SPECIMENSLIDEDOWN, BRAKE2, SPECIMENRELEASE,WAIT1,WAIT2,WAIT3,WAIT4,WAIT5

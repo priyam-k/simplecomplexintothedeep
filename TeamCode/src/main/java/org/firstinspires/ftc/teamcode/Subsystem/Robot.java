@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Vision.AlignmentToSample;
 import org.firstinspires.ftc.teamcode.Vision.PiplineForAlignment;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Point;
@@ -21,7 +22,7 @@ public class Robot implements Subsystem {
 
     private PiplineForAlignment pipeline;
 
-    private double timeforAutoAlignSeconds = 2.0;
+    private double timeforAutoAlignSeconds = 5.0;
 
     public double KpVertical = 0.002,KpStraffe = -0.0021;
     public Point PickupPixels;
@@ -55,33 +56,58 @@ public class Robot implements Subsystem {
 
         pipeline = new PiplineForAlignment();
 
-        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
+        VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
 
-        VP.stopStreaming();//saving resources
+//        VP.stopStreaming();//saving resources
 
+    }
+
+    public void initAutoAlign(){
+        hand.setSwingArmAngle(60);
+        hand.open();
+        hand.scan4();// horizontal claw
+        AlignmentToSample.Masked = false;
+        AlignmentToSample.PidRunning = true;
     }
 
     public void AutoAlign(){
         VP.resumeStreaming(); //start stream
-        hand.setSwingArmAngle(60);
-        hand.open();
-        hand.scan4();// horizontal claw
 
         timer.reset();
         timer.startTime();
 
         while(timer.seconds() < timeforAutoAlignSeconds){
             double VerticalError =  PickupPixels.y - pipeline.Center.y;
-            double StraffeError = PickupPixels.x - pipeline.Center.x;
+           double StraffeError = PickupPixels.x - pipeline.Center.x;
 
             drive.SampleAlign(KpVertical*VerticalError,KpStraffe*StraffeError);
 
         }// timer loop end
 
-        drive.Brake();
+
 
     }
 
+
+    public void pickUp() {
+        timer.reset();
+        timer.startTime();
+        while (timer.seconds() < 10) {
+
+            if (timer.seconds() < 1) {
+                hand.setHandTurretDegrees(90);
+                hand.setHandTurretDegrees(5);
+                hand.close();
+            } else if (timer.seconds() < 3) {
+                hand.setHandTurretDegrees(5);
+
+            } else if (timer.seconds() < 4) {
+                hand.open();
+            } else if (timer.seconds() < 5) {
+                hand.setHandTurretDegrees(60);
+            }
+        }
+    }
 
     @Override
     public void update() {
