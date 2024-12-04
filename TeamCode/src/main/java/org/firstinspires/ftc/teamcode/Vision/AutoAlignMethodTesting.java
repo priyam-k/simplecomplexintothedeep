@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SingleUse.SlidesStuff;
+package org.firstinspires.ftc.teamcode.Vision;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -17,10 +17,13 @@ public class AutoAlignMethodTesting extends LinearOpMode {
         robo = new Robot();
 
         robo.init(hardwareMap);
-    robo.initAutoAlign();
+      robo.initAutoAlign();
         waitForStart();
 
         robo.AutoAlign();
+
+        robo.pickUp();
+
 
 
 

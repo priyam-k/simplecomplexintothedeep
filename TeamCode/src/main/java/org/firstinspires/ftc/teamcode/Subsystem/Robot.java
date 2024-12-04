@@ -24,7 +24,9 @@ public class Robot implements Subsystem {
 
     private double timeforAutoAlignSeconds = 5.0;
 
-    public double KpVertical = 0.002,KpStraffe = -0.0021;
+    public double KpVertical = 0.0022,KpStraffe = -0.0003;
+
+    public double FeedForward = 0.16;
     public Point PickupPixels;
     List<Subsystem> massInit;
 
@@ -52,7 +54,7 @@ public class Robot implements Subsystem {
 
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
-        PickupPixels= new Point(212.5,340.0);
+        PickupPixels = new Point(240,380.0);
 
         pipeline = new PiplineForAlignment();
 
@@ -80,31 +82,34 @@ public class Robot implements Subsystem {
             double VerticalError =  PickupPixels.y - pipeline.Center.y;
            double StraffeError = PickupPixels.x - pipeline.Center.x;
 
-            drive.SampleAlign(KpVertical*VerticalError,KpStraffe*StraffeError);
+            double StraffePower = KpStraffe*StraffeError + Math.signum(KpStraffe*StraffeError)*FeedForward;
+
+            drive.SampleAlign(KpVertical*VerticalError,StraffePower);
 
         }// timer loop end
-
-
-
     }
+
+    public void StopStreaming(){VP.stopStreaming();}
 
 
     public void pickUp() {
+        StopStreaming();
+        drive.Brake();
         timer.reset();
         timer.startTime();
         while (timer.seconds() < 10) {
 
             if (timer.seconds() < 1) {
-                hand.setHandTurretDegrees(90);
-                hand.setHandTurretDegrees(5);
                 hand.close();
+                hand.setSwingArmAngle(20);
             } else if (timer.seconds() < 3) {
-                hand.setHandTurretDegrees(5);
 
+                hand.setSwingArmAngle(-5);
             } else if (timer.seconds() < 4) {
                 hand.open();
             } else if (timer.seconds() < 5) {
-                hand.setHandTurretDegrees(60);
+                hand.setSwingArmAngle(60);
+
             }
         }
     }
