@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.autos;
+package org.firstinspires.ftc.teamcode.Autos;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
 
-@Autonomous(name = "BlueAlliance1_2")
+
 public class BlueAllaince1_1 extends LinearOpMode {
 
 
@@ -31,15 +31,12 @@ public class BlueAllaince1_1 extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 34, Math.toRadians(90)));
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
-
-
         out.init(hardwareMap);
         hand.init(hardwareMap);
 
         Action myTrajectory = drive.actionBuilder(drive.pose)
                 .splineToLinearHeading(new Pose2d(0, 45, Math.toRadians(-5)), Math.toRadians(0))
                 .build();
-
         drive = new MecanumDrive(hardwareMap, new Pose2d(0, 45, Math.toRadians(-5)));
         Action Traj2 = drive.actionBuilder(drive.pose)
                 .splineToLinearHeading(new Pose2d(50.5, 41, Math.toRadians(-95)), Math.toRadians(-90)) //56.5, 54

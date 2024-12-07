@@ -1,0 +1,149 @@
+package org.firstinspires.ftc.teamcode.Vision;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+
+import org.firstinspires.ftc.robotcore.external.function.Consumer;
+import org.firstinspires.ftc.robotcore.external.function.Continuation;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.vision.VisionProcessor;
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
+
+public class PiplineForSampleTuning implements VisionProcessor, CameraStreamSource {
+
+    //similar to an array list initialization
+    // make the connection between why we need bit maps.
+
+    private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
+    private Bitmap bitmap;
+    private Mat hsvMask = new Mat();
+
+    private List<MatOfPoint> contours = new ArrayList<>();
+    private Mat hierarchy = new Mat();
+    private Scalar lower = new Scalar(ImprovedVisionOpmode.hueMin, ImprovedVisionOpmode.satMin, ImprovedVisionOpmode.valMin);
+    private Scalar upper = new Scalar(ImprovedVisionOpmode.hueMax, ImprovedVisionOpmode.satMax, ImprovedVisionOpmode.valMax);
+
+    @Override
+    public void getFrameBitmap(Continuation<? extends Consumer<Bitmap>> continuation) {
+        //this line of code decides what we send to the phone
+        continuation.dispatch(bitmapConsumer -> bitmapConsumer.accept(lastFrame.get()));
+    }
+
+    public Bitmap getLastFrame() {
+        return lastFrame.get();
+    }
+
+    @Override
+    public void init(int width, int height, CameraCalibration calibration) {
+
+    }
+
+    @Override
+    public Object processFrame(Mat frame, long captureTimeNanos) {
+        bitmap = Bitmap.createBitmap(frame.width(), frame.height(), Bitmap.Config.ARGB_8888);
+
+        Imgproc.cvtColor(frame, hsvMask, Imgproc.COLOR_RGB2HSV);
+        lower = new Scalar(ImprovedVisionOpmode.hueMin, ImprovedVisionOpmode.satMin, ImprovedVisionOpmode.valMin);
+        upper = new Scalar(ImprovedVisionOpmode.hueMax, ImprovedVisionOpmode.satMax, ImprovedVisionOpmode.valMax);
+        Core.inRange(hsvMask, lower, upper, hsvMask);
+        Imgproc.GaussianBlur(hsvMask, hsvMask, new Size(11, 11), 0);
+
+
+        if (ImprovedVisionOpmode.Masked) {
+
+            Utils.matToBitmap(hsvMask, bitmap);
+            lastFrame.set(bitmap);
+
+      /*
+
+      1. converting the color space of the frame
+       2. Create static variables from vision opmode to change values
+       do this with scalars
+       3. Core.Inrange
+       also maybe set some blur
+       4.convert the mat to a bit map
+       5. send it to the atomic reference
+       6. send to ftcdash
+       */
+        } else {
+
+
+
+
+
+        /*1. access the values of the static variables HSV from opmode
+        2. create a new mat and make is instance variable
+        3. convert that mat to hsv
+        4. apply Core.Inrange with HSV values
+        5. apply some blur and canny
+        6.detect the largest contour
+        7.draw abox put only show the box on frame
+        8.convert frame with box to a bit map
+        9.send to atomic reference.
+       */
+
+
+            contours.clear();
+
+            Imgproc.GaussianBlur(hsvMask, hsvMask, new Size(11, 11), 0);
+            Imgproc.Canny(hsvMask, hsvMask, 9, 9);
+
+            Imgproc.findContours(hsvMask, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+            Imgproc.drawContours(hsvMask, contours, -1, new Scalar(255, 0, 0), 5);
+
+            int widestX = 0, widestY = 0, widestW = 0, widestH = 0;
+
+            for (MatOfPoint contour : contours) {
+                Rect box = Imgproc.boundingRect(contour);
+
+                int x = box.x;
+                int y = box.y;
+                int w = box.width;
+                int h = box.height;
+
+                Imgproc.rectangle(frame, new Point(x, y), new Point(x + w, y + h), new Scalar(255, 0, 0), 2);
+
+
+                if (w > widestW) {
+                    widestX = x;
+                    widestY = y;
+                    widestW = w;
+                    widestH = h;
+                }
+
+            }
+
+            Imgproc.rectangle(frame, new Point(widestX, widestY), new Point(widestX+widestW, widestY+widestH),new Scalar(120,100,100), 5);
+
+
+            Utils.matToBitmap(frame, bitmap);
+            lastFrame.set(bitmap);
+
+
+
+
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+
+    }
+}

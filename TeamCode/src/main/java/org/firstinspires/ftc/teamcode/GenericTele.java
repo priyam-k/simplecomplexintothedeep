@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.sfdev.assembly.state.StateMachine;
 
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
@@ -16,9 +17,14 @@ import org.firstinspires.ftc.teamcode.Subsystem.Subsystem;
 public class GenericTele extends LinearOpMode {
 
     Drivetrain drive;
+    public Servo slidesServo;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
     StateMachine intakeMachine,transferMachine;
+
+    public double HoldingSlide = 0.12;
+
+    public double SlidesActivated = 0;
 
 
 
@@ -27,27 +33,36 @@ public class GenericTele extends LinearOpMode {
         drive = new Drivetrain();
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
+        boolean slidesbuttonpressed = false;
+        slidesServo = hardwareMap.get(Servo.class, "Servo4");
+
 
         drive.init(hardwareMap);
         hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
-        intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2, transferMachine);
+        intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
         transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
-
 
         waitForStart();
 
         transferMachine.start();
         intakeMachine.start();
+        telemetry.addData("rightLift power:", out.slidesPower());
+        telemetry.update();
+        slidesServo.setPosition(0.12);
 
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            out.Lift(gamepad2.left_stick_y);
+            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2"){
+                out.Lift(gamepad2.left_stick_y);
+            }
+
+
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
-
+            telemetry.addData("Outtake States:", transferMachine.getStateString());
             if(gamepad1.right_bumper){
                 drive.TeleopControl(gamepad1.left_stick_y*0.7,gamepad1.left_stick_x*0.7,gamepad1.right_stick_x/2.0);
             }

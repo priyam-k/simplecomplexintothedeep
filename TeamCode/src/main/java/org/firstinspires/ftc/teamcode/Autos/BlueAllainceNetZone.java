@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.autos;
+package org.firstinspires.ftc.teamcode.Autos;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-@Autonomous (name = "BlueAllainceNetZone")
+
 public class BlueAllainceNetZone extends LinearOpMode {
 
     @Override

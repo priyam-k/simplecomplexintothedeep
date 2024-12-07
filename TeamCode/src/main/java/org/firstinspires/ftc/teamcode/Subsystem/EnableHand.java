@@ -82,13 +82,14 @@ public class EnableHand implements Subsystem {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.43);
+        ArmTurr.setPosition(0.435);
     }
     public void setSwingArmAngleAuton(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
-        ArmTurr.setPosition(0.45); //to account for camera not being staight
+        ArmTurr.setPosition(0.45); //to account for camera not being staight (0.45)
+        //now we Account for it in vision code
     }
     public void setSwingArmAngleAdiRunner(double angle,double armturr){
         double swingArmAngle = degreesToTicksSwingArm(angle);
@@ -108,7 +109,7 @@ public class EnableHand implements Subsystem {
 
     public void scan2() {
         // Intake arm turret: Intaking position
-        ArmTurr.setPosition(0.45);
+        ArmTurr.setPosition(0.43);
     }
 
     public void scan3() {
@@ -150,14 +151,19 @@ public class EnableHand implements Subsystem {
     }
 
     public void hoverAuto(){
-        setSwingArmAngle(25);
-        ClawTurr.setPosition(setHandTurretDegrees(0));
+        setSwingArmAngle(30);
     }
 
+    public void autonPickup1(){ClawTurr.setPosition(setHandTurretDegrees(90));}
     public void pickup1() {
         // Swing arm angle at -5 degrees
         setSwingArmAngle(-5);
     }
+
+    public void pickup2Auton(){
+        setSwingArmAngle(3);
+    }
+
 
     public void pickup2() {
         // Claw in latching position
@@ -165,7 +171,8 @@ public class EnableHand implements Subsystem {
     }
 
     public void transfer1() {
-        // NOT BEING USED Swing arm angle to 175 degrees
+        // NOT BEING USED
+        // Delete all usages
         setSwingArmAngle(100);
     }
     public void turrSet0Auton(){
@@ -181,6 +188,13 @@ public class EnableHand implements Subsystem {
     public void transfer2() {
         // Hand turret to 0 degrees
         ClawTurr.setPosition(setHandTurretDegrees(0));
+    }
+    public void autonTransfer2(){ClawTurr.setPosition(setHandTurretDegrees(90));}
+
+    public void intaketrasnferinone(){
+        transfer1point5();
+        turrSet0Auton();
+        autonTransfer2();
     }
 
     public void loiter() {

@@ -34,7 +34,7 @@ public class ServoAndPortTester extends LinearOpMode {
     private DcMotorEx slideMotorRight;
     private DcMotorEx slideMotorLeft;
 
-    public static double Kp =0.03, targetPos =0.0;
+    public static double Kp =0.08, targetPos =0.0;
     private MultipleTelemetry tele;
     private Servo ControlHub0;
     private Servo ControlHub1;
@@ -87,6 +87,8 @@ public class ServoAndPortTester extends LinearOpMode {
             ControlHub0.setPosition(OuttakeClaw);
             telemetry.addData("Outtake claw", OuttakeClaw);
 
+
+
             ControlHub1.setPosition(OuttakeFlipper);
             telemetry.addData("Flipper", OuttakeFlipper);
 
@@ -99,7 +101,7 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("ControlHub4 Position", CtrlServo4Pos);
 
             ControlHub5.setPosition(Servo5Pos);
-            telemetry.addData("ControlHub5 Position", Servo5Pos);
+            telemetry.addData("Servo 5", Servo5Pos);
 
             // Set and display positions for Expansion Hub servos
 
@@ -122,7 +124,7 @@ public class ServoAndPortTester extends LinearOpMode {
             telemetry.addData("Arm Turret", IntakeArmTurret);
 
             ExpansionHub5.setPosition(ExpServo5Pos);
-            telemetry.addData("ExpansionHub5 Position", ExpServo5Pos);
+            telemetry.addData("Servo 11", ExpServo5Pos);
 
 
 
@@ -133,7 +135,7 @@ public class ServoAndPortTester extends LinearOpMode {
             double error = targetPos - encoderPositionRight;
             //
             double out = -(Kp * error) ;
-            //1428 max
+            //max is 1280 ticks
 
             slideMotorRight.setPower(out);
             slideMotorLeft.setPower(out);

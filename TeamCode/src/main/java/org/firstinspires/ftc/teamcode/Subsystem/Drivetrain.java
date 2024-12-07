@@ -113,26 +113,14 @@ public class Drivetrain implements Subsystem {
 
     }
 
-    public double[] SampleAlign(double x, double y, double strafeGain, double translateGain){
-//        double x = centerofSample.x;
-//        double y = centerofSample.y;
-
-        //make variables for all errors (for rotate, translate, and strafe)
-        double TranslateError = y-VerticalLine; // positive error -> robot needs to move stright
-        double StraffeError = StrafeLine-x;// positive error -> robot needs to move right
-
-
-        //using PID to align robot to the april tag
-
-        double drive = Range.clip(TranslateError * translateGain, -1, 1);
-        double strafe = Range.clip(StraffeError * strafeGain, -1, 1);
+    public void SampleAlign(double VerticalMotorPower,double StraffeMotorpower){
 
 
         //calculate the powers for all motors
-        double leftFrontPower = +strafe + drive;//-turn
-        double rightFrontPower = -strafe + drive;//+
-        double leftBackPower = -strafe + drive;//-
-        double rightBackPower = +strafe + drive;//
+        double leftFrontPower = +StraffeMotorpower + VerticalMotorPower;//-turn
+        double rightFrontPower = -StraffeMotorpower + VerticalMotorPower;//+
+        double leftBackPower = -StraffeMotorpower + VerticalMotorPower;//-
+        double rightBackPower = +StraffeMotorpower + VerticalMotorPower;//
 
 
 
@@ -143,12 +131,6 @@ public class Drivetrain implements Subsystem {
         LR.setPower(leftBackPower);
         RR.setPower(rightBackPower);
 
-        double [] errors = new double[2];
-
-        errors[0] = TranslateError;
-        errors[1] = StraffeError;
-
-        return errors;
 
     }
 

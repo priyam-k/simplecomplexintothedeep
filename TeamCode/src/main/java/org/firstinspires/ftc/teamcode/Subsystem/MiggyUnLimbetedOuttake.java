@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class MiggyUnLimbetedOuttake implements Subsystem {
     public double currentPos;
     private Servo outtakeArm1, outtakeArm2, outtakeClaw, outtakeFlipper;
-    public static double kP = 0.01;
+    public static double kP = 0.09;
     boolean waspressedlift = false;
 
     DcMotorEx Rlift,Llift;
@@ -30,6 +30,9 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
         Rlift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Llift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Rlift.setDirection(DcMotorSimple.Direction.REVERSE);
+        Llift.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -59,10 +62,18 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void addTelemetry(Telemetry t) {
 
     }
+    public void dontgetstuckonbasket(){
+        loiter3();
+        loiter2();
+        Arm(0.5);
+    }
 
     public void loiter1() {
-        // Set the arm to the latching position at 0.7
-        Arm(0.5);
+        Arm(0.55);
+    }
+
+    public void autoLoiter1() {
+        Arm(0.57);
     }
 
     public void loiter2() {
@@ -90,9 +101,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void transfer1() {
         // Move the arm to the initial transfer position (0.30)
-        Arm(0.30);
+        Arm(0.32);
 
     }
+
 
     public void transfer2() {
         // Close the claw (0.63)
@@ -101,14 +113,18 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.65);
-        outtakeFlipper.setPosition(0.1);
+        Arm(0.7);
+        outtakeFlipper.setPosition(0.15);
     }
     public void backAuton(){
-        Arm(0.73);
-        outtakeFlipper.setPosition(0.0);
+        Arm(0.65);
+        outtakeFlipper.setPosition(0.15);
         //close claw
         outtakeClaw.setPosition(0.63);
+    }
+
+    public void outtakeFlipper(double pos) {
+        outtakeFlipper.setPosition(pos);
     }
 
     public void back2() {
@@ -116,17 +132,26 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     }
 
+    public void back2Auton(){
+        outtakeFlipper.setPosition(0.6);
+        Arm(0.22);
+    }
+
 
     public void score() {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
+    public void highBasket(){PIDLoop(1360);}
+    public void slidesTransfer(){PIDLoop(-100);}
+
 
     public void autonInit() {
         //flipper shoudl be in loiterng but claw should be lclosed
-        loiter1();
+        autoLoiter1();
         transfer2();
         loiter3();
+
     }
 
     public void SlidesBrake(){
@@ -155,4 +180,16 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
             currentPos = -Rlift.getCurrentPosition();
         }
     }
+    public double slidesPower(){
+        return Rlift.getPower();
+    }
+    public void specimenPickupStart(){Arm(0); outtakeFlipper.setPosition(0.45);}
+    public void specimenPickupGrab(){outtakeClaw.setPosition(0.6);}
+    public void specimenPickupUp(){outtakeFlipper.setPosition(0.5);}
+    public void specimenSlideUp(){PIDLoop(800);
+    outtakeFlipper.setPosition(0.4);}
+    public void specimenSlideDown(){PIDLoop(600);}
+    public void specimenRelease(){outtakeClaw.setPosition(0.44);}
+
+
 }

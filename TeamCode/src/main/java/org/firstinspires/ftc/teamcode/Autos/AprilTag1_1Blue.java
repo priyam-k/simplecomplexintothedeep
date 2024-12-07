@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
-@Autonomous(name = "April Tag Blue 1 Parking")
+
 public class AprilTag1_1Blue extends LinearOpMode {
     public static double turnGain = 0.04;
     public static double translateGain = 0.2;

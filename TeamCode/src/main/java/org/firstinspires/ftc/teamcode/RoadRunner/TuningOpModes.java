@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.tuning;
+package org.firstinspires.ftc.teamcode.RoadRunner;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
@@ -22,10 +22,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.RoadRunner.TankDrive;
-import org.firstinspires.ftc.teamcode.RoadRunner.ThreeDeadWheelLocalizer;
-import org.firstinspires.ftc.teamcode.RoadRunner.TwoDeadWheelLocalizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,9 +156,9 @@ public final class TuningOpModes {
         manager.register(metaForClass(MecanumMotorDirectionDebugger.class), new MecanumMotorDirectionDebugger(dvf));
         manager.register(metaForClass(DeadWheelDirectionDebugger.class), new DeadWheelDirectionDebugger(dvf));
 
-        manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
-        manager.register(metaForClass(SplineTest.class), SplineTest.class);
-        manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+        manager.register(metaForClass(MecanumDrive.ManualFeedbackTuner.class), MecanumDrive.ManualFeedbackTuner.class);
+        manager.register(metaForClass(TankDrive.SplineTest.class), TankDrive.SplineTest.class);
+        manager.register(metaForClass(Drawing.LocalizationTest.class), Drawing.LocalizationTest.class);
 
         FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
@@ -171,7 +167,7 @@ public final class TuningOpModes {
                     LateralRampLogger.class,
                     ManualFeedforwardTuner.class,
                     MecanumMotorDirectionDebugger.class,
-                    ManualFeedbackTuner.class
+                    MecanumDrive.ManualFeedbackTuner.class
             )) {
                 configRoot.putVariable(c.getSimpleName(), ReflectionConfig.createVariableFromClass(c));
             }

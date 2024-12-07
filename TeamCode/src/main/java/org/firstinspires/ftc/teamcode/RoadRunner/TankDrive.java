@@ -41,6 +41,7 @@ import com.acmerobotics.roadrunner.ftc.PositionVelocityPair;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -493,5 +494,35 @@ public final class TankDrive {
                 defaultTurnConstraints,
                 defaultVelConstraint, defaultAccelConstraint
         );
+    }
+
+    public static final class SplineTest extends LinearOpMode {
+        @Override
+        public void runOpMode() throws InterruptedException {
+            Pose2d beginPose = new Pose2d(0, 0, 0);
+            if (Localizer.TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
+                MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+
+                waitForStart();
+
+                com.acmerobotics.roadrunner.ftc.Actions.runBlocking(
+                    drive.actionBuilder(beginPose)
+                            .splineTo(new Vector2d(30, 30), Math.PI / 2)
+                            .splineTo(new Vector2d(0, 60), Math.PI)
+                            .build());
+            } else if (Localizer.TuningOpModes.DRIVE_CLASS.equals(TankDrive.class)) {
+                TankDrive drive = new TankDrive(hardwareMap, beginPose);
+
+                waitForStart();
+
+                com.acmerobotics.roadrunner.ftc.Actions.runBlocking(
+                        drive.actionBuilder(beginPose)
+                                .splineTo(new Vector2d(30, 30), Math.PI / 2)
+                                .splineTo(new Vector2d(0, 60), Math.PI)
+                                .build());
+            } else {
+                throw new RuntimeException();
+            }
+        }
     }
 }
