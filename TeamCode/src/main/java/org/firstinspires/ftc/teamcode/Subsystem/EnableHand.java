@@ -77,9 +77,9 @@ public class EnableHand implements Subsystem {
         d = -d;
         return d / 355 + 0.963;
     }
-
-
-
+    public void changeArmTurrAngle(double da) {
+        ArmTurr.setPosition(ArmTurr.getPosition() + axonDegreesToPos(da));
+    }
 
     public void setSwingArmAngle(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);
