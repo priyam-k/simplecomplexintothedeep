@@ -61,6 +61,9 @@ public class EnableHand implements Subsystem {
     private double degreesToTicks(double d) {
         return d / 270;
     }
+    private double axonDegreesToPos(double d) { // generated from python script, works for intake turret
+        return 0.003076923076923078*(d - 87.1) + 0.43;
+    }
 
     public void open() {
         Claw.setPosition(0.63);
