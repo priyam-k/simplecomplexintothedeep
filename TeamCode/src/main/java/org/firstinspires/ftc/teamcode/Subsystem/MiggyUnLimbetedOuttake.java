@@ -42,8 +42,8 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
 
     public void Lift(double x){
-        Rlift.setPower(-x);
-        Llift.setPower(-x);
+        Rlift.setPower(x);
+        Llift.setPower(x);
     }
 
 
@@ -142,7 +142,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         // Open the claw to release the object (0.44)
         outtakeClaw.setPosition(0.44);
     }
-    public void highBasket(){PIDLoop(1400);}
+    public void highBasket(){PIDLoop(1360);}
     public void slidesTransfer(){PIDLoop(-100);}
 
 
@@ -159,7 +159,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Llift.setPower(0);
     }
     public void PIDLoop(double targetPos) {
-        double cuurentPos = -Rlift.getCurrentPosition(); //ticks are negative
+        double cuurentPos = Rlift.getCurrentPosition();
         double error = targetPos - cuurentPos;
 
         double out = -(kP * error) ;
@@ -186,7 +186,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     public void specimenPickupStart(){Arm(0); outtakeFlipper.setPosition(0.45);}
     public void specimenPickupGrab(){outtakeClaw.setPosition(0.6);}
     public void specimenPickupUp(){outtakeFlipper.setPosition(0.5);}
-    public void specimenSlideUp(){PIDLoop(850);
+    public void specimenSlideUp(){PIDLoop(800);
     outtakeFlipper.setPosition(0.4);}
     public void specimenSlideDown(){PIDLoop(600);}
     public void specimenRelease(){outtakeClaw.setPosition(0.44);}
