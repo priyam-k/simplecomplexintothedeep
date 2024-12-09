@@ -40,6 +40,7 @@ public class AdiRunnerTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Init(); //fix the imu
 
+
         waitForStart();
 
 
@@ -78,6 +79,7 @@ public class AdiRunnerTuner extends LinearOpMode {
 
         drive = new Drivetrain();
         drive.init(hardwareMap);
+        drive.IMUinit(hardwareMap);
         dashboard = FtcDashboard.getInstance();
         tele =  new MultipleTelemetry(telemetry,dashboard.getTelemetry());
         hand = new EnableHand();

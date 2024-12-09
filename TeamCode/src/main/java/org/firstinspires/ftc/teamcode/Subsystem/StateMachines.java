@@ -50,7 +50,7 @@ public class StateMachines {
 
                 .state(Intake.TRANSFER2)
                 .onEnter(hand::transfer2)
-                .transition(() -> gamepad.a, Intake.WAIT2)
+                .transition(() -> gamepad.a || gamepad.x, Intake.WAIT2)
 
                 .state(Intake.WAIT2)
                 .transitionTimed(0.25, Intake.LOITER)
