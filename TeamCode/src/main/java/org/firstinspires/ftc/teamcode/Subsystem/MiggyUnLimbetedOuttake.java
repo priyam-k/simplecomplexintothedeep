@@ -36,7 +36,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-
+    public void reset(){
+        Rlift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
     public void Lift(double x) {
         Rlift.setPower(x);
@@ -158,6 +161,10 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         loiter3();
 
     }
+    public void specimenAutonInit() {
+        specimenPickupStart();
+        specimenPickupGrab();
+    }
 
     public void SlidesBrake() {
         Rlift.setPower(0);
@@ -201,11 +208,11 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void specimenPickupUp() {
-        outtakeFlipper.setPosition(0.5);
+        outtakeFlipper.setPosition(0.7);
     }
 
     public void specimenSlideUp() {
-        PIDLoop(800);
+        PIDLoop(900);
         outtakeFlipper.setPosition(0.4);
     }
 

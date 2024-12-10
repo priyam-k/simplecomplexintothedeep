@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.Subsystem.Subsystem;
 public class GenericTele extends LinearOpMode {
 
     Drivetrain drive;
-    public Servo slidesServo;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
     StateMachine intakeMachine,transferMachine;
@@ -33,8 +32,7 @@ public class GenericTele extends LinearOpMode {
         drive = new Drivetrain();
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
-        boolean slidesbuttonpressed = false;
-        slidesServo = hardwareMap.get(Servo.class, "Servo4");
+
 
 
         drive.init(hardwareMap);
@@ -50,12 +48,12 @@ public class GenericTele extends LinearOpMode {
         intakeMachine.start();
         telemetry.addData("rightLift power:", out.slidesPower());
         telemetry.update();
-        slidesServo.setPosition(0.12);
+
 
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2"){
+            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2" || transferMachine.getStateString() == "BACK1HIGH"){
                 out.Lift(gamepad2.left_stick_y);
             }
 
