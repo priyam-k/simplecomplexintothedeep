@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.SingleUse.AprilTagAlignmentTest;
 import org.firstinspires.ftc.teamcode.Vision.VisionOpMode;
@@ -40,7 +41,7 @@ public class Drivetrain implements Subsystem {
     public static double VerticalLine = 240; //480
 
 
-    private DcMotor LF, LR, RF, RR,par,perp;
+    private DcMotorEx LF, LR, RF, RR,par,perp;
 
     //TODO: tune this on the new robot
     private AprilTagProcessor aprilTag;
@@ -67,10 +68,10 @@ public class Drivetrain implements Subsystem {
 
 //        VisionPortal VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(aprilTag).build();
 
-        LF = hardwareMap.dcMotor.get("leftFront");
-        LR = hardwareMap.dcMotor.get("leftRear");
-        RF = hardwareMap.dcMotor.get("rightFront");
-        RR = hardwareMap.dcMotor.get("rightRear");
+        LF = hardwareMap.get(DcMotorEx.class,"leftFront");
+        LR = hardwareMap.get(DcMotorEx.class,"leftRear");
+        RF = hardwareMap.get(DcMotorEx.class,"rightFront");
+        RR = hardwareMap.get(DcMotorEx.class,"rightRear");
 
         par = hardwareMap.get(DcMotorEx.class, "Rodo");
         perp = hardwareMap.get(DcMotorEx.class, "Lodo");
@@ -103,6 +104,11 @@ public class Drivetrain implements Subsystem {
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         LR.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+
+    }
+
+    public void IMUinit(HardwareMap hardwareMap){
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(
                 new IMU.Parameters(
@@ -110,7 +116,16 @@ public class Drivetrain implements Subsystem {
                                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)));
         //TODO FIX THIS PART
         imu.resetYaw();
+    }
 
+    public double[] getCurrent(){
+        double[] current = new double[4];
+        current[0] = LF.getCurrent(CurrentUnit.MILLIAMPS);
+        current[1] = RF.getCurrent(CurrentUnit.MILLIAMPS);
+        current[2] = LR.getCurrent(CurrentUnit.MILLIAMPS);
+        current[3] = RR.getCurrent(CurrentUnit.MILLIAMPS);
+
+        return current;
     }
 
     public void SampleAlign(double VerticalMotorPower,double StraffeMotorpower){
@@ -409,6 +424,7 @@ public class Drivetrain implements Subsystem {
 
 
     public double[] toPoint(double targetVert, double targetHorizontal, double targetHeading) {
+
 
         // Calculate current errors
         double VerticalError = targetVert - par.getCurrentPosition();
