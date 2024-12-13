@@ -8,18 +8,18 @@ import com.sfdev.assembly.state.StateMachine;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
-import org.firstinspires.ftc.teamcode.Subsystem.StateMachines;
+import org.firstinspires.ftc.teamcode.Subsystem.StateMachineV2;
 
-@TeleOp(name = "Generic Tele")
+@TeleOp(name = "Gubernamental Tele")
 @Config
-public class GenericTele extends LinearOpMode {
+public class Gubernamental extends LinearOpMode {
 
     public double HoldingSlide = 0.12;
     public double SlidesActivated = 0;
     Drivetrain drive;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
-    StateMachine intakeMachine, transferMachine;
+    StateMachine intakeMachine, sampleMachine, specimenMachine;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,27 +33,48 @@ public class GenericTele extends LinearOpMode {
         hand.init(hardwareMap, gamepad2);
         out.init(hardwareMap);
 
-        intakeMachine = StateMachines.getIntakeStateMachine(hand, gamepad2);
-        transferMachine = StateMachines.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+        intakeMachine = StateMachineV2.getIntakeStateMachine(hand, gamepad2);
+        sampleMachine = StateMachineV2.getOuttakeStateMachine(out, gamepad2, intakeMachine);
+        specimenMachine = StateMachineV2.getSpecimenStateMachine(hand, out, gamepad2);
 
         waitForStart();
 
-        transferMachine.start();
+        sampleMachine.start();
         intakeMachine.start();
         telemetry.addData("rightLift power:", out.slidesPower());
         telemetry.update();
 
 
         while (opModeIsActive()) {
-            transferMachine.update();
+
+
+            specimenMachine.update();
+
+            sampleMachine.update();
             intakeMachine.update();
-            if (intakeMachine.getStateString() == "HOVERING" || intakeMachine.getStateString() == "PICKUP2" || transferMachine.getStateString() == "BACK1HIGH") {
+
+            if (sampleMachine.isRunning()) {
                 out.Lift(gamepad2.left_stick_y);
+            }
+
+            if (gamepad2.left_bumper) {
+                if (specimenMachine.isRunning()) {
+                    specimenMachine.stop();
+                    sampleMachine.start();
+                    telemetry.addLine("Stopped specimen, started sample");
+                    gamepad2.rumble(100);
+
+                } else {
+                    sampleMachine.stop();
+                    specimenMachine.start();
+                    telemetry.addLine("Stopped sample, started specimen");
+                    gamepad2.rumble(100);
+                }
             }
 
 
             telemetry.addData("Intake state", intakeMachine.getStateString());
-            telemetry.addData("Outtake States:", transferMachine.getStateString());
+            telemetry.addData("Outtake States:", sampleMachine.getStateString());
             if (gamepad1.right_bumper) {
                 drive.TeleopControl(gamepad1.left_stick_y * 0.7, gamepad1.left_stick_x * 0.7, gamepad1.right_stick_x / 2.0);
             } else {
@@ -67,4 +88,6 @@ public class GenericTele extends LinearOpMode {
         }
 
     }
+
 }
+

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class MiggyUnLimbetedOuttake implements Subsystem {
     public static double kP = 0.09;
     public double currentPos;
+    public double slides_target = 900;
     public Servo outtakeFlipper;
     public DcMotorEx Rlift, Llift;
     boolean waspressedlift = false;
@@ -36,7 +38,8 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         Llift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-    public void reset(){
+
+    public void reset() {
         Rlift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Rlift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -161,6 +164,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         loiter3();
 
     }
+
     public void specimenAutonInit() {
         specimenPickupStart();
         specimenPickupGrab();
@@ -211,8 +215,15 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.7);
     }
 
-    public void specimenSlideUp() {
-        PIDLoop(900);
+    public void specimenSlideUp(Gamepad g) {
+
+        if (g.dpad_up) {
+            slides_target += 50;
+        } else if (g.dpad_down) {
+            slides_target -= 50;
+        }
+
+        PIDLoop(slides_target);
         outtakeFlipper.setPosition(0.4);
     }
 

@@ -118,8 +118,8 @@ public class StateMachines {
                 .transitionTimed(0.25, Outtake.SPECIMENSLIDEUP)
 
                 .state(Outtake.SPECIMENSLIDEUP)
-                .onEnter(out::specimenSlideUp)
-                .loop(out::specimenSlideUp)
+                .onEnter(() -> out.specimenSlideUp(gamepad))
+                .loop(() -> out.specimenSlideUp(gamepad))
                 .transition(() -> gamepad.triangle, Outtake.WAIT5)
 
                 .state(Outtake.WAIT5)
