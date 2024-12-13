@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
+import org.opencv.core.Mat;
 
 
 @Config
@@ -51,28 +52,28 @@ public class Autonomous3_0 extends LinearOpMode {
         hand.open();
 
         Pose2d highChamberPose = new Pose2d(0, -33.5, Math.toRadians(270));
-        Pose2d highChamberPose2 = new Pose2d(5, -57.5 , Math.toRadians(270));
-        Pose2d sample1Pose = new Pose2d(44.5, 0, Math.toRadians(45));
+        Pose2d highChamberPose2 = new Pose2d(0, -33.5 , Math.toRadians(270));
+        Pose2d sample1Pose = new Pose2d(44.5, 0, Math.toRadians(90));
         Pose2d sample1PushPose = new Pose2d(44.5, -60, Math.toRadians(90));
         Pose2d sample2Pose = new Pose2d(60, -14, Math.toRadians(90));
         Pose2d sample2PushPose = new Pose2d(60, -60, Math.toRadians(90));
         Pose2d obsZonePose = new Pose2d(47, -52, Math.toRadians(90));
         Pose2d parkPose = new Pose2d(47, -61, Math.toRadians(270));
-        Pose2d obsZonePickupPose = new Pose2d(50, -85, Math.toRadians(90));
+        Pose2d obsZonePickupPose = new Pose2d(50, -72, Math.toRadians(90));
 
-        Action highChamberTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(highChamberPose, Math.toRadians(90)).build();
+        Action highChamberTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(90).splineToLinearHeading(highChamberPose, Math.toRadians(90)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, highChamberPose);
 
-        Action sample1Traj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(sample1Pose, Math.toRadians(75)).build();
+        Action sample1Traj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample1Pose, Math.toRadians(65)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, sample1Pose);
 
-        Action sample1PushTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(sample1PushPose, Math.toRadians(90)).build();
+        Action sample1PushTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample1PushPose, Math.toRadians(90)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, sample1PushPose);
 
-        Action sample2Traj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(sample2Pose, Math.toRadians(0)).build();
+        Action sample2Traj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample2Pose, Math.toRadians(0)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, sample2Pose);
 
-        Action sample2PushTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(sample2PushPose, Math.toRadians(90)).build();
+        Action sample2PushTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample2PushPose, Math.toRadians(90)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, sample2PushPose);
 
         Action obsZoneTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(obsZonePose, Math.toRadians(270)).build();
@@ -119,11 +120,13 @@ public class Autonomous3_0 extends LinearOpMode {
                             return false;
                         },
                         new SleepAction(0.3),
-                        sample1Traj,
-                        telemetryPacket -> {
-                            out.PIDLoop(0);
-                            return conditionalEnd(0);
-                        },
+                        new ParallelAction(
+                            sample1Traj,
+                            telemetryPacket -> {
+                                out.PIDLoop(0);
+                                return conditionalEnd(0);
+                            }
+                        ),
                         telemetryPacket -> {
                             out.specimenPickupStart();
                             return false;

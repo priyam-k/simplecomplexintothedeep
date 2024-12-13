@@ -53,7 +53,7 @@ public class GenericTele extends LinearOpMode {
         while (opModeIsActive()) {
             transferMachine.update();
             intakeMachine.update();
-            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2" || transferMachine.getStateString() == "BACK1HIGH"){
+            if ( intakeMachine.getStateString() == "HOVERING" ||intakeMachine.getStateString() == "PICKUP2" || transferMachine.getStateString() == "BACK1HIGH" ||intakeMachine.getStateString() == "SCANNING1" || intakeMachine.getStateString() == "SCANNING2" || intakeMachine.getStateString() == "SCANNING3" || intakeMachine.getStateString() == "SCANNING4"){
                 out.Lift(gamepad2.left_stick_y);
             }
 
