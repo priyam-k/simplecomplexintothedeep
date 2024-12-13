@@ -19,6 +19,9 @@ public class Gubernamental extends LinearOpMode {
     Drivetrain drive;
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
+    boolean check = false;
+    boolean SampleMode = false;
+
     StateMachine intakeMachine, sampleMachine, specimenMachine;
 
     @Override
@@ -35,7 +38,7 @@ public class Gubernamental extends LinearOpMode {
 
         intakeMachine = StateMachineV2.getIntakeStateMachine(hand, gamepad2);
         sampleMachine = StateMachineV2.getOuttakeStateMachine(out, gamepad2, intakeMachine);
-        specimenMachine = StateMachineV2.getSpecimenStateMachine(hand, out, gamepad2);
+        specimenMachine = StateMachineV2.getSpecimenStateMachine(hand, out, gamepad2, telemetry);
 
         waitForStart();
 
@@ -49,7 +52,6 @@ public class Gubernamental extends LinearOpMode {
 
 
             specimenMachine.update();
-
             sampleMachine.update();
             intakeMachine.update();
 
@@ -58,18 +60,34 @@ public class Gubernamental extends LinearOpMode {
             }
 
             if (gamepad2.left_bumper) {
-                if (specimenMachine.isRunning()) {
+                check = true;
+            }
+            if (!gamepad2.left_bumper && check) {
+                check = false;
+                if (!SampleMode) {
                     specimenMachine.stop();
+
+                    sampleMachine.reset();
+                    intakeMachine.reset();
+
+                    intakeMachine.start();
                     sampleMachine.start();
                     telemetry.addLine("Stopped specimen, started sample");
                     gamepad2.rumble(100);
 
+
                 } else {
                     sampleMachine.stop();
+                    intakeMachine.stop();
+
+                    specimenMachine.reset();
+
                     specimenMachine.start();
                     telemetry.addLine("Stopped sample, started specimen");
                     gamepad2.rumble(100);
                 }
+
+                SampleMode = !SampleMode;
             }
 
 
