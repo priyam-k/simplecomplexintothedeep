@@ -76,7 +76,7 @@ public class StateMachineV2 {
                 .state(Outtake.LOITERING3).onEnter(() -> {
                     out.loiter3();
                     out.SlidesBrake();
-                }).transition(() -> gamepad.b && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1).transition(() -> gamepad.triangle && (intake.getState() == Intake.SCANNING4), Outtake.WAIT1) //GAMEPAD TRIANGLE MEANS y
+                }).transition(() -> gamepad.b && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1) //GAMEPAD TRIANGLE MEANS y
 
 
                 .waitState(0.5)
