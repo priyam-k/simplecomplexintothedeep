@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.sfdev.assembly.state.StateMachine;
 import com.sfdev.assembly.state.StateMachineBuilder;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class StateMachineV2 {
     public static StateMachine getIntakeStateMachine(EnableHand hand, Gamepad gamepad) {
         return new StateMachineBuilder().state(Intake.LOITER).onEnter(hand::loiter).transition(() -> gamepad.a, Intake.SCANNING1)
@@ -34,60 +36,42 @@ public class StateMachineV2 {
                 .build();
     }
 
-    public static StateMachine getSpecimenStateMachine(EnableHand hand, MiggyUnLimbetedOuttake out, Gamepad gamepad) {
+    public static StateMachine getSpecimenStateMachine(EnableHand hand, MiggyUnLimbetedOuttake out, Gamepad gamepad, Telemetry telemetry) {
 
-        return new StateMachineBuilder()
-                .state(StateMachineV2.Outtake.SPECIMENPICKUPSTART)
-                .onEnter(() -> {
+        return new StateMachineBuilder().state(StateMachineV2.Outtake.SPECIMENPICKUPSTART).onEnter(() -> {
                     out.specimenPickupStart();
                     hand.setSwingArmAngle(90);
-                })
-                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT2)
+                    out.loiter2();
+                }).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT2)
 
-                .state(StateMachineV2.Outtake.WAIT2)
-                .transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
+                .state(StateMachineV2.Outtake.WAIT2).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
 
-                .state(StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
-                .onEnter(out::specimenPickupGrab)
-                .transitionTimed(0.25, StateMachineV2.Outtake.WAIT3)
+                .state(StateMachineV2.Outtake.SPECIMENPICKUPGRAB).onEnter(out::specimenPickupGrab).transitionTimed(0.15, StateMachineV2.Outtake.WAIT3)
 
-                .state(StateMachineV2.Outtake.WAIT3)
-                .onEnter(() -> gamepad.rumble(500))
-                .transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENPICKUPUP)
+                .state(StateMachineV2.Outtake.WAIT3).onEnter(() -> gamepad.rumble(500)).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPUP)
 
-                .state(StateMachineV2.Outtake.SPECIMENPICKUPUP)
-                .onEnter(out::specimenPickupUp)
-                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT4)
+                .state(StateMachineV2.Outtake.SPECIMENPICKUPUP).onEnter(out::specimenPickupUp).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT4) // escape state
                 .transition(() -> gamepad.b, Outtake.SPECIMENPICKUPSTART)
 
-                .state(StateMachineV2.Outtake.WAIT4)
-                .transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENSLIDEUP)
+                .state(StateMachineV2.Outtake.WAIT4).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEUP)
 
-                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP)
-                .onEnter(() -> out.specimenSlideUp(gamepad))
-                .loop(() -> out.specimenSlideUp(gamepad))
-                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT5)
+                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP).loop(() -> out.specimenSlideUp(gamepad, telemetry)).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT5)
 
-                .state(StateMachineV2.Outtake.WAIT5)
-                .transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
+                .state(StateMachineV2.Outtake.WAIT5).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
 
 
-                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
-                .onEnter(out::specimenSlideDown)
-                .transitionTimed(0.5, StateMachineV2.Outtake.SPECIMENRELEASE)
+                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN).onEnter(out::specimenSlideDown).transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENRELEASE)
 
-                .state(StateMachineV2.Outtake.SPECIMENRELEASE)
-                .onEnter(out::specimenRelease)
-                .transition(() -> gamepad.a, Outtake.SPECIMENPICKUPSTART).build();
+                .state(StateMachineV2.Outtake.SPECIMENRELEASE).onEnter(out::specimenRelease).transition(() -> gamepad.a, Outtake.SPECIMENPICKUPSTART).build();
 
     }
 
     public static StateMachine getOuttakeStateMachine(MiggyUnLimbetedOuttake out, Gamepad gamepad, StateMachine intake) {
         return new StateMachineBuilder().state(Outtake.LOITERING1).onEnter(out::loiter1).transitionTimed(0.25, Outtake.LOITERING2)
 
-                .state(Outtake.LOITERING2).onEnter(out::loiter2).transitionTimed(0.05, Outtake.SLIDESDOWN)
+                .state(Outtake.LOITERING2).onEnter(out::loiter2).transitionTimed(0.05, Outtake.LOITERING3)
 
-                .state(Outtake.SLIDESDOWN).onEnter(out::slidesTransfer).loop(out::slidesTransfer).transitionTimed(1, Outtake.LOITERING3)
+//                .state(Outtake.SLIDESDOWN).onEnter(out::slidesTransfer).loop(out::slidesTransfer).transitionTimed(1, Outtake.LOITERING3)
 
                 .state(Outtake.LOITERING3).onEnter(() -> {
                     out.loiter3();

@@ -20,6 +20,8 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     private Servo outtakeArm2;
     private Servo outtakeClaw;
 
+    private boolean fallingEdgeUpCheck, fallingEdgeDownCheck = false;
+
     @Override
     public void init(HardwareMap hardwareMap) {
         // Initialize servos with corresponding hardware names
@@ -215,15 +217,32 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.7);
     }
 
-    public void specimenSlideUp(Gamepad g) {
+    public void specimenSlideUp(Gamepad g, Telemetry telemetry) {
 
+
+        // falling edge detector
         if (g.dpad_up) {
-            slides_target += 50;
-        } else if (g.dpad_down) {
-            slides_target -= 50;
+            fallingEdgeUpCheck = true;
+            fallingEdgeDownCheck = false;
+        }
+        if (g.dpad_down) {
+            fallingEdgeUpCheck = false;
+            fallingEdgeDownCheck = true;
         }
 
+        if (!g.dpad_up && fallingEdgeUpCheck) {
+            slides_target += 50;
+            fallingEdgeUpCheck = false;
+        } else if (!g.dpad_down && fallingEdgeDownCheck) {
+            slides_target -= 50;
+            fallingEdgeDownCheck = false;
+        }
+
+
         PIDLoop(slides_target);
+        telemetry.addData("Slides target", slides_target);
+        telemetry.addData("Real pos", Rlift.getCurrentPosition());
+        telemetry.update();
         outtakeFlipper.setPosition(0.4);
     }
 
