@@ -89,7 +89,7 @@ public class StateMachines {
                 })
                 .transition(() -> gamepad.b  && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1)
                 .transition(() -> gamepad.x && intake.getState() == Intake.TRANSFER2, Outtake.TRANSFERRING1OBSZONE)
-                .transition(() -> gamepad.triangle && intake.getState() == Intake.SCANNING4, Outtake.WAIT1)
+                .transition(() -> gamepad.triangle && (intake.getState() == Intake.SCANNING4), Outtake.WAIT1) //GAMEPAD TRIANGLE MEANS y
 
 
                 .state(Outtake.WAIT1)
@@ -118,8 +118,8 @@ public class StateMachines {
                 .transitionTimed(0.25, Outtake.SPECIMENSLIDEUP)
 
                 .state(Outtake.SPECIMENSLIDEUP)
-                .onEnter(out::specimenSlideUp)
-                .loop(out::specimenSlideUp)
+                .onEnter(() -> out.specimenSlideUp(gamepad))
+                .loop(() -> out.specimenSlideUp(gamepad))
                 .transition(() -> gamepad.triangle, Outtake.WAIT5)
 
                 .state(Outtake.WAIT5)
@@ -153,8 +153,8 @@ public class StateMachines {
                 .transition(()->intake.getState() == Intake.LOITER, Outtake.BACK1OBSZON)
 
                 .state(Outtake.BACK1HIGH)
-                .onEnter(out::back1)
-                .loop(out::highBasket)
+                  .onEnter(out::back1)
+                //.loop(out::highBasket)
                 .transition(()->gamepad.b, Outtake.SCORING)
 
                 .state(Outtake.BACK1OBSZON)
@@ -174,7 +174,8 @@ public class StateMachines {
         BACK1HIGH, BACK2,BACK1OBSZON,TRANSFERRING1OBSZONE,TRANSFERRING2OBSZONE,
         SCORING,
         SLIDESDOWN,
-        SPECIMENPICKUPSTART, SPECIMENPICKUPGRAB, SPECIMENPICKUPUP, SPECIMENSLIDEUP, SPECIMENSLIDEDOWN, BRAKE2, SPECIMENRELEASE,WAIT1,WAIT2,WAIT3,WAIT4,WAIT5
+        SPECIMENPICKUPSTART, SPECIMENPICKUPGRAB, SPECIMENPICKUPUP, SPECIMENSLIDEUP, SPECIMENSLIDEDOWN, BRAKE2, SPECIMENRELEASE,
+        WAIT1,WAIT2,WAIT3,WAIT4,WAIT5
     }
 
 
