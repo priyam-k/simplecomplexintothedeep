@@ -134,19 +134,19 @@ public class Autonomous2_0 extends LinearOpMode {
                         new SleepAction(0.5),
 
                         new ParallelAction(
-                            highChamberTraj2,
-                            new SequentialAction(
-                                telemetryPacket ->{
-                                    out.PIDLoop(100);
-                                    return conditionalEnd(100);
-                                },
-                                new SleepAction(0.4),
-                                telemetryPacket ->{
-                                    out.PIDLoop(900);
-                                    out.outtakeFlipper.setPosition(0.4);
-                                    return conditionalEnd(900);
-                                }
-                            )
+                                highChamberTraj2,
+                                new SequentialAction(
+                                        telemetryPacket ->{
+                                            out.PIDLoop(100);
+                                            return conditionalEnd(100);
+                                        },
+                                        new SleepAction(0.4),
+                                        telemetryPacket ->{
+                                            out.PIDLoop(900);
+                                            out.outtakeFlipper.setPosition(0.4);
+                                            return conditionalEnd(900);
+                                        }
+                                )
                         ),
                         new SleepAction(0.7),
                         telemetryPacket -> {
