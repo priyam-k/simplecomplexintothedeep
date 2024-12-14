@@ -51,12 +51,19 @@ public class Gubernamental extends LinearOpMode {
         while (opModeIsActive()) {
 
 
-            specimenMachine.update();
-            sampleMachine.update();
-            intakeMachine.update();
+            if(SampleMode){
+                sampleMachine.update();
+            }
+            else {
+                specimenMachine.update();
+                intakeMachine.update();
+            }
 
-            if (sampleMachine.isRunning()) {
-                out.Lift(gamepad2.left_stick_y);
+
+
+            out.Lift(gamepad2.left_stick_y);//full manuel
+            if (SampleMode) {
+              //  out.Lift(gamepad2.left_stick_y);
             }
 
             if (gamepad2.left_bumper) {
