@@ -250,6 +250,14 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeFlipper.setPosition(0.4);
     }
 
+    public void specimenSlideUp_noadjust() {
+        specimenPickupGrab();
+
+
+        PIDLoop(900);
+
+        outtakeFlipper.setPosition(0.4);
+    }
     public void specimenSlideDown() {
         PIDLoop(600);
     }

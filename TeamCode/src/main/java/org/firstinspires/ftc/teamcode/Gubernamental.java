@@ -50,14 +50,10 @@ public class Gubernamental extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-
-            if(SampleMode){
                 sampleMachine.update();
-            }
-            else {
                 specimenMachine.update();
                 intakeMachine.update();
-            }
+
 
 
 

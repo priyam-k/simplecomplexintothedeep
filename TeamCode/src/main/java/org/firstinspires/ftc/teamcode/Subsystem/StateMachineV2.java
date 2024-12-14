@@ -66,15 +66,16 @@ public class StateMachineV2 {
                 .transition(() -> gamepad.b, Outtake.SPECIMENPICKUPSTART)// escape state
 
                 .state(StateMachineV2.Outtake.WAIT4)
-                .transitionTimed(0.15, Outtake.SPECIMENRELEASE)
+                .transitionTimed(0.15, Outtake.SPECIMENSLIDEUP)
                 //manul lift
 
-//                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP)
-//                .loop(() -> out.specimenSlideUp(gamepad, telemetry))
-//                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT5)
+                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP)
+//                .loop(() -> out.specimenSlideUp(gamepad, telemetry)
+                .onEnter(() -> out.outtakeFlipper.setPosition(0.4))
+                .transition(() -> gamepad.a, Outtake.WAIT5)
 //
-//                .state(StateMachineV2.Outtake.WAIT5)
-//                .transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
+                .state(StateMachineV2.Outtake.WAIT5)
+                .transitionTimed(0.15, Outtake.SPECIMENRELEASE)
 
 
 //                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN)

@@ -49,7 +49,7 @@ public class Autonomous2_0_1Push extends LinearOpMode {
 
         out.transfer2();
         out.specimenAutonInit();
-        hand.setSwingArmAngleAuton(130);
+        hand.setSwingArmAngle(130);
         hand.open();
 
 
@@ -60,8 +60,8 @@ public class Autonomous2_0_1Push extends LinearOpMode {
         Pose2d obsZonePickupPose = new Pose2d(47, -64, Math.toRadians(90));
         Pose2d sample1Pose = new Pose2d(47, 0, Math.toRadians(270));
         Pose2d sample1PushPose = new Pose2d(50, -40, Math.toRadians(270));
-        Pose2d obsZonePickupPose2 = new Pose2d(47, -64, Math.toRadians(80));
-        Pose2d highChamberPose3 = new Pose2d(2, -31, Math.toRadians(270));
+        Pose2d obsZonePickupPose2 = new Pose2d(47, -64, Math.toRadians(90));
+        Pose2d highChamberPose3 = new Pose2d(-5, -31, Math.toRadians(270));
 
 
         Action highChamberTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(highChamberPose, Math.toRadians(90)).build();
