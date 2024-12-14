@@ -38,31 +38,52 @@ public class StateMachineV2 {
 
     public static StateMachine getSpecimenStateMachine(EnableHand hand, MiggyUnLimbetedOuttake out, Gamepad gamepad, Telemetry telemetry) {
 
-        return new StateMachineBuilder().state(StateMachineV2.Outtake.SPECIMENPICKUPSTART).onEnter(() -> {
+        return new StateMachineBuilder()
+
+                .state(StateMachineV2.Outtake.SPECIMENPICKUPSTART)
+                .onEnter(() -> {
                     out.specimenPickupStart();
                     hand.setSwingArmAngle(90);
                     out.loiter2();
-                }).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT2)
+                    out.SlidesBrake();
+                })
+                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT2)
 
-                .state(StateMachineV2.Outtake.WAIT2).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
+                .state(StateMachineV2.Outtake.WAIT2)
+                .transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
 
-                .state(StateMachineV2.Outtake.SPECIMENPICKUPGRAB).onEnter(out::specimenPickupGrab).transitionTimed(0.15, StateMachineV2.Outtake.WAIT3)
+                .state(StateMachineV2.Outtake.SPECIMENPICKUPGRAB)
+                .onEnter(out::specimenPickupGrab)
+                .transitionTimed(0.15, StateMachineV2.Outtake.WAIT3)
 
-                .state(StateMachineV2.Outtake.WAIT3).onEnter(() -> gamepad.rumble(500)).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPUP)
+                .state(StateMachineV2.Outtake.WAIT3)
+                .onEnter(() -> gamepad.rumble(500))
+                .transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENPICKUPUP)
 
-                .state(StateMachineV2.Outtake.SPECIMENPICKUPUP).onEnter(out::specimenPickupUp).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT4) // escape state
-                .transition(() -> gamepad.b, Outtake.SPECIMENPICKUPSTART)
+                .state(StateMachineV2.Outtake.SPECIMENPICKUPUP)
+                .onEnter(out::specimenPickupUp)
+                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT4)
+                .transition(() -> gamepad.b, Outtake.SPECIMENPICKUPSTART)// escape state
 
-                .state(StateMachineV2.Outtake.WAIT4).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEUP)
+                .state(StateMachineV2.Outtake.WAIT4)
+                .transitionTimed(0.15, Outtake.SPECIMENRELEASE)
+                //manul lift
 
-                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP).loop(() -> out.specimenSlideUp(gamepad, telemetry)).transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT5)
+//                .state(StateMachineV2.Outtake.SPECIMENSLIDEUP)
+//                .loop(() -> out.specimenSlideUp(gamepad, telemetry))
+//                .transition(() -> gamepad.a, StateMachineV2.Outtake.WAIT5)
+//
+//                .state(StateMachineV2.Outtake.WAIT5)
+//                .transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
 
-                .state(StateMachineV2.Outtake.WAIT5).transitionTimed(0.15, StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
 
+//                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
+//                .onEnter(out::specimenSlideDown)
+//                .transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENRELEASE)
 
-                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN).onEnter(out::specimenSlideDown).transitionTimed(0.25, StateMachineV2.Outtake.SPECIMENRELEASE)
-
-                .state(StateMachineV2.Outtake.SPECIMENRELEASE).onEnter(out::specimenRelease).transition(() -> gamepad.a, Outtake.SPECIMENPICKUPSTART).build();
+                .state(StateMachineV2.Outtake.SPECIMENRELEASE)
+                .onEnter(out::specimenRelease)
+                .transition(() -> gamepad.a, Outtake.SPECIMENPICKUPSTART).build();
 
     }
 
@@ -81,9 +102,11 @@ public class StateMachineV2 {
 
                 .waitState(0.5)
 
-                .state(Outtake.TRANSFERRING1).onEnter(out::transfer1).transitionTimed(0.25, Outtake.TRANSFERRING2)
+                .state(Outtake.TRANSFERRING1)
+                .onEnter(out::transfer1).transitionTimed(0.25, Outtake.TRANSFERRING2)
 
-                .state(Outtake.TRANSFERRING2).onEnter(out::transfer2).transition(() -> intake.getState() == Intake.LOITER, Outtake.BACK1HIGH)
+                .state(Outtake.TRANSFERRING2)
+                .onEnter(out::transfer2).transition(() -> intake.getState() == Intake.LOITER, Outtake.BACK1HIGH)
 
 
                 .state(Outtake.BACK1HIGH).onEnter(out::back1)

@@ -213,12 +213,16 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         outtakeClaw.setPosition(0.6);
     }
 
+    public void SlidesAllthewaydown(){
+        PIDLoop(0);
+    }
+
     public void specimenPickupUp() {
         outtakeFlipper.setPosition(0.7);
     }
 
     public void specimenSlideUp(Gamepad g, Telemetry telemetry) {
-
+    specimenPickupGrab();
 
         // falling edge detector
         if (g.dpad_up) {
