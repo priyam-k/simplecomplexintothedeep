@@ -82,7 +82,7 @@ public class Red1_3SampleFasterTrust extends LinearOpMode {
         Action basket1Action =
          new SequentialAction(
                 new ParallelAction(
-                        new SequentialAction(basket1traj, new SleepAction(0.5), // AMOUNT OF EXTRA TIME NECESSARY TO COMPLETE ACTIONS),
+                        new SequentialAction(basket1traj, new SleepAction(0.5), // AMOUNT OF EXTRA TIME NECESSARY TO COMPLETE ACTIONS
                         new SequentialAction(
                             telemetryPacket -> {
                                 telemetry.addLine("Back 2");
@@ -261,22 +261,27 @@ public class Red1_3SampleFasterTrust extends LinearOpMode {
                     return false;
         });
 
-        Action sample2Action = new SequentialAction(
-                new ParallelAction(new SequentialAction( sample2traj, new SleepAction(1.5)), new SequentialAction(
-                        telemetryPacket -> {
-                            telemetry.addLine("Slides down");
-                            telemetry.update();
-                            out.PIDLoop(-100);
-                            return false;
-                        },
-                        new SleepAction(1),
-                        telemetryPacket -> {
-                            telemetry.addLine("Slides brake");
-                            telemetry.update();
-                            out.SlidesBrake();
-                            return false;
-                        }
-                )),
+        Action sample2Action =
+         new SequentialAction(
+                new ParallelAction(
+                        new SequentialAction(
+                                sample2traj, new SleepAction(1.5)),
+                        new SequentialAction(
+                            telemetryPacket -> {
+                                telemetry.addLine("Slides down");
+                                telemetry.update();
+                                out.PIDLoop(-100);
+                                return false;
+                            },
+                            new SleepAction(1),
+                            telemetryPacket -> {
+                                telemetry.addLine("Slides brake");
+                                telemetry.update();
+                                out.SlidesBrake();
+                                return false;
+                            }
+                        )
+                ),
                 telemetryPacket -> {
                     telemetry.addLine("Scan 1");
                     telemetry.update();
@@ -285,29 +290,34 @@ public class Red1_3SampleFasterTrust extends LinearOpMode {
                     hand.close();
                     return false;
                 }, new SleepAction(0.3),
-         telemetryPacket -> {
-            telemetry.addLine("Hovering");
-            telemetry.update();
-            hand.hoverAuto();
-             hand.autonPickup1();
-             return false;
-        },  new SleepAction(0.5), telemetryPacket -> {
-            telemetry.addLine("Picking up 1");
-            telemetry.update();
-            hand.pickup2Auton();
-            return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("Picking up 2");
-            telemetry.update();
-            hand.open();
-            return false;
-
-        }, new SleepAction(0.4), telemetryPacket -> {
-            telemetry.addLine("Transferring 1");
-            telemetry.update();
-            hand.intaketrasnferinone();
-            return false;
-        }
+                telemetryPacket -> {
+                    telemetry.addLine("Hovering");
+                    telemetry.update();
+                    hand.hoverAuto();
+                    hand.autonPickup1();
+                    return false;
+                },
+                 new SleepAction(0.5),
+                 telemetryPacket -> {
+                    telemetry.addLine("Picking up 1");
+                    telemetry.update();
+                    hand.pickup2Auton();
+                    return false;
+                },
+                 new SleepAction(0.3),
+                 telemetryPacket -> {
+                    telemetry.addLine("Picking up 2");
+                    telemetry.update();
+                    hand.open();
+                    return false;
+                },
+                 new SleepAction(0.4),
+                 telemetryPacket -> {
+                    telemetry.addLine("Transferring 1");
+                    telemetry.update();
+                    hand.intaketrasnferinone();
+                    return false;
+                }
         );
         Action parallelActions2 = new SequentialAction(
 //                telemetryPacket -> {
@@ -354,7 +364,7 @@ public class Red1_3SampleFasterTrust extends LinearOpMode {
         );
 
         Action basket3Action = new SequentialAction(
-        new ParallelAction(new SequentialAction(basket3traj, new SleepAction(2)), parallelActions2),
+        new ParallelAction(new SequentialAction(basket3traj, new SleepAction(1.5)), parallelActions2),
                 telemetryPacket -> {
                     telemetry.addLine("Back");
                     telemetry.update();

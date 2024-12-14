@@ -105,7 +105,7 @@ public class Red1_3Sample extends LinearOpMode {
             out.score();
             return false;
         }
-        , new SleepAction(0.3), telemetryPacket -> {
+        , new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
             out.dontgetstuckonbasket();
@@ -244,7 +244,7 @@ public class Red1_3Sample extends LinearOpMode {
             out.score();
             return false;
         }
-                , new SleepAction(0.3), telemetryPacket -> {
+                , new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
             out.dontgetstuckonbasket();
@@ -373,7 +373,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.backAuton();
             return false;
-        }, new SleepAction(0.5), telemetryPacket -> {
+        }, new SleepAction(0.), telemetryPacket -> {
             telemetry.addLine("Score");
             telemetry.update();
             out.score();
@@ -383,7 +383,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.SlidesBrake();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("don't get stuck on basket");
             telemetry.update();
             out.dontgetstuckonbasket();
@@ -525,7 +525,7 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.SlidesBrake();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
+        }, new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Don't get it stuck on basket");
             telemetry.update();
             out.dontgetstuckonbasket();

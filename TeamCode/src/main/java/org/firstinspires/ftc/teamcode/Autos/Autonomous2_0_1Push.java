@@ -18,8 +18,8 @@ import org.opencv.core.Mat;
 
 
 @Config
-@Autonomous(name = "A: Auto 2+0")
-public class Autonomous2_0 extends LinearOpMode {
+@Autonomous(name = "A: Auto push 2+0")
+public class Autonomous2_0_1Push extends LinearOpMode {
     Drivetrain drive = new Drivetrain();
     EnableHand hand = new EnableHand();
     MiggyUnLimbetedOuttake out = new MiggyUnLimbetedOuttake();
@@ -58,12 +58,22 @@ public class Autonomous2_0 extends LinearOpMode {
         Pose2d obsZonePose = new Pose2d(47, -52, Math.toRadians(90));
         Pose2d parkPose = new Pose2d(47, -61, Math.toRadians(270));
         Pose2d obsZonePickupPose = new Pose2d(47, -64, Math.toRadians(90));
+        Pose2d sample1Pose = new Pose2d(50, 0, Math.toRadians(270));
+        Pose2d sample1PushPose = new Pose2d(50, -52, Math.toRadians(270));
 
-        Action highChamberTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(90)).splineToLinearHeading(highChamberPose, Math.toRadians(90)).build();
+        Action highChamberTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(highChamberPose, Math.toRadians(90)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, highChamberPose);
 
         Action lineBack = mecanumDrive.actionBuilder(mecanumDrive.pose).lineToY(-34).build();
         mecanumDrive = new MecanumDrive(hardwareMap, new Pose2d(0, -34, Math.toRadians(270)));
+
+        Action sample1Traj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample1Pose, Math.toRadians(65)).build();
+        mecanumDrive = new MecanumDrive(hardwareMap, sample1Pose);
+
+        Action sample1PushTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(sample1PushPose, Math.toRadians(90)).build();
+        mecanumDrive = new MecanumDrive(hardwareMap, sample1PushPose);
+
+
 
         Action obsZoneTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(obsZonePose, Math.toRadians(0)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, obsZonePose);
@@ -72,6 +82,14 @@ public class Autonomous2_0 extends LinearOpMode {
         mecanumDrive = new MecanumDrive(hardwareMap, obsZonePickupPose);
 
         Action highChamberTraj2 = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(90)).splineToLinearHeading(highChamberPose2, Math.toRadians(90)).build();
+        mecanumDrive = new MecanumDrive(hardwareMap, highChamberPose2);
+
+        Action obsZoneTraj2 = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(obsZonePose, Math.toRadians(0)).build();
+        mecanumDrive = new MecanumDrive(hardwareMap, obsZonePose);
+
+        Action obsZonePickupTraj2 = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(obsZonePickupPose, Math.toRadians(270)).build();
+        mecanumDrive = new MecanumDrive(hardwareMap, obsZonePickupPose);
+        Action highChamberTraj3 = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(90)).splineToLinearHeading(highChamberPose2, Math.toRadians(90)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, highChamberPose2);
 
         Action parkTraj = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(parkPose, Math.toRadians(270)).build();
@@ -110,7 +128,7 @@ public class Autonomous2_0 extends LinearOpMode {
                         new SleepAction(0.3),
 
                         new ParallelAction(
-                                new SequentialAction(lineBack, obsZoneTraj),
+                                new SequentialAction(lineBack, sample1Traj),
 
                                 telemetryPacket -> {
                                     out.PIDLoop(0);
@@ -121,7 +139,9 @@ public class Autonomous2_0 extends LinearOpMode {
                                     return false;
                                 }
                         ),
-
+                        sample1PushTraj,
+                        new SleepAction(1),
+                        obsZoneTraj,
                         new SleepAction(0.5),
                         obsZonePickupTraj,
 
@@ -134,19 +154,19 @@ public class Autonomous2_0 extends LinearOpMode {
                         new SleepAction(0.5),
 
                         new ParallelAction(
-                            highChamberTraj2,
-                            new SequentialAction(
-                                telemetryPacket ->{
-                                    out.PIDLoop(100);
-                                    return conditionalEnd(100);
-                                },
-                                new SleepAction(0.4),
-                                telemetryPacket ->{
-                                    out.PIDLoop(900);
-                                    out.outtakeFlipper.setPosition(0.4);
-                                    return conditionalEnd(900);
-                                }
-                            )
+                                highChamberTraj2,
+                                new SequentialAction(
+                                        telemetryPacket -> {
+                                            out.PIDLoop(100);
+                                            return conditionalEnd(100);
+                                        },
+                                        new SleepAction(0.4),
+                                        telemetryPacket -> {
+                                            out.PIDLoop(900);
+                                            out.outtakeFlipper.setPosition(0.4);
+                                            return conditionalEnd(900);
+                                        }
+                                )
                         ),
                         new SleepAction(0.7),
                         telemetryPacket -> {
@@ -160,13 +180,39 @@ public class Autonomous2_0 extends LinearOpMode {
                         },
                         new SleepAction(0.5),
                         new ParallelAction(
-                                parkTraj,
+                                obsZoneTraj,
                                 telemetryPacket -> {
                                     out.PIDLoop(0);
                                     return conditionalEnd(0);
                                 }
+                        ),
+        new SleepAction(0.5),
+                obsZonePickupTraj2,
+
+                new SleepAction(0.5),
+                telemetryPacket -> {
+                    out.specimenPickupGrab();
+                    return false;
+                },
+
+                new SleepAction(0.5),
+
+                new ParallelAction(
+                        highChamberTraj3,
+                        new SequentialAction(
+                                telemetryPacket -> {
+                                    out.PIDLoop(100);
+                                    return conditionalEnd(100);
+                                },
+                                new SleepAction(0.4),
+                                telemetryPacket -> {
+                                    out.PIDLoop(900);
+                                    out.outtakeFlipper.setPosition(0.4);
+                                    return conditionalEnd(900);
+                                }
                         )
                 )
+            )
         );
 
         telemetry.update();
@@ -174,3 +220,4 @@ public class Autonomous2_0 extends LinearOpMode {
 
     }
 }
+
