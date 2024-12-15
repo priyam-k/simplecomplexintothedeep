@@ -62,10 +62,11 @@ public class EnableHand implements Subsystem {
     public static double offset = 186;
 
     // only do degree values between -90 and 180 otherwise it will explode
-    public double setHandTurretDegrees(double deg){
-        return (((deg-offset)/270.0)+3)%1;
+    public double setHandTurretDegrees(double degre){
+        return (((degre-offset)/270.0)+3)%1;
 
     }
+    //bro
 
     private double degreesToTicks(double d) {
         return d / 270;
