@@ -50,21 +50,20 @@ public class EnableHand implements Subsystem {
 
     }
 
-    public void IntakeTurretAngleAutoAlign(double Pixelerror,double PixelBound){
+    public double IntakeTurretAngleAutoAlign(double Pixelerror,double PixelBound){
         double increment = 0;
         if (Math.abs(Pixelerror)> PixelBound){
-           increment = (Pixelerror > 0)? 0.00015 : -0.00015;
+           increment = (Pixelerror > 0)? 0.0001 : -0.0001;
             ArmTurr.setPosition(ArmTurr.getPosition() + increment);
         }
-
-
+        return 306.12245*ArmTurr.getPosition() - 133.77551;
     }
 
     public static double offset = 186;
 
     // only do degree values between -90 and 180 otherwise it will explode
-    public double setHandTurretDegrees(double d){
-        return (((d-offset)/270.0)+3)%1;
+    public double setHandTurretDegrees(double deg){
+        return (((deg-offset)/270.0)+3)%1;
 
     }
 

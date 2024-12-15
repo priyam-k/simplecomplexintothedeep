@@ -94,8 +94,14 @@ public class AngleAlignmentToSample extends LinearOpMode {
                     hand.setSwingAngleOnlyAngle(Angle);
                     AlignmentToSample.Masked = false;
                     drive.Brake();
-                    hand.IntakeTurretAngleAutoAlign(StraffeError,20);
+                    //Arm turret ticks adjusting and getting what angle it is at
+                    double angleArmTurr = hand.IntakeTurretAngleAutoAlign(StraffeError,5);
+                    //Send the reverse to the Claw turret
+                    double ClawTargetAngle =  90 - angleArmTurr;
+
+                    hand.ClawTurr.setPosition(hand.setHandTurretDegrees(ClawTargetAngle));
                     //20 pixel bound
+                    //arm turret tick __ arm turret angle --> claw turret angle --> claw turret tick
                     break;
 
             }
