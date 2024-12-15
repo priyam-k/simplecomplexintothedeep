@@ -30,6 +30,7 @@ public class PiplineForAlignment implements VisionProcessor, CameraStreamSource 
 
     private final AtomicReference<Bitmap> lastFrame = new AtomicReference<>(Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565));
     private Bitmap bitmap;
+
     private Mat hsvMask = new Mat();
 
     public Point Center = new Point(0,0);

@@ -50,6 +50,16 @@ public class EnableHand implements Subsystem {
 
     }
 
+    public void IntakeTurretAngleAutoAlign(double Pixelerror,double PixelBound){
+        double increment = 0;
+        if (Math.abs(Pixelerror)> PixelBound){
+           increment = (Pixelerror > 0)? 0.00015 : -0.00015;
+            ArmTurr.setPosition(ArmTurr.getPosition() + increment);
+        }
+
+
+    }
+
     public static double offset = 186;
 
     // only do degree values between -90 and 180 otherwise it will explode
@@ -86,6 +96,13 @@ public class EnableHand implements Subsystem {
         LServoSwingArm.setPosition(swingArmAngle);
         RServoSwingArm.setPosition(swingArmAngle);
         ArmTurr.setPosition(0.435);
+    }
+
+    public void setSwingAngleOnlyAngle(double angle){
+        double swingArmAngle = degreesToTicksSwingArm(angle);
+        LServoSwingArm.setPosition(swingArmAngle);
+        RServoSwingArm.setPosition(swingArmAngle);
+
     }
     public void setSwingArmAngleAuton(double angle) {
         double swingArmAngle = degreesToTicksSwingArm(angle);

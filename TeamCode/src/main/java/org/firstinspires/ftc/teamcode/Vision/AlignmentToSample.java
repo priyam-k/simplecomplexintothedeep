@@ -15,15 +15,17 @@ import org.opencv.core.Point;
 @Config
 @TeleOp(name="AlignmentToSample", group="Linear Opmode")
 public class AlignmentToSample extends LinearOpMode {
+
+    //DO NOT TOUCH ANYTHING HERE EXPECIALLY VAIRBALE MASKED AND PID RUNNING
     private PiplineForAlignment pipeline;
     private VisionPortal VP;
 
     private FtcDashboard dash;
 
-    public static double KpVertical = 0.0022,KpStraffe = -0.0003;
+    public static double KpVertical = 0.0022,KpStraffe = -0.0023;
+    //cannot close small errors but does not overshoot
 
     public Point PickupPixels;
-
 
     public static boolean Masked = true;
     public static boolean PidRunning = false;
@@ -38,7 +40,7 @@ public class AlignmentToSample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Target positions of camera pixels
-        PickupPixels= new Point(240,380.0);
+        PickupPixels= new Point(240,340.0);
         //hand intiallization
         hand = new EnableHand();
         drive = new Drivetrain();
@@ -67,26 +69,30 @@ public class AlignmentToSample extends LinearOpMode {
         waitForStart();
         // Main loop during OpMode
         while (opModeIsActive()) {
+
+
             hand.setSwingArmAngle(Angle);
 
             tele.addData("x Pos", pipeline.Center.x);
             tele.addData("Y Pos", pipeline.Center.y);
+            double VerticalError =  PickupPixels.y - pipeline.Center.y;
+            double StraffeError = PickupPixels.x - pipeline.Center.x;
+            tele.addData("Vertical Error Pixels",VerticalError);
+            tele.addData("Straffe Error Pixels",StraffeError);
+
+            tele.addLine("0: Maksed, 1: pid running, 2: Arm turret increment running (dont change vars manually)");
+
 
 
             if (PidRunning){
-               double VerticalError =  PickupPixels.y - pipeline.Center.y;
-               double StraffeError = PickupPixels.x - pipeline.Center.x;
 
-               double StraffePower = KpStraffe*StraffeError + Math.signum(KpStraffe*StraffeError)*0.16;
-
-              tele.addData("Vertical Error Pixels",VerticalError);
-              tele.addData("Straffe Error Pixels",StraffeError);
               tele.addData("Vertical Motor Power",KpVertical*VerticalError);
-              tele.addData("Straffe Motor Power", StraffePower);
+              tele.addData("Straffe Motor Power", KpStraffe*StraffeError);
+             drive.SampleAlign(KpVertical*VerticalError,KpStraffe*StraffeError);
 
-             drive.SampleAlign(KpVertical*VerticalError,StraffePower);
-
-
+            }
+            else {
+                drive.Brake();
             }
 
             tele.update();

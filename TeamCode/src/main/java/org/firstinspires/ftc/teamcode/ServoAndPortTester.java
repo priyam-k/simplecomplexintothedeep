@@ -25,6 +25,7 @@ public class ServoAndPortTester extends LinearOpMode {
    // public static double ExpServo2Pos = 0;
     public static double IntakeVectoringHand = 0.43;
     public static double IntakeArmTurret = 0.43;
+    public static double IntakeArmTurretAngle = 0;
     public static double ExpServo5Pos = 0;
         public static double SwingArmAngleDegrees = 90;
     public static double HandTurretAngleDegrees = 174;
@@ -120,8 +121,11 @@ public class ServoAndPortTester extends LinearOpMode {
             ExpansionHub3.setPosition(IntakeVectoringHand);
             telemetry.addData("Vectoring hand", IntakeVectoringHand);
 
-            ExpansionHub4.setPosition(IntakeArmTurret);
+           ExpansionHub4.setPosition(IntakeArmTurret);
+           // ExpansionHub4.setPosition(0.43 + axonDegreesToPos(IntakeArmTurretAngle));
             telemetry.addData("Arm Turret", IntakeArmTurret);
+
+
 
             ExpansionHub5.setPosition(ExpServo5Pos);
             telemetry.addData("Servo 11", ExpServo5Pos);
@@ -150,7 +154,9 @@ public class ServoAndPortTester extends LinearOpMode {
         d = -d;
         return d / 355 + 0.963;
     }
-
+    private double axonDegreesToPos(double d) { // generated from python script, works for intake turret
+        return 0.003076923076923078*(d - 87.1) + 0.43;
+    }
     public double degreesToTicksHandTurret(double d) {
         d = -d;
         return d / 327;
