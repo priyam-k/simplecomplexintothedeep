@@ -20,6 +20,17 @@ public class Red1_3Sample extends LinearOpMode {
     MiggyUnLimbetedOuttake out = new MiggyUnLimbetedOuttake();
 
 
+    public boolean conditionalEnd(double TARGET) {
+
+        if (out.Rlift.getCurrentPosition() >= TARGET - 25 && out.Rlift.getCurrentPosition() <= TARGET + 25) {
+            out.SlidesBrake();
+
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive3 = new MecanumDrive(hardwareMap, new Pose2d(-32.3, -64, Math.toRadians(90)));
@@ -30,15 +41,15 @@ public class Red1_3Sample extends LinearOpMode {
         drive.initVisionPortal(hardwareMap);
         out.init(hardwareMap);
         out.transfer2(); // CLOSES THE CLAW
-        hand.setSwingArmAngleAuton(130);
+        hand.setSwingArmAngle(130);
         hand.open();
 
 
-        Pose2d basketPose = new Pose2d(-56, -53, Math.toRadians(50));
-        Pose2d basketPose2 = new Pose2d(-56-1, -53, Math.toRadians(45));
-        Pose2d basketPose3 = new Pose2d(-56-3, -53-3, Math.toRadians(45));
-        Pose2d samplePose1 = new Pose2d(-53.6, -44.5, Math.toRadians(95));
-        Pose2d samplePose2 = new Pose2d(-68.5, -45, Math.toRadians(95));
+        Pose2d basketPose = new Pose2d(-62, -55, Math.toRadians(50));
+        Pose2d basketPose2 = new Pose2d(-62, -57, Math.toRadians(50));
+        Pose2d basketPose3 = new Pose2d(-59, -56, Math.toRadians(45));
+        Pose2d samplePose1 = new Pose2d(-53.6, -47, Math.toRadians(95));
+        Pose2d samplePose2 = new Pose2d(-68.5, -48, Math.toRadians(95));
         Pose2d samplePose3 = new Pose2d(-48, -25.5, Math.toRadians(180));
         Pose2d parktraj = new Pose2d(-34,-10, Math.toRadians(0));
 
@@ -76,35 +87,37 @@ public class Red1_3Sample extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        Action basket1Action = new SequentialAction(basket1traj,
-        new SleepAction(0.3)
-         /* telemetryPacket -> {
-            telemetry.addLine("Back 1");
-            telemetry.update();
-            out.back1();
-            return false;
-        }*/, telemetryPacket -> {
-            telemetry.addLine("Back 2");
-            telemetry.update();
-            out.back2Auton();
-            return false;
-        },new SleepAction(0.7),
-          telemetryPacket -> {
-            out.PIDLoop(1280);
-            telemetry.addData("Slides current pos", out.currentPos);
-            telemetry.update();
-            return false;
-        }, new SleepAction(1.5), telemetryPacket -> {
-            telemetry.addLine("Back");
-            telemetry.update();
-            out.backAuton();
-            return false;
-        }, new SleepAction(0.5), telemetryPacket -> {
-            telemetry.addLine("Score");
-            telemetry.update();
-            out.score();
-            return false;
-        }
+        Action basket1Action =
+                new SequentialAction(
+                    basket1traj,
+                    new SleepAction(0.3),
+                    telemetryPacket -> {
+                        telemetry.addLine("Back 2");
+                        telemetry.update();
+                        out.back2Auton();
+                        return false;
+                    },
+                    new SleepAction(0.7),
+                    telemetryPacket -> {
+                        out.PIDLoop(1300);
+                        telemetry.addLine("Slides up");
+                        telemetry.update();
+                        return conditionalEnd(1300);
+                    },
+                    new SleepAction(1.5),
+                    telemetryPacket -> {
+                        telemetry.addLine("Back");
+                        telemetry.update();
+                        out.backAuton();
+                        return false;
+                    },
+                    new SleepAction(0.6),
+                    telemetryPacket -> {
+                        telemetry.addLine("Score");
+                        telemetry.update();
+                        out.score();
+                        return false;
+                    }
         , new SleepAction(0.7), telemetryPacket -> {
             telemetry.addLine("Don't get stuck on basket");
             telemetry.update();
@@ -113,7 +126,7 @@ public class Red1_3Sample extends LinearOpMode {
         }, new SleepAction(0.5), telemetryPacket -> {
             telemetry.addLine("Slides down");
             telemetry.update();
-            out.PIDLoop(-100);
+            out.PIDLoop(0);
             return false;
         },
         new SleepAction(1), telemetryPacket -> {
@@ -187,17 +200,21 @@ public class Red1_3Sample extends LinearOpMode {
             telemetry.update();
             out.loiter1();
             return false;
-        }/*, new SleepAction(0.3), telemetryPacket -> {
+        },/*, new SleepAction(0.3), telemetryPacket -> {
             telemetry.addLine("Loiter 2");
             telemetry.update();
             out.loiter2();
             return false;
-        }, new SleepAction(0.3), telemetryPacket -> {
-            telemetry.addLine("Loiter 3");
-            telemetry.update();
-            out.loiter3();
-            return false;
-        }*/, new SleepAction(0.5), telemetryPacket -> {
+        },
+        }*/
+                telemetryPacket -> {
+                    telemetry.addLine("Outtake loiter 3");
+                    telemetry.update();
+                    out.loiter3();
+                    return false;
+                },
+                 new SleepAction(0.5),
+                telemetryPacket -> {
             telemetry.addLine("Transfer 1");
             telemetry.update();
             out.transfer1();
@@ -216,13 +233,8 @@ public class Red1_3Sample extends LinearOpMode {
 
 
         Action basket2Action = new SequentialAction(basket2traj,
-                new SleepAction(0.3)
-                /*telemetryPacket -> {
-                    telemetry.addLine("Back 1");
-                    telemetry.update();
-                    out.back1();
-                    return false;
-                }*/, telemetryPacket -> {
+                new SleepAction(0.3),
+                telemetryPacket -> {
             telemetry.addLine("Back 2");
             telemetry.update();
             out.back2Auton();

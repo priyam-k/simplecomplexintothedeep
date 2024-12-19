@@ -69,7 +69,6 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void dontgetstuckonbasket() {
-        loiter3();
         loiter2();
         Arm(0.5);
     }
