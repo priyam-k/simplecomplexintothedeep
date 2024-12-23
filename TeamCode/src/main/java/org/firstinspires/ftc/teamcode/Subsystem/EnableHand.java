@@ -179,9 +179,12 @@ public class EnableHand implements Subsystem {
         // Swing arm angle at -5 degrees
         setSwingArmAngle(-5);
     }
+    public void donthitsampleplease(){
+        setSwingArmAngle(75);
+    }
 
     public void pickup2Auton(){
-        setSwingArmAngle(3);
+        setSwingArmAngle(5);
     }
 
 

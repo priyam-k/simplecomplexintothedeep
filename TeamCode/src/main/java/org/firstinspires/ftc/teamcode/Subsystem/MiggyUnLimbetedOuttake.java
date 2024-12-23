@@ -242,18 +242,24 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
         }
 
 
-        PIDLoop(slides_target);
-        telemetry.addData("Slides target", slides_target);
-        telemetry.addData("Real pos", Rlift.getCurrentPosition());
-        telemetry.update();
+//        PIDLoop(slides_target);
+//        telemetry.addData("Slides target", slides_target);
+//        telemetry.addData("Real pos", Rlift.getCurrentPosition());
+//        telemetry.update();
         outtakeFlipper.setPosition(0.4);
     }
+
 
     public void specimenSlideUp_noadjust() {
         specimenPickupGrab();
 
 
         PIDLoop(900);
+
+        outtakeFlipper.setPosition(0.4);
+    }
+public void specimenScoringPosition() {
+        specimenPickupGrab();
 
         outtakeFlipper.setPosition(0.4);
     }
