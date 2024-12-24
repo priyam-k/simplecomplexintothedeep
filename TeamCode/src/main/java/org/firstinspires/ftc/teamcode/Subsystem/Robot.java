@@ -54,11 +54,11 @@ public class Robot implements Subsystem {
 
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
-        PickupPixels = new Point(240,380.0);
+        PickupPixels= new Point(212,360.0);
 
         pipeline = new PiplineForAlignment();
 
-        VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
+      //  VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
 
 //        VP.stopStreaming();//saving resources
 
@@ -93,7 +93,7 @@ public class Robot implements Subsystem {
 
 
     public void pickUp() {
-        StopStreaming();
+        //StopStreaming();
         drive.Brake();
         timer.reset();
         timer.startTime();
@@ -101,14 +101,14 @@ public class Robot implements Subsystem {
 
             if (timer.seconds() < 1) {
                 hand.close();
-                hand.setSwingArmAngle(20);
+                hand.setSwingAngleOnlyAngle(20);
             } else if (timer.seconds() < 3) {
 
-                hand.setSwingArmAngle(-5);
+                hand.setSwingAngleOnlyAngle(-5);
             } else if (timer.seconds() < 4) {
                 hand.open();
             } else if (timer.seconds() < 5) {
-                hand.setSwingArmAngle(60);
+                hand.setSwingAngleOnlyAngle(60);
 
             }
         }

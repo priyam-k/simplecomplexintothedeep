@@ -17,7 +17,6 @@ public class AutoAlignMethodTesting extends LinearOpMode {
         robo = new Robot();
 
         robo.init(hardwareMap);
-      robo.initAutoAlign();
         waitForStart();
 
         robo.AutoAlign();

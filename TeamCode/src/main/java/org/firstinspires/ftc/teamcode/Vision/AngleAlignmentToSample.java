@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
+import org.firstinspires.ftc.teamcode.Subsystem.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Point;
 
@@ -28,22 +29,30 @@ public class AngleAlignmentToSample extends LinearOpMode {
     public static int state = 0;
 
     private EnableHand hand;
+    private Robot robo;
     private Drivetrain drive;
-
     private MultipleTelemetry tele;
 
     public static double Angle = 60;
 
+    public static double pixelBound = 10;
+
+    public static double ServoIncrement = 0.00012;
+
     @Override
     public void runOpMode() throws InterruptedException {
         // Target positions of camera pixels
-        PickupPixels= new Point(240,340.0);
+        PickupPixels= new Point(212,360.0);
         //hand intiallization
         hand = new EnableHand();
         drive = new Drivetrain();
+        robo = new Robot();
 
         hand.init(hardwareMap);
         drive.init(hardwareMap);
+        robo.init(hardwareMap);
+        robo.initAutoAlign();
+
 
         hand.scan4();
 
@@ -62,6 +71,8 @@ public class AngleAlignmentToSample extends LinearOpMode {
                 hardwareMap.get(WebcamName.class, "Webcam 1"), pipeline);
 
         tele  = new MultipleTelemetry(telemetry,dash.getTelemetry());
+
+
 
         waitForStart();
         // Main loop during OpMode
@@ -86,7 +97,7 @@ public class AngleAlignmentToSample extends LinearOpMode {
                     drive.Brake();
                     break;
                 case 1:
-                    hand.setSwingArmAngle(Angle);
+                    hand.setSwingArmAngleAuton(Angle);
                     AlignmentToSample.Masked = false;
                     drive.SampleAlign(KpVertical*VerticalError,KpStraffe*StraffeError);
                     break;
@@ -95,13 +106,16 @@ public class AngleAlignmentToSample extends LinearOpMode {
                     AlignmentToSample.Masked = false;
                     drive.Brake();
                     //Arm turret ticks adjusting and getting what angle it is at
-                    double angleArmTurr = hand.IntakeTurretAngleAutoAlign(StraffeError,5);
+                    double angleArmTurr = hand.IntakeTurretAngleAutoAlign(StraffeError,10,ServoIncrement);
                     //Send the reverse to the Claw turret
                     double ClawTargetAngle =  90 - angleArmTurr;
 
                     hand.ClawTurr.setPosition(hand.setHandTurretDegrees(ClawTargetAngle));
                     //20 pixel bound
                     //arm turret tick __ arm turret angle --> claw turret angle --> claw turret tick
+                    break;
+                case 3:
+                    robo.pickUp();
                     break;
 
             }

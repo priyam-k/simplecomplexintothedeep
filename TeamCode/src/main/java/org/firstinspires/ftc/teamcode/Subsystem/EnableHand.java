@@ -50,10 +50,10 @@ public class EnableHand implements Subsystem {
 
     }
 
-    public double IntakeTurretAngleAutoAlign(double Pixelerror,double PixelBound){
+    public double IntakeTurretAngleAutoAlign(double Pixelerror,double PixelBound,double Increment){
         double increment = 0;
         if (Math.abs(Pixelerror)> PixelBound){
-           increment = (Pixelerror > 0)? 0.0001 : -0.0001;
+           increment = (Pixelerror > 0)? Increment : -Increment;
             ArmTurr.setPosition(ArmTurr.getPosition() + increment);
         }
         return 306.12245*ArmTurr.getPosition() - 133.77551;

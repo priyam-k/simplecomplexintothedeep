@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.sfdev.assembly.state.StateMachine;
 
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
@@ -22,10 +23,26 @@ public class Gubernamental extends LinearOpMode {
     boolean check = false;
     boolean SampleMode = false;
 
+
+    private DigitalChannel redLED;
+    private DigitalChannel greenLED;
+
+
+
+    private DigitalChannel redLED2;
+    private DigitalChannel greenLED2;
+
     StateMachine intakeMachine, sampleMachine, specimenMachine;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        redLED = hardwareMap.get(DigitalChannel.class, "red");
+        greenLED = hardwareMap.get(DigitalChannel.class, "green");
+
+        redLED2 = hardwareMap.get(DigitalChannel.class, "red2");
+        greenLED2 = hardwareMap.get(DigitalChannel.class, "green2");
+
+
         drive = new Drivetrain();
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
@@ -41,6 +58,11 @@ public class Gubernamental extends LinearOpMode {
         specimenMachine = StateMachineV2.getSpecimenStateMachine(hand, out, gamepad2, telemetry);
 
         waitForStart();
+
+        redLED.setMode(DigitalChannel.Mode.OUTPUT);
+        greenLED.setMode(DigitalChannel.Mode.OUTPUT);
+        redLED2.setMode(DigitalChannel.Mode.OUTPUT);
+        greenLED2.setMode(DigitalChannel.Mode.OUTPUT);
 
         sampleMachine.start();
         intakeMachine.start();
@@ -68,6 +90,12 @@ public class Gubernamental extends LinearOpMode {
             if (!gamepad2.left_bumper && check) {
                 check = false;
                 if (!SampleMode) {
+
+                    redLED.setState(false);
+                    redLED2.setState(false);
+                    greenLED.setState(true);
+                    greenLED2.setState(true);
+
                     specimenMachine.stop();
 
                     sampleMachine.reset();
@@ -80,6 +108,13 @@ public class Gubernamental extends LinearOpMode {
 
 
                 } else {
+
+                    redLED.setState(true);
+                    redLED2.setState(true);
+
+                    greenLED.setState(false);
+                    greenLED2.setState(false);
+
                     sampleMachine.stop();
                     intakeMachine.stop();
 
