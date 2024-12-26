@@ -116,7 +116,7 @@ public class REALSpecimenAutoRed extends LinearOpMode {
                         specimenScoreTraj1,
                         telemetryPacket -> {
                             telemetry.addData("Specimen slides pose", out.currentPos);
-                            out.specimenSlideUp_noadjust( );
+                            //out.specimenSlideUp();
                             return false;
                         }
                 ),

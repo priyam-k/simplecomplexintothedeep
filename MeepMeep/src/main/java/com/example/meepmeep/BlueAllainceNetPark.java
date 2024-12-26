@@ -9,18 +9,16 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class BlueAllainceNetPark {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(750);
+        MeepMeep meepMeep = new MeepMeep(650);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-12, 62, Math.toRadians(-180)))
-                .turn(Math.toRadians(50))
-                .lineToX(-45)
-                .splineToLinearHeading(new Pose2d(-30, 10, Math.toRadians(0)), Math.toRadians(180))
-
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -64, Math.toRadians(270)))
+                        .setTangent(Math.toRadians(90)).splineToLinearHeading(new Pose2d(0, -32, Math.toRadians(270)), Math.toRadians(90))
+                        .setTangent(Math.toRadians(270)).splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), Math.toRadians(90))
 
                 .build());
 

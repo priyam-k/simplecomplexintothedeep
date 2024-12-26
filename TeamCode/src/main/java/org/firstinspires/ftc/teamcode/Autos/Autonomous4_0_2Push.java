@@ -50,13 +50,13 @@ public class Autonomous4_0_2Push extends LinearOpMode {
         hand.open();
 
 
-        Pose2d highChamberPose = new Pose2d(5, -32, Math.toRadians(270));
+        Pose2d highChamberPose = new Pose2d(5, -33, Math.toRadians(270));
         Pose2d highChamberPose2 = new Pose2d(0, -17, Math.toRadians(270));
         Pose2d highChamberPose3 = new Pose2d(2, -13, Math.toRadians(270));
-        Pose2d highChamberPose4 = new Pose2d(10, -11, Math.toRadians(270));
-        Pose2d sample1Pose = new Pose2d(45, 0, Math.toRadians(270));
+        Pose2d highChamberPose4 = new Pose2d(12, -11, Math.toRadians(270));
+        Pose2d sample1Pose = new Pose2d(50, 0, Math.toRadians(270));
         Pose2d sample1PushPose = new Pose2d(50, -40, Math.toRadians(270));
-        Pose2d sample2Pose = new Pose2d(57, -3, Math.toRadians(90));
+        Pose2d sample2Pose = new Pose2d(57, -4, Math.toRadians(90));
         Pose2d sample2PushPose = new Pose2d(60, -60, Math.toRadians(90));
         Pose2d obsZonePose = new Pose2d(47, -30, Math.toRadians(90));
         Pose2d obsZonePoseforinside = new Pose2d(53, -30, Math.toRadians(90));
@@ -104,7 +104,7 @@ public class Autonomous4_0_2Push extends LinearOpMode {
         mecanumDrive = new MecanumDrive(hardwareMap, highChamberPose3);
 
         Action obsZoneTraj3 = mecanumDrive.actionBuilder(mecanumDrive.pose).splineToLinearHeading(obsZonePoseforinside, Math.toRadians(0)).build();
-        mecanumDrive = new MecanumDrive(hardwareMap, obsZonePose);
+        mecanumDrive = new MecanumDrive(hardwareMap, obsZonePoseforinside);
 
         Action obsZonePickupTraj3 = mecanumDrive.actionBuilder(mecanumDrive.pose).setTangent(Math.toRadians(270)).splineToLinearHeading(obsZonePikcupPoseforinside, Math.toRadians(270)).build();
         mecanumDrive = new MecanumDrive(hardwareMap, obsZonePikcupPoseforinside);

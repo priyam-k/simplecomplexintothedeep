@@ -87,16 +87,14 @@ public class Robot implements Subsystem {
             double VerticalError = PickupPixels.y - pipeline.Center.y;
             double StraffeError = PickupPixels.x - pipeline.Center.x;
             switch (state) {
-                case 0:
-                    hand.setSwingArmAngle(Angle);
-                    AlignmentToSample.Masked = true;
-                    drive.Brake();
-                    break;
                 case 1:
                     hand.setSwingArmAngleAuton(Angle);
                     AlignmentToSample.Masked = false;
                     drive.SampleAlign(KpVertical * VerticalError, KpStraffe * StraffeError);
-                    break;
+                    if (timer.seconds() > 2) {
+                        state = 2;
+                    }
+                     break;
                 case 2:
                     hand.setSwingAngleOnlyAngle(Angle);
                     AlignmentToSample.Masked = false;
@@ -109,7 +107,8 @@ public class Robot implements Subsystem {
                     hand.ClawTurr.setPosition(hand.setHandTurretDegrees(ClawTargetAngle));
                     //20 pixel bound
                     //arm turret tick __ arm turret angle --> claw turret angle --> claw turret tick
-                    break;
+                    if (timer.seconds() > 5){state = 3;}
+                        break;
                 case 3:
                     this.pickUp();
                     break;

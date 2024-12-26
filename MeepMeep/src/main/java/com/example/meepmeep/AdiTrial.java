@@ -20,7 +20,6 @@ public class AdiTrial {
 
         drive.runAction(drive.getDrive().actionBuilder(new Pose2d(35, 60, Math.toRadians(180)))
                         .splineToLinearHeading(new Pose2d(60,60,Math.toRadians(225)),Math.toRadians(0))
-                        .
                 .build());
 
 
