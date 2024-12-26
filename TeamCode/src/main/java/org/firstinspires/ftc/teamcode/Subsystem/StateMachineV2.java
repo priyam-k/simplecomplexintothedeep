@@ -75,7 +75,7 @@ public class StateMachineV2 {
                 .transition(() -> gamepad.a, Outtake.WAIT5)
 //
                 .state(StateMachineV2.Outtake.WAIT5)
-                .transitionTimed(0.15, Outtake.SPECIMENRELEASE)
+                .transitionTimed(0.5, Outtake.SPECIMENRELEASE)
 
 
 //                .state(StateMachineV2.Outtake.SPECIMENSLIDEDOWN)
