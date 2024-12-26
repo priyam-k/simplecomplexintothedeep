@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystem;
 
+import static org.firstinspires.ftc.teamcode.Vision.AngleAlignmentToSample.ServoIncrement;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,23 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Robot implements Subsystem {
+    public static int state = 0;
+    public static double Angle = 60;
     public Drivetrain drive;
     public EnableHand hand;
     public MiggyUnLimbetedOuttake out;
-
-    private VisionPortal VP;
-
-    private PiplineForAlignment pipeline;
-
-    private double timeforAutoAlignSeconds = 5.0;
-
-    public double KpVertical = 0.0022,KpStraffe = -0.0003;
-
+    public double KpVertical = 0.0022, KpStraffe = -0.0003;
     public double FeedForward = 0.16;
     public Point PickupPixels;
     List<Subsystem> massInit;
-
     ElapsedTime timer;
+    private VisionPortal VP;
+    private PiplineForAlignment pipeline;
+    private double timeforAutoAlignSeconds = 5.0;
 
     public Robot() {
         massInit = new ArrayList<>();
@@ -41,7 +39,6 @@ public class Robot implements Subsystem {
         drive = new Drivetrain();
         hand = new EnableHand();
         out = new MiggyUnLimbetedOuttake();
-
 
         massInit.add(drive);
         massInit.add(hand);
@@ -54,17 +51,23 @@ public class Robot implements Subsystem {
 
         timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
-        PickupPixels= new Point(212,360.0);
+        PickupPixels = new Point(212, 360.0);
 
         pipeline = new PiplineForAlignment();
 
-      //  VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
+
+
+        VP = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), pipeline);
+
+
+        //  VP = new VisionPortal.Builder().setCamera(hardwareMap.get(WebcamName.class, "Webcam 1")).addProcessor(pipeline).build();
 
 //        VP.stopStreaming();//saving resources
 
     }
 
-    public void initAutoAlign(){
+    public void initAutoAlign() {
         hand.setSwingArmAngle(60);
         hand.open();
         hand.scan4();// horizontal claw
@@ -72,24 +75,52 @@ public class Robot implements Subsystem {
         AlignmentToSample.PidRunning = true;
     }
 
-    public void AutoAlign(){
+    public void AutoAlign() {
+
         VP.resumeStreaming(); //start stream
 
         timer.reset();
         timer.startTime();
+        this.initAutoAlign();
 
-        while(timer.seconds() < timeforAutoAlignSeconds){
-            double VerticalError =  PickupPixels.y - pipeline.Center.y;
-           double StraffeError = PickupPixels.x - pipeline.Center.x;
+        while (timer.seconds() < timeforAutoAlignSeconds) {
+            double VerticalError = PickupPixels.y - pipeline.Center.y;
+            double StraffeError = PickupPixels.x - pipeline.Center.x;
+            switch (state) {
+                case 0:
+                    hand.setSwingArmAngle(Angle);
+                    AlignmentToSample.Masked = true;
+                    drive.Brake();
+                    break;
+                case 1:
+                    hand.setSwingArmAngleAuton(Angle);
+                    AlignmentToSample.Masked = false;
+                    drive.SampleAlign(KpVertical * VerticalError, KpStraffe * StraffeError);
+                    break;
+                case 2:
+                    hand.setSwingAngleOnlyAngle(Angle);
+                    AlignmentToSample.Masked = false;
+                    drive.Brake();
+                    //Arm turret ticks adjusting and getting what angle it is at
+                    double angleArmTurr = hand.IntakeTurretAngleAutoAlign(StraffeError, 10, ServoIncrement);
+                    //Send the reverse to the Claw turret
+                    double ClawTargetAngle = 90 - angleArmTurr;
 
-            double StraffePower = KpStraffe*StraffeError + Math.signum(KpStraffe*StraffeError)*FeedForward;
+                    hand.ClawTurr.setPosition(hand.setHandTurretDegrees(ClawTargetAngle));
+                    //20 pixel bound
+                    //arm turret tick __ arm turret angle --> claw turret angle --> claw turret tick
+                    break;
+                case 3:
+                    this.pickUp();
+                    break;
 
-            drive.SampleAlign(KpVertical*VerticalError,StraffePower);
-
+            }
         }// timer loop end
     }
 
-    public void StopStreaming(){VP.stopStreaming();}
+    public void StopStreaming() {
+        VP.stopStreaming();
+    }
 
 
     public void pickUp() {
