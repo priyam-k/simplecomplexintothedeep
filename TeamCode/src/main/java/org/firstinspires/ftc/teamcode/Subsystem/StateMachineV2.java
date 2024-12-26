@@ -71,7 +71,7 @@ public class StateMachineV2 {
 
                 .state(StateMachineV2.Outtake.SPECIMENSLIDEUP)
 //                .loop(() -> out.specimenSlideUp(gamepad, telemetry)
-                .onEnter(() -> out.outtakeFlipper.setPosition(0.4))
+                .onEnter(out::specimenScoringPosition)
                 .transition(() -> gamepad.a, Outtake.WAIT5)
 //
                 .state(StateMachineV2.Outtake.WAIT5)
