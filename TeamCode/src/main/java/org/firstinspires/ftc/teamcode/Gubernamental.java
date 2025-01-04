@@ -21,7 +21,7 @@ public class Gubernamental extends LinearOpMode {
     EnableHand hand;
     MiggyUnLimbetedOuttake out;
     boolean check = false;
-    boolean SampleMode = false;
+    boolean SampleMode = true;
 
 
     private DigitalChannel redLED;
