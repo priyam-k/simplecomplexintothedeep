@@ -110,7 +110,7 @@ public class Robot implements Subsystem {
                     if (timer.seconds() > 5){state = 3;}
                         break;
                 case 3:
-                    this.pickUp();
+                    pickUpAuto();
                     break;
 
             }
@@ -123,6 +123,27 @@ public class Robot implements Subsystem {
 
 
     public void pickUp() {
+        //StopStreaming();
+        drive.Brake();
+        timer.reset();
+        timer.startTime();
+        while (timer.seconds() < 10) {
+
+            if (timer.seconds() < 1) {
+                hand.close();
+                hand.setSwingAngleOnlyAngle(20);
+            } else if (timer.seconds() < 3) {
+
+                hand.setSwingAngleOnlyAngle(-5);
+            } else if (timer.seconds() < 4) {
+                hand.open();
+            } else if (timer.seconds() < 5) {
+                hand.setSwingAngleOnlyAngle(60);
+
+            }
+        }
+    }
+    public void pickUpAuto() {
         //StopStreaming();
         drive.Brake();
         timer.reset();

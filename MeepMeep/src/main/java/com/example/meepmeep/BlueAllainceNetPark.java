@@ -9,6 +9,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class BlueAllainceNetPark {
     public static void main(String[] args) {
+        Pose2d firstPickupPose = new Pose2d(48, -60, Math.toRadians(90));
         MeepMeep meepMeep = new MeepMeep(650);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -16,10 +17,8 @@ public class BlueAllainceNetPark {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -64, Math.toRadians(270)))
-                        .setTangent(Math.toRadians(90)).splineToLinearHeading(new Pose2d(0, -32, Math.toRadians(270)), Math.toRadians(90))
-                        .setTangent(Math.toRadians(270)).splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), Math.toRadians(90))
-
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, -58, Math.toRadians(90)))
+                         .setTangent(Math.toRadians(90)).splineToLinearHeading(firstPickupPose, Math.toRadians(270))
                 .build());
 
 

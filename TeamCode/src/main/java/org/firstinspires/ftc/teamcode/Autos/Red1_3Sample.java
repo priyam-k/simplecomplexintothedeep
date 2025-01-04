@@ -13,12 +13,14 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.Subsystem.EnableHand;
 import org.firstinspires.ftc.teamcode.Subsystem.MiggyUnLimbetedOuttake;
+import org.firstinspires.ftc.teamcode.Subsystem.Robot;
 
 @Autonomous(name = "A: Red 1+3 Sample")
 public class Red1_3Sample extends LinearOpMode {
     Drivetrain drive = new Drivetrain();
     EnableHand hand = new EnableHand();
     MiggyUnLimbetedOuttake out = new MiggyUnLimbetedOuttake();
+    Robot robot = new Robot();
 
 
     public boolean conditionalEnd(double TARGET) {
@@ -41,6 +43,7 @@ public class Red1_3Sample extends LinearOpMode {
         drive.init(hardwareMap);
         drive.initVisionPortal(hardwareMap);
         out.init(hardwareMap);
+        robot.init(hardwareMap);
         out.transfer2(); // CLOSES THE CLAW
         hand.setSwingArmAngle(130);
         hand.open();
@@ -153,28 +156,19 @@ public class Red1_3Sample extends LinearOpMode {
                     return false;
                 }, new SleepAction(0.2),
                 telemetryPacket -> {
-            telemetry.addLine("Hovering");
-            telemetry.update();
-            hand.hoverAuto();
-            return false;
-        }, new SleepAction(0.4),
+                    telemetry.addLine("Auto Aligning");
+                    telemetry.update();
+                    robot.AutoAlign();
+                    return false;
+                },
+                new SleepAction(0.7),
                 telemetryPacket -> {
-            telemetry.addLine("Picking up 1");
-            telemetry.update();
-            hand.pickup2Auton();
-            return false;
-        }, new SleepAction(0.7), telemetryPacket -> {
-            telemetry.addLine("Picking up 2");
-            telemetry.update();
-            hand.open();
-            return false;
-
-        }, new SleepAction(0.7), telemetryPacket -> {
-            telemetry.addLine("Transferring 1");
-            telemetry.update();
-            hand.intaketrasnferinone();
-            return false;
-        }/*, telemetryPacket -> {
+                    telemetry.addLine("Transferring 1");
+                    telemetry.update();
+                    hand.intaketrasnferinone();
+                    return false;
+                }
+        /*, telemetryPacket -> {
             telemetry.addLine(" Set Turret position to center");
             telemetry.update();
             hand.turrSet0Auton();
