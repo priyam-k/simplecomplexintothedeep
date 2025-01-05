@@ -55,16 +55,16 @@ public class Autonomous4_0_2Push extends LinearOpMode {
          double specimenTargetUp = 975;
          double specimenTargetDown = 450;
 
-        Pose2d highChamberPose = new Pose2d(2.5, -34, Math.toRadians(270));
+        Pose2d highChamberPose = new Pose2d(2.5, -33, Math.toRadians(270));
         Pose2d highChamberPose2 = new Pose2d(-5, -27, Math.toRadians(270));
-        Pose2d highChamberPose3 = new Pose2d(-2, -36, Math.toRadians(270));
-        Pose2d highChamberPose4 = new Pose2d(17, -20, Math.toRadians(270));
+        Pose2d highChamberPose3 = new Pose2d(-2, -28, Math.toRadians(270));
+        Pose2d highChamberPose4 = new Pose2d(5, -28, Math.toRadians(270));
         Pose2d sample1Pose = new Pose2d(51, -4, Math.toRadians(270));
         Pose2d sample1PushPose = new Pose2d(50, -47, Math.toRadians(270));
         Pose2d sample2Pose = new Pose2d(59, -8, Math.toRadians(90));
         Pose2d sample2PushPose = new Pose2d(59, -60, Math.toRadians(90));
         Pose2d firstPickupPose = new Pose2d(38, -58, Math.toRadians(90));
-        Pose2d obsZonePose = new Pose2d(25, -58, Math.toRadians(90));
+        Pose2d obsZonePose = new Pose2d(30, -54, Math.toRadians(90));
         Pose2d obsZonePoseforinside = new Pose2d(58, -30, Math.toRadians(90));
         Pose2d obsZonePikcupPoseforinside = new Pose2d(58, -44, Math.toRadians(90));
         Pose2d obsZonePickupPose = new Pose2d(52, -50, Math.toRadians(90));

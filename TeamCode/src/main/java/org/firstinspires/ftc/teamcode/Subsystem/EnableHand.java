@@ -200,7 +200,7 @@ public class EnableHand implements Subsystem {
     }
     public void turrSet0Auton(){
         //Set turret position to 0
-        ArmTurr.setPosition(0.44);
+        ArmTurr.setPosition(0.43);
     }
 
     public void transfer1point5() {

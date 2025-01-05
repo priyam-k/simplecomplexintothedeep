@@ -83,7 +83,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void loiter2() {
         // Open the claw (0.44)
-        outtakeClaw.setPosition(0.44);
+        outtakeClaw.setPosition(0.45);
     }
 
 //    public void liftSetPos(Gamepad g) {
@@ -113,20 +113,20 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
     public void transfer2() {
         // Close the claw (0.63)
-        outtakeClaw.setPosition(0.63);
+        outtakeClaw.setPosition(0.3);
     }
 
     public void back1() {
         // Move the arm to the extended transfer position (0.8)
-        Arm(0.7);
-        outtakeFlipper.setPosition(0.15);
+        Arm(0.8);
+        outtakeFlipper.setPosition(1);
     }
 
     public void backAuton() {
-        Arm(0.65);
-        outtakeFlipper.setPosition(0.15);
+        Arm(0.8);
+        outtakeFlipper.setPosition(1);
         //close claw
-        outtakeClaw.setPosition(0.63);
+        outtakeClaw.setPosition(0.3);
     }
 
     public void outtakeFlipper(double pos) {
@@ -139,14 +139,14 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void back2Auton() {
-        outtakeFlipper.setPosition(0.6);
-        Arm(0.22);
+        outtakeFlipper.setPosition(1);
+        Arm(0.8);
     }
 
 
     public void score() {
         // Open the claw to release the object (0.44)
-        outtakeClaw.setPosition(0.44);
+        outtakeClaw.setPosition(0.45);
     }
 
     public void highBasket() {
@@ -204,12 +204,12 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void specimenPickupStart() {
-        Arm(0);
-        outtakeFlipper.setPosition(0.45);
+        Arm(0.05);
+        outtakeFlipper.setPosition(0.55);
     }
 
     public void specimenPickupGrab() {
-        outtakeClaw.setPosition(0.6);
+        outtakeClaw.setPosition(0.3);
     }
 
     public void SlidesAllthewaydown(){
@@ -217,7 +217,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
     }
 
     public void specimenPickupUp() {
-        outtakeFlipper.setPosition(0.7);
+        outtakeFlipper.setPosition(0.55);
     }
 
     public void specimenSlideUp(Gamepad g, Telemetry telemetry) {
@@ -246,7 +246,7 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 //        telemetry.addData("Slides target", slides_target);
 //        telemetry.addData("Real pos", Rlift.getCurrentPosition());
 //        telemetry.update();
-        outtakeFlipper.setPosition(0.4);
+        outtakeFlipper.setPosition(0.5);
     }
 
 
@@ -256,18 +256,18 @@ public class MiggyUnLimbetedOuttake implements Subsystem {
 
         PIDLoop(900);
 
-        outtakeFlipper.setPosition(0.4);
+        outtakeFlipper.setPosition(0.5);
     }
 public void specimenScoringPosition() {
         specimenPickupGrab();
-        outtakeFlipper.setPosition(0.4);
+        outtakeFlipper.setPosition(0.5);
     }
     public void specimenSlideDown() {
         PIDLoop(600);
     }
 
     public void specimenRelease() {
-        outtakeClaw.setPosition(0.44);
+        outtakeClaw.setPosition(0.45);
     }
 
 
