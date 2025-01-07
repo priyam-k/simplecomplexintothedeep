@@ -1,4 +1,3 @@
-  Road Runner Quickstart
+# Simply Complex Into the Deep Code
 
-Check out the [docs](https://rr.brott.dev/docs/v1-0/tuning/).
-
+This is a copy of our code for the MIT Maker Portfolio
