@@ -107,7 +107,8 @@ public class StateMachineV2 {
                 .onEnter(out::transfer1).transitionTimed(0.25, Outtake.TRANSFERRING2)
 
                 .state(Outtake.TRANSFERRING2)
-                .onEnter(out::transfer2).transition(() -> intake.getState() == Intake.LOITER, Outtake.BACK1HIGH)
+                .onEnter(out::transfer2)
+                .transition(() -> intake.getState() == Intake.LOITER, Outtake.BACK1HIGH)
 
 
                 .state(Outtake.BACK1HIGH).onEnter(out::back1)
